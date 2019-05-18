@@ -51,10 +51,7 @@ data "packet_precreated_ip_block" "ipv4" {
 }
 
 module "packet-svc-mesh-benchmark" {
-  # TODO pin to specific ref eg. "?ref=v1.14.1"
-  # TODO change to lokomotive-kubernetes
-  # source = "git::https://github.com/kinvolk/lokomotive-kubernetes//packet/flatcar-linux/kubernetes?ref=v1.14.1"
-  source = "git::ssh://git@github.com/kinvolk/lokomotive-kubernetes-private.git//packet/flatcar-linux/kubernetes"
+  source = "git::https://github.com/kinvolk/lokomotive-kubernetes//packet/flatcar-linux/kubernetes?ref=15e08a4383b613dac0c3fff5479ca75fb4b16f2d"
 
   providers = {
     aws      = "aws.default"
@@ -89,10 +86,7 @@ module "packet-svc-mesh-benchmark" {
 
 
 module "worker-pool-0" {
-  # TODO pin to specific ref eg. "?ref=v1.14.1"
-  # TODO change to lokomotive-kubernetes
-  # source = "git::https://github.com/kinvolk/lokomotive-kubernetes//packet/flatcar-linux/kubernetes/workers?ref=v1.14.1"
-  source = "git::ssh://git@github.com/kinvolk/lokomotive-kubernetes-private.git//packet/flatcar-linux/kubernetes/workers"
+  source = "git::https://github.com/kinvolk/lokomotive-kubernetes//packet/flatcar-linux/kubernetes/workers?ref=15e08a4383b613dac0c3fff5479ca75fb4b16f2d"
 
   providers = {
     local    = "local.default"
