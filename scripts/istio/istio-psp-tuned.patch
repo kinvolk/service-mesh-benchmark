@@ -1,0 +1,638 @@
+From 864a8eeb1ad1deac7de6f0ea7778f4f2f1837073 Mon Sep 17 00:00:00 2001
+Message-Id: <864a8eeb1ad1deac7de6f0ea7778f4f2f1837073.1558001040.git.dongsu@kinvolk.io>
+From: Dongsu Park <dongsu@kinvolk.io>
+Date: Mon, 13 May 2019 13:01:39 +0200
+Subject: [PATCH] support PodSecurityPolicy
+
+generate istio*yaml files like:
+
+```
+make installgen HUB=docker.io/istio TAG=1.1.6
+```
+---
+ Makefile                                      |  3 +
+ .../helm/istio-init/files/psp-11.yaml         | 55 +++++++++++++++++++
+ .../istio-init/templates/clusterrole.yaml     |  8 +++
+ .../charts/galley/templates/clusterrole.yaml  |  8 +++
+ .../gateways/templates/clusterrole.yaml       |  8 +++
+ .../helm/istio/charts/gateways/values.yaml    |  4 --
+ .../istiocoredns/templates/clusterrole.yaml   |  8 +++
+ .../charts/kiali/templates/clusterrole.yaml   |  9 +++
+ .../charts/mixer/templates/clusterrole.yaml   | 10 +++-
+ .../istio/charts/mixer/templates/config.yaml  | 34 ------------
+ .../helm/istio/charts/mixer/values.yaml       |  2 -
+ .../charts/pilot/templates/clusterrole.yaml   |  8 +++
+ .../prometheus/templates/clusterrole.yaml     |  8 +++
+ .../security/templates/clusterrole.yaml       |  8 +++
+ .../create-custom-resources-job.yaml          | 34 +++++++-----
+ .../templates/clusterrole.yaml                |  8 +++
+ .../helm/istio/templates/clusterrole.yaml     | 20 +++++--
+ .../helm/istio/values-istio-demo-common.yaml  | 17 +-----
+ install/kubernetes/helm/istio/values.yaml     | 30 +++++-----
+ 19 files changed, 191 insertions(+), 91 deletions(-)
+ create mode 100644 install/kubernetes/helm/istio-init/files/psp-11.yaml
+
+diff --git a/Makefile b/Makefile
+index dfbbe02f..3204b31c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -633,6 +633,7 @@ artifacts: docker
+ # create istio-init.yaml
+ istio-init.yaml: $(HELM) $(HOME)/.helm
+ 	cat install/kubernetes/namespace.yaml > install/kubernetes/$@
++	cat install/kubernetes/helm/istio-init/files/psp-* >> install/kubernetes/$@
+ 	cat install/kubernetes/helm/istio-init/files/crd-* >> install/kubernetes/$@
+ 	$(HELM) template --name=istio --namespace=istio-system \
+ 		--set global.tag=${TAG} \
+@@ -647,6 +648,7 @@ istio-demo.yaml istio-demo-auth.yaml: export EXTRA_HELM_SETTINGS+=--values insta
+ # Ensure that values-$filename is present in install/kubernetes/helm/istio
+ istio-demo.yaml istio-demo-auth.yaml istio-remote.yaml istio-minimal.yaml: $(HELM) $(HOME)/.helm
+ 	cat install/kubernetes/namespace.yaml > install/kubernetes/$@
++	cat install/kubernetes/helm/istio-init/files/psp-* >> install/kubernetes/$@
+ 	cat install/kubernetes/helm/istio-init/files/crd-* >> install/kubernetes/$@
+ 	$(HELM) template \
+ 		--name=istio \
+@@ -683,6 +685,7 @@ generate_e2e_yaml_coredump: export ENABLE_COREDUMP=true
+ # Create yaml files for e2e tests. Applies values-e2e.yaml, then values-$filename.yaml
+ $(e2e_files): $(HELM) $(HOME)/.helm istio-init.yaml
+ 	cat install/kubernetes/namespace.yaml > install/kubernetes/$@
++	cat install/kubernetes/helm/istio-init/files/psp-* >> install/kubernetes/$@
+ 	cat install/kubernetes/helm/istio-init/files/crd-* >> install/kubernetes/$@
+ 	$(HELM) template \
+ 		--name=istio \
+diff --git a/install/kubernetes/helm/istio-init/files/psp-11.yaml b/install/kubernetes/helm/istio-init/files/psp-11.yaml
+new file mode 100644
+index 00000000..664b6fa2
+--- /dev/null
++++ b/install/kubernetes/helm/istio-init/files/psp-11.yaml
+@@ -0,0 +1,55 @@
++apiVersion: policy/v1beta1
++kind: PodSecurityPolicy
++metadata:
++  name: psp-istio
++spec:
++  privileged: false
++  allowPrivilegeEscalation: false
++  allowedCapabilities:
++    - NET_ADMIN
++    - NET_RAW
++  hostNetwork: true
++  hostIPC: true
++  hostPID: true
++  fsGroup:
++    rule: 'RunAsAny'
++  runAsUser:
++    rule: 'RunAsAny'
++  seLinux:
++    rule: 'RunAsAny'
++  supplementalGroups:
++    rule: 'RunAsAny'
++  # Allow core volume types.
++  volumes:
++    - "*"
++  readOnlyRootFilesystem: false
++---
++kind: ClusterRole
++apiVersion: rbac.authorization.k8s.io/v1
++metadata:
++  name: psp-user
++rules:
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
++---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: ClusterRoleBinding
++metadata:
++  name: psp-user-binding
++  namespace: default
++roleRef:
++  apiGroup: rbac.authorization.k8s.io
++  kind: ClusterRole
++  name: psp-user
++subjects:
++- apiGroup: ""
++  kind: ServiceAccount
++  name: default
++  namespace: default
++---
+diff --git a/install/kubernetes/helm/istio-init/templates/clusterrole.yaml b/install/kubernetes/helm/istio-init/templates/clusterrole.yaml
+index 4f0cf865..874fae3b 100644
+--- a/install/kubernetes/helm/istio-init/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio-init/templates/clusterrole.yaml
+@@ -12,3 +12,11 @@ kind: ClusterRole
+ - apiGroups: ["apiextensions.k8s.io"]
+   resources: ["customresourcedefinitions"]
+   verbs: ["create", "get", "list", "watch", "patch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/galley/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/galley/templates/clusterrole.yaml
+index 6385c888..d602113b 100644
+--- a/install/kubernetes/helm/istio/charts/galley/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/galley/templates/clusterrole.yaml
+@@ -37,3 +37,11 @@ kind: ClusterRole
+   resources: ["deployments/finalizers"]
+   resourceNames: ["istio-galley"]
+   verbs: ["update"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/gateways/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/gateways/templates/clusterrole.yaml
+index f9b2bc04..4dfb73d9 100644
+--- a/install/kubernetes/helm/istio/charts/gateways/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/gateways/templates/clusterrole.yaml
+@@ -14,6 +14,14 @@ kind: ClusterRole
+ - apiGroups: ["networking.istio.io"]
+   resources: ["virtualservices", "destinationrules", "gateways"]
+   verbs: ["get", "watch", "list", "update"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+ ---
+ {{- end }}
+ {{- end }}
+diff --git a/install/kubernetes/helm/istio/charts/gateways/values.yaml b/install/kubernetes/helm/istio/charts/gateways/values.yaml
+index 1284f1c0..5c5d1ca6 100644
+--- a/install/kubernetes/helm/istio/charts/gateways/values.yaml
++++ b/install/kubernetes/helm/istio/charts/gateways/values.yaml
+@@ -29,10 +29,8 @@ enabled: true
+   resources:
+     requests:
+       cpu: 100m
+-      memory: 128Mi
+     limits:
+       cpu: 2000m
+-      memory: 256Mi
+   cpu:
+     targetAverageUtilization: 80
+   loadBalancerIP: ""
+@@ -149,10 +147,8 @@ enabled: true
+   resources:
+     requests:
+       cpu: 100m
+-      memory: 128Mi
+     limits:
+       cpu: 2000m
+-      memory: 256Mi
+   cpu:
+     targetAverageUtilization: 80
+   serviceAnnotations: {}
+diff --git a/install/kubernetes/helm/istio/charts/istiocoredns/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/istiocoredns/templates/clusterrole.yaml
+index 4242a327..9955ce85 100644
+--- a/install/kubernetes/helm/istio/charts/istiocoredns/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/istiocoredns/templates/clusterrole.yaml
+@@ -11,3 +11,11 @@ kind: ClusterRole
+ - apiGroups: ["networking.istio.io"]
+   resources: ["*"]
+   verbs: ["get", "watch", "list"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/kiali/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/kiali/templates/clusterrole.yaml
+index cd43b7bb..4c6fbdbf 100644
+--- a/install/kubernetes/helm/istio/charts/kiali/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/kiali/templates/clusterrole.yaml
+@@ -17,6 +17,7 @@ kind: ClusterRole
+   - pods
+   - services
+   - replicationcontrollers
++  - podsecuritypolicies
+   verbs:
+   - get
+   - list
+@@ -237,3 +238,11 @@ kind: ClusterRole
+   - monitoringdashboards
+   verbs:
+   - get
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/mixer/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/mixer/templates/clusterrole.yaml
+index 3d7438f2..0e2f93f2 100644
+--- a/install/kubernetes/helm/istio/charts/mixer/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/mixer/templates/clusterrole.yaml
+@@ -16,9 +16,17 @@ kind: ClusterRole
+   resources: ["customresourcedefinitions"]
+   verbs: ["get", "list", "watch"]
+ - apiGroups: [""]
+-  resources: ["configmaps", "endpoints", "pods", "services", "namespaces", "secrets", "replicationcontrollers"]
++  resources: ["configmaps", "endpoints", "pods", "services", "namespaces", "secrets",                        "replicationcontrollers"]
+   verbs: ["get", "list", "watch"]
+ - apiGroups: ["extensions", "apps"]
+   resources: ["replicasets"]
+   verbs: ["get", "list", "watch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+ {{- end }}
+diff --git a/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml b/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml
+index added1b2..72002730 100644
+--- a/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml
++++ b/install/kubernetes/helm/istio/charts/mixer/templates/config.yaml
+@@ -319,40 +319,6 @@ kind: logentry
+     reporter: conditional((context.reporter.kind | "inbound") == "outbound", "source", "destination")
+     responseFlags: context.proxy_error_code | ""
+   monitored_resource_type: '"global"'
+----
+-apiVersion: "config.istio.io/v1alpha2"
+-kind: rule
+-metadata:
+-  name: stdio
+-  namespace: {{ .Release.Namespace }}
+-  labels:
+-    app: {{ template "mixer.name" . }}
+-    chart: {{ template "mixer.chart" . }}
+-    heritage: {{ .Release.Service }}
+-    release: {{ .Release.Name }}
+-spec:
+-  match: context.protocol == "http" || context.protocol == "grpc"
+-  actions:
+-  - handler: stdio
+-    instances:
+-    - accesslog.logentry
+----
+-apiVersion: "config.istio.io/v1alpha2"
+-kind: rule
+-metadata:
+-  name: stdiotcp
+-  namespace: {{ .Release.Namespace }}
+-  labels:
+-    app: {{ template "mixer.name" . }}
+-    chart: {{ template "mixer.chart" . }}
+-    heritage: {{ .Release.Service }}
+-    release: {{ .Release.Name }}
+-spec:
+-  match: context.protocol == "tcp"
+-  actions:
+-  - handler: stdio
+-    instances:
+-    - tcpaccesslog.logentry
+ {{- end }}
+ ---
+ {{- if and .Values.adapters.prometheus.enabled .Values.telemetry.enabled }}
+diff --git a/install/kubernetes/helm/istio/charts/mixer/values.yaml b/install/kubernetes/helm/istio/charts/mixer/values.yaml
+index df3d41f2..92c48cb2 100644
+--- a/install/kubernetes/helm/istio/charts/mixer/values.yaml
++++ b/install/kubernetes/helm/istio/charts/mixer/values.yaml
+@@ -39,12 +39,10 @@ image: mixer
+   resources:
+     requests:
+       cpu: 1000m
+-      memory: 1G
+     limits:
+       # It is best to do horizontal scaling of mixer using moderate cpu allocation.
+       # We have experimentally found that these values work well.
+       cpu: 4800m
+-      memory: 4G
+ 
+ podAnnotations: {}
+ nodeSelector: {}
+diff --git a/install/kubernetes/helm/istio/charts/pilot/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/pilot/templates/clusterrole.yaml
+index 0435c3eb..9b6fd31d 100644
+--- a/install/kubernetes/helm/istio/charts/pilot/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/pilot/templates/clusterrole.yaml
+@@ -32,3 +32,11 @@ kind: ClusterRole
+ - apiGroups: [""]
+   resources: ["endpoints", "pods", "services", "namespaces", "nodes", "secrets"]
+   verbs: ["get", "list", "watch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/prometheus/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/prometheus/templates/clusterrole.yaml
+index 06fdfaf5..e12ea9c8 100644
+--- a/install/kubernetes/helm/istio/charts/prometheus/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/prometheus/templates/clusterrole.yaml
+@@ -20,5 +20,13 @@ kind: ClusterRole
+   resources:
+   - configmaps
+   verbs: ["get"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+ - nonResourceURLs: ["/metrics"]
+   verbs: ["get"]
+diff --git a/install/kubernetes/helm/istio/charts/security/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/security/templates/clusterrole.yaml
+index cdeb0c05..42c96526 100644
+--- a/install/kubernetes/helm/istio/charts/security/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/security/templates/clusterrole.yaml
+@@ -20,3 +20,11 @@ kind: ClusterRole
+ - apiGroups: ["authentication.k8s.io"]
+   resources: ["tokenreviews"]
+   verbs: ["create"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/charts/security/templates/create-custom-resources-job.yaml b/install/kubernetes/helm/istio/charts/security/templates/create-custom-resources-job.yaml
+index 4daacdce..1d61049e 100644
+--- a/install/kubernetes/helm/istio/charts/security/templates/create-custom-resources-job.yaml
++++ b/install/kubernetes/helm/istio/charts/security/templates/create-custom-resources-job.yaml
+@@ -19,19 +19,27 @@ metadata:
+     chart: {{ template "security.chart" . }}	
+     heritage: {{ .Release.Service }}	
+     release: {{ .Release.Name }}	
+-rules:	
+-- apiGroups: ["authentication.istio.io"] # needed to create default authn policy	
+-  resources: ["*"]	
+-  verbs: ["*"]	
+-- apiGroups: ["networking.istio.io"] # needed to create security destination rules	
+-  resources: ["*"]	
+-  verbs: ["*"]	
+-- apiGroups: ["admissionregistration.k8s.io"]	
+-  resources: ["validatingwebhookconfigurations"]	
+-  verbs: ["get"]	
+-- apiGroups: ["extensions", "apps"]	
+-  resources: ["deployments", "replicasets"]	
+-  verbs: ["get", "list", "watch"]	
++rules:
++- apiGroups: ["authentication.istio.io"] # needed to create default authn policy
++  resources: ["*"]
++  verbs: ["*"]
++- apiGroups: ["networking.istio.io"] # needed to create security destination rules
++  resources: ["*"]
++  verbs: ["*"]
++- apiGroups: ["admissionregistration.k8s.io"]
++  resources: ["validatingwebhookconfigurations"]
++  verbs: ["get"]
++- apiGroups: ["extensions", "apps"]
++  resources: ["deployments", "replicasets"]
++  verbs: ["get", "list", "watch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+ ---
+ apiVersion: rbac.authorization.k8s.io/v1beta1	
+ kind: ClusterRoleBinding	
+diff --git a/install/kubernetes/helm/istio/charts/sidecarInjectorWebhook/templates/clusterrole.yaml b/install/kubernetes/helm/istio/charts/sidecarInjectorWebhook/templates/clusterrole.yaml
+index 27f9acb5..f0bdbbb5 100644
+--- a/install/kubernetes/helm/istio/charts/sidecarInjectorWebhook/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/charts/sidecarInjectorWebhook/templates/clusterrole.yaml
+@@ -15,3 +15,11 @@ kind: ClusterRole
+ - apiGroups: ["admissionregistration.k8s.io"]
+   resources: ["mutatingwebhookconfigurations"]
+   verbs: ["get", "list", "watch", "patch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/templates/clusterrole.yaml b/install/kubernetes/helm/istio/templates/clusterrole.yaml
+index b92c9ef8..32a89610 100644
+--- a/install/kubernetes/helm/istio/templates/clusterrole.yaml
++++ b/install/kubernetes/helm/istio/templates/clusterrole.yaml
+@@ -3,9 +3,17 @@ apiVersion: rbac.authorization.k8s.io/v1
+ metadata:
+   name: istio-reader
+ rules:
+-  - apiGroups: ['']
+-    resources: ['nodes', 'pods', 'services', 'endpoints', "replicationcontrollers"]
+-    verbs: ['get', 'watch', 'list']
+-  - apiGroups: ["extensions", "apps"]
+-    resources: ["replicasets"]
+-    verbs: ["get", "list", "watch"]
++- apiGroups: ['']
++  resources: ['nodes', 'pods', 'services', 'endpoints', "replicationcontrollers"]
++  verbs: ['get', 'watch', 'list']
++- apiGroups: ["extensions", "apps"]
++  resources: ["replicasets"]
++  verbs: ["get", "list", "watch"]
++- apiGroups:
++  - extensions
++  resourceNames:
++  - psp-istio
++  resources:
++  - podsecuritypolicies
++  verbs:
++  - use
+diff --git a/install/kubernetes/helm/istio/values-istio-demo-common.yaml b/install/kubernetes/helm/istio/values-istio-demo-common.yaml
+index 601555f5..418fa69f 100644
+--- a/install/kubernetes/helm/istio/values-istio-demo-common.yaml
++++ b/install/kubernetes/helm/istio/values-istio-demo-common.yaml
+@@ -4,13 +4,12 @@
+ # Note: please only put common configuration for the demo profiles here.
+ global:
+   proxy:
+-    accessLogFile: "/dev/stdout"
++    accessLogFile: ""
+     resources:
+       requests:
+         cpu: 10m
+-        memory: 40Mi
+ 
+-  disablePolicyChecks: false
++  disablePolicyChecks: true
+ 
+   sidecarInjectorWebhook:
+     enabled: true
+@@ -24,31 +23,25 @@
+   resources:
+     requests:
+       cpu: 10m
+-      memory: 100Mi
+     limits:
+       cpu: 100m
+-      memory: 200Mi
+ 
+ mixer:
+   policy:
+-    enabled: true
++    enabled: false
+     resources:
+       requests:
+         cpu: 10m
+-        memory: 100Mi
+       limits:
+         cpu: 100m
+-        memory: 100Mi
+ 
+   telemetry:
+     enabled: true
+     resources:
+       requests:
+         cpu: 50m
+-        memory: 100Mi
+       limits:
+         cpu: 100m
+-        memory: 100Mi
+  
+   adapters:
+     stdio:
+@@ -69,17 +62,13 @@
+     resources:
+       requests:
+         cpu: 10m
+-        memory: 40Mi
+       limits:
+         cpu: 100m
+-        memory: 128Mi
+ 
+   istio-egressgateway:
+     enabled: true
+     resources:
+       requests:
+         cpu: 10m
+-        memory: 40Mi
+       limits:
+         cpu: 100m
+-        memory: 128Mi
+diff --git a/install/kubernetes/helm/istio/values.yaml b/install/kubernetes/helm/istio/values.yaml
+index 55e13caa..1ec4508f 100644
+--- a/install/kubernetes/helm/istio/values.yaml
++++ b/install/kubernetes/helm/istio/values.yaml
+@@ -12,7 +12,7 @@
+ # for detailed configuration
+ #
+ gateways:
+-  enabled: true
++  enabled: false
+ 
+ #
+ # sidecar-injector webhook configuration, refer to the
+@@ -33,10 +33,10 @@
+ #
+ # @see charts/mixer/values.yaml, it takes precedence
+ mixer:
+-  enabled: true
++  enabled: false
+   policy:
+     # if policy is enabled the global.disablePolicyChecks has affect.
+-    enabled: true
++    enabled: false
+ 
+   telemetry:
+     enabled: true
+@@ -69,7 +69,7 @@
+ # addon prometheus configuration
+ #
+ prometheus:
+-  enabled: true
++  enabled: false
+ 
+ #
+ # addon servicegraph configuration
+@@ -144,11 +144,9 @@
+     # Resources for the sidecar.
+     resources:
+       requests:
+-        cpu: 100m
+-        memory: 128Mi
++        cpu: 250m
+       limits:
+-        cpu: 2000m
+-        memory: 128Mi
++        cpu: 250m
+ 
+     # Controls number of Proxy worker threads.
+     # If set to 0 (default), then start worker thread for each CPU thread/core.
+@@ -240,7 +238,7 @@
+       port: # example: 15000
+ 
+     # Specify which tracer to use. One of: lightstep, zipkin, datadog
+-    tracer: "zipkin"
++    tracer: ""
+ 
+   proxy_init:
+     # Base name for the proxy_init container, used to configure iptables.
+@@ -253,7 +251,7 @@
+ 
+   # controlPlaneMtls enabled. Will result in delays starting the pods while secrets are
+   # propagated, not recommended for tests.
+-  controlPlaneSecurityEnabled: false
++  controlPlaneSecurityEnabled: true
+ 
+   # disablePolicyChecks disables mixer policy checks.
+   # if mixer.policy.enabled==true then disablePolicyChecks has affect.
+@@ -265,7 +263,7 @@
+   policyCheckFailOpen: false
+ 
+   # EnableTracing sets the value with same name in istio config map, requires pilot restart to take effect.
+-  enableTracing: true
++  enableTracing: false
+ 
+   # Configuration for each of the supported tracers
+   tracer:
+@@ -295,7 +293,7 @@
+   mtls:
+     # Default setting for service-to-service mtls. Can be set explicitly using
+     # destination rules or service annotations.
+-    enabled: false
++    enabled: true
+ 
+   # ImagePullSecrets for all ServiceAccount, list of secrets in the same namespace
+   # to use for pulling any images in pods that reference this ServiceAccount.
+@@ -361,11 +359,9 @@
+   # block in the relevant section below and setting the desired resources values.
+   defaultResources:
+     requests:
+-      cpu: 10m
+-    #   memory: 128Mi
+-    # limits:
+-    #   cpu: 100m
+-    #   memory: 128Mi
++      cpu: "1"
++    limits:
++      cpu: "1"
+ 
+   # enable pod distruption budget for the control plane, which is used to
+   # ensure Istio control plane components are gradually upgraded or recovered.
+-- 
+2.21.0
+

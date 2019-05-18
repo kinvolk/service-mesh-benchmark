@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+# Wrapper script to wrk2 to wait for a service to come up before starting the
+# benchmark.
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+script_dir=$(dirname ${BASH_SOURCE[0]})
+
+interval=2
+timeout=600
+url=""
+
+usage() {
+    cat <<HELP_USAGE
+Usage: $0 [OPTION...] <URL> -- <wrk2 options>
+
+ This script polls URL until a 200 OK HTTP response is received, then runs
+ wrk2 with the cmdline options provided.
+
+ Optional arguments:
+  -i, --interval <seconds>   default: $interval. Sleep time between HTTP
+                              requests.
+  -t, --timeout  <seconds>   default: $timeout. Timeout for polling. After the
+                              timeout is reached and no HTTP 200 response has
+                              been received, the script will exit with an
+                              error.
+HELP_USAGE
+}
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+      -h|--help) usage; exit 0
+      ;;
+      -i|--interval)
+        interval="$2"; shift; shift
+      ;;
+      -t|--timeout)
+        timeout="$2"; shift; shift
+      ;;
+      --) shift; break
+      ;;
+      *)
+        url="$1"; shift
+      ;;
+    esac
+done
+
+st=$(date +%s)
+ts=$st
+
+[ -z "$url" ] && { echo "ERROR: No URL provided."; usage; exit 1; }
+
+while [ $((st + timeout)) -ge $ts ]; do
+    echo "### Trying $url (for $((st+timeout-ts)) more seconds) ..."
+    curl -D - -m 5 "$url" && break
+    ts=$(date +%s)
+    sleep $interval
+done
+
+echo
+echo "Starting benchmark run:"
+${script_dir}/wrk $@
+echo "Benchmark run concluded."

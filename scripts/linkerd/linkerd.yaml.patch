@@ -1,0 +1,211 @@
+--- a/linkerd.yaml	2019-04-09 14:16:47.561825873 +0200
++++ b/linkerd.yaml	2019-04-09 13:50:20.413962480 +0200
+@@ -4,6 +4,82 @@
+ metadata:
+   name: linkerd
+ ---
++apiVersion: policy/v1beta1
++kind: PodSecurityPolicy
++metadata:
++  name: psp-linkerd
++  annotations:
++    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
++    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'docker/default'
++spec:
++  privileged: false
++  # Required to prevent escalations to root.
++  allowPrivilegeEscalation: false
++  allowedCapabilities:
++    # The initContainer for LD2 requires this capability to operate. It is
++    # unsafe and *should* be removed.
++    - NET_ADMIN
++    - NET_RAW
++  requiredDropCapabilities:
++    - SETPCAP
++    - MKNOD
++    - AUDIT_WRITE
++    - CHOWN
++    - DAC_OVERRIDE
++    - FOWNER
++    - FSETID
++    - KILL
++    - SETGID
++    - SETUID
++    - NET_BIND_SERVICE
++    - SYS_CHROOT
++    - SETFCAP
++  # Allow core volume types.
++  volumes:
++    - 'configMap'
++    - 'emptyDir'
++    - 'projected'
++    - 'secret'
++    - 'downwardAPI'
++    # Assume that persistentVolumes set up by the cluster admin are safe to use.
++    - 'persistentVolumeClaim'
++  hostNetwork: false
++  hostIPC: false
++  hostPID: false
++  runAsUser:
++    rule: 'RunAsAny'
++    # The initContainer for LD2 requires running as root to install the
++    # iptables rules. This *should* be set.
++    # rule: 'MustRunAsNonRoot'
++  seLinux:
++    # This policy assumes the nodes are using AppArmor rather than SELinux.
++    rule: 'RunAsAny'
++  supplementalGroups:
++    rule: 'MustRunAs'
++    ranges:
++      # Forbid adding the root group.
++      - min: 1
++        max: 65535
++  fsGroup:
++    rule: 'MustRunAs'
++    ranges:
++      # Forbid adding the root group.
++      - min: 1
++        max: 65535
++  readOnlyRootFilesystem: false
++---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: Role
++metadata:
++  name: role-psp-linkerd
++  namespace: linkerd
++rules:
++- apiGroups: ['policy']
++  resources: ['podsecuritypolicies']
++  resourceNames: ['psp-linkerd']
++  verbs: ['use']
++---
++
+ kind: ConfigMap
+ apiVersion: v1
+ metadata:
+@@ -31,6 +107,20 @@
+   name: linkerd-identity
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-identity
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-identity
++  namespace: linkerd
++---
+ kind: ClusterRole
+ apiVersion: rbac.authorization.k8s.io/v1beta1
+ metadata:
+@@ -270,6 +360,20 @@
+   name: linkerd-controller
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-controller
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-controller
++  namespace: linkerd
++---
+ kind: ClusterRole
+ apiVersion: rbac.authorization.k8s.io/v1beta1
+ metadata:
+@@ -679,6 +783,20 @@
+   name: linkerd-web
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-web
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-web
++  namespace: linkerd
++---
+ kind: Service
+ apiVersion: v1
+ metadata:
+@@ -877,6 +995,20 @@
+   name: linkerd-prometheus
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-prometheus
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-prometheus
++  namespace: linkerd
++---
+ kind: ClusterRole
+ apiVersion: rbac.authorization.k8s.io/v1beta1
+ metadata:
+@@ -1194,6 +1326,20 @@
+   name: linkerd-grafana
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-grafana
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-grafana
++  namespace: linkerd
++---
+ kind: Service
+ apiVersion: v1
+ metadata:
+@@ -1457,6 +1603,20 @@
+   name: linkerd-sp-validator
+   namespace: linkerd
+ ---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-sp-validator
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-sp-validator
++  namespace: linkerd
++---
+ kind: ClusterRole
+ apiVersion: rbac.authorization.k8s.io/v1
+ metadata:
