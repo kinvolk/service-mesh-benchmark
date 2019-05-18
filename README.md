@@ -1,6 +1,6 @@
 # Kinvolk service mesh benchmark suite
 
-For details on this repository, please see our [blog post]().
+For an introduction to the purpose of this repository please see our [blog post](https://kinvolk.io/blog/2019/05/kubernetes-service-mesh-benchmarking/).
 
 ## Content
 
