@@ -32,7 +32,7 @@ taint_random_worker_node "$nr_apps" "reserved-for-benchmark-load-generator"
 echo
 echo "### Starting benchmark of $linkerd w/ $nr_apps apps"
 
-install_emojivoto "$linkerd inject" $nr_apps
+install_emojivoto "$linkerd inject --manual" $nr_apps
 
 $linkerd -n emojivoto check --proxy
 clear
@@ -40,7 +40,7 @@ clear
 echo "Sleeping for $((5*nr_apps)) seconds to let injected apps settle some more."
 sleep $((5*nr_apps))
 
-run_benchmark "linkerd" $nr_apps "$linkerd inject" "$duration" "$rate"
+run_benchmark "linkerd" $nr_apps "$linkerd inject --manual" "$duration" "$rate"
 
 echo "### Cleaning up..."
 kubectl delete -f emojivoto.injected.yaml --wait=true --grace-period=1 --all=true || true
