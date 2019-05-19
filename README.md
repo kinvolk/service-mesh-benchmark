@@ -46,16 +46,17 @@ Before continuing, make sure the `KUBECONFIG` environment variable points to
 the kubernetes configuration of the correct cluster.
 
 You're now set up to start a benchmark. You may specify the number of apps in
-the cluster, the benchmark run time, and the requests per second via the
+the cluster, the benchmark run time, the requests per second, and the number of
+parallel connections / threads used by the benchmark load generator via the
 command line.
 
 The following example starts a linkerd benchmark running 5 minutes, with 10
-apps and a constant request rate of 100RPS:
-* `scripts/linkerd/benchmark.sh 10 5m 100`
+apps a constant request rate of 100RPS, using 8 load generator threads:
+* `scripts/linkerd/benchmark.sh 10 5m 100 8`
 
 If you want to run a full series of benchmarks for linkerd, istio stock, istio
 tuned, and bare, simply issue:
-* `scripts/linkerd/benchark-multi.sh 10 5m 100`
+* `scripts/linkerd/benchark-multi.sh 10 5m 100 8`
 
 Please note that you must always use scripts from the directory of your
 respective cluster service mesh. If your cluster currently has istio installed,

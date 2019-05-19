@@ -14,7 +14,10 @@ duration="30m"
 rate="800"
 [ $# -ge 3 ] && rate="$3"
 
-linkerd=$(grok_cmd 4 "linkerd2-cli-edge-19.5.3-linux" $@)
+threads="8"
+[ $# -ge 4 ] && threads="$4"
+
+linkerd=$(grok_cmd 5 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 asset_dir="${script_dir}/../../assets"
@@ -40,7 +43,7 @@ clear
 echo "Sleeping for $((5*nr_apps)) seconds to let injected apps settle some more."
 sleep $((5*nr_apps))
 
-run_benchmark "linkerd" $nr_apps "$linkerd inject --manual" "$duration" "$rate"
+run_benchmark "linkerd" $nr_apps "$linkerd inject --manual" "$duration" "$rate" "$threads"
 
 echo "### Cleaning up..."
 kubectl delete -f emojivoto.injected.yaml --wait=true --grace-period=1 --all=true || true

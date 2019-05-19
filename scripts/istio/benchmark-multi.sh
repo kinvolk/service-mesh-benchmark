@@ -26,16 +26,19 @@ duration="30m"
 rate="800"
 [ $# -ge 3 ] && rate="$3"
 
-istioctl=$(grok_cmd 4 "istioctl" $@)
+threads="8"
+[ $# -ge 4 ] && threads="$4"
+
+istioctl=$(grok_cmd 5 "istioctl" $@)
 [ -z $istioctl ] && { echo "Aborting."; exit 1; }
 
-linkerd=$(grok_cmd 5 "linkerd2-cli-edge-19.5.3-linux" $@)
+linkerd=$(grok_cmd 6 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 ###  Istio tuned
 echo
 echo "##### Running $istioctl benchmark (tuned)"
-${script_dir}/benchmark.sh $nr_apps "$duration" "$rate" $istioctl "tuned"
+${script_dir}/benchmark.sh $nr_apps "$duration" "$rate" "$threads" $istioctl "tuned"
 
 echo "##### Removing tuned istio and installing stock istio"
 ${script_dir}/cleanup-istio.sh
@@ -47,7 +50,7 @@ STOCK_MODE=1 ${script_dir}/setup-cluster.sh $istioctl
 
 echo
 echo "##### Running $istioctl benchmark"
-${script_dir}/benchmark.sh $nr_apps "$duration" "$rate" $istioctl "stock"
+${script_dir}/benchmark.sh $nr_apps "$duration" "$rate" "$threads" $istioctl "stock"
 
 echo "##### Removing istio and installing linkerd"
 ${script_dir}/cleanup-istio.sh
@@ -56,7 +59,7 @@ ${script_dir}/cleanup-istio.sh
 ${script_dir}/../linkerd/setup-cluster.sh $linkerd
 
 echo "##### Running $linkerd benchmark"
-${script_dir}/../linkerd/benchmark.sh $nr_apps "$duration" "$rate" $linkerd
+${script_dir}/../linkerd/benchmark.sh $nr_apps "$duration" "$rate" "$threads" $linkerd
 
 echo "##### Removing linkerd"
 ${script_dir}/../linkerd/cleanup-linkerd.sh
@@ -71,7 +74,7 @@ install_emojivoto "cat" $nr_apps
 wait_namespace_settled emojivoto
 
 echo "##### Running bare benchmark"
-run_benchmark "bare" $nr_apps "cat" "$duration" "$rate"
+run_benchmark "bare" $nr_apps "cat" "$duration" "$rate" "$threads"
 
 echo "##### removing bare emojivoto"
 kubectl delete -f emojivoto.injected.yaml --wait=true --grace-period=1 --all=true || true

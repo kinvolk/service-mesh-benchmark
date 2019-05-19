@@ -14,11 +14,14 @@ duration="30m"
 rate="800"
 [ $# -ge 3 ] && rate="$3"
 
-istioctl=$(grok_cmd 4 "istioctl" $@)
+threads="8"
+[ $# -ge 4 ] && threads="$4"
+
+istioctl=$(grok_cmd 5 "istioctl" $@)
 [ -z $istioctl ] && { echo "Aborting."; exit 1; }
 
 istio_type="tuned"
-[ $# -ge 5 ] && istio_type="$5"
+[ $# -ge 6 ] && istio_type="$6"
 
 asset_dir="${script_dir}/../../assets"
 KUBECONFIG=$(print_kubeconfig_path "$asset_dir")
@@ -40,7 +43,7 @@ install_emojivoto "$istioctl kube-inject -f" $nr_apps
 echo "Sleeping for $((5*nr_apps)) seconds to let injected apps settle some more."
 sleep $((5*nr_apps))
 
-run_benchmark "istio-${istio_type}" $nr_apps "$istioctl kube-inject -f" "$duration" "$rate"
+run_benchmark "istio-${istio_type}" $nr_apps "$istioctl kube-inject -f" "$duration" "$rate" "$threads"
 
 echo "### Cleaning up..."
 kubectl delete -f emojivoto.injected.yaml --wait=true --grace-period=1 --all=true || true
