@@ -14,6 +14,7 @@ This repository contains following subfolders:
 
 In order to run benchmark, following things needs to be set up:
 * configure AWS credentials locally with `aws configure`
+* make sure BGP is enabled in your packet project. Local BGP is sufficient.
 * follow [terraform/README.md](terraform/README.md) for setting up Terraform requirements
 * install `isitoctl` [binary](https://istio.io/docs/setup/kubernetes/download/)
 * install `Terraform` [binary](https://learn.hashicorp.com/terraform/getting-started/install.html)
