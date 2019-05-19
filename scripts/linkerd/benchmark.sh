@@ -14,7 +14,7 @@ duration="30m"
 rate="800"
 [ $# -ge 3 ] && rate="$3"
 
-linkerd=$(grok_cmd 4 "linkerd2-cli" $@)
+linkerd=$(grok_cmd 4 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 asset_dir="${script_dir}/../../assets"

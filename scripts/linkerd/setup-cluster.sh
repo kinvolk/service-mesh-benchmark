@@ -11,7 +11,7 @@ asset_dir="${script_dir}/../../assets"
 terraform_dir="${script_dir}/../../terraform"
 KUBECONFIG=$(print_kubeconfig_path "$asset_dir")
 
-linkerd=$(grok_cmd 1 "linkerd2-cli" $@)
+linkerd=$(grok_cmd 1 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 #### Provision new cluster if no usable kubeconfig found
@@ -31,10 +31,11 @@ setup_metrics_server
 echo "  Installing '$linkerd' to cluster."
 
 $linkerd check --pre || { echo "linkerd sanity pre-check failed."; exit 1; }
+
 # generate installer yaml and patch PSPs so linkerd can install
 $linkerd install > linkerd.yaml
-#patch -p 1 <${script_dir}/linkerd.yaml.patch || {
-#                                echo "Patching linkerd yaml failed."; exit 1; }
+patch -p 1 <${script_dir}/linkerd.yaml.patch || {
+                                echo "Patching linkerd yaml failed."; exit 1; }
 kubectl apply --request-timeout="0" -f linkerd.yaml || {
                                 echo "Installing linkerd failed."; exit 1; }
 

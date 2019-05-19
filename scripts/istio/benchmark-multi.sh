@@ -29,7 +29,7 @@ rate="800"
 istioctl=$(grok_cmd 4 "istioctl" $@)
 [ -z $istioctl ] && { echo "Aborting."; exit 1; }
 
-linkerd=$(grok_cmd 5 "linkerd2-cli" $@)
+linkerd=$(grok_cmd 5 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 ###  Istio tuned
