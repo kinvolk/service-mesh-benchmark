@@ -20,7 +20,7 @@ variable "packet_auth_token" {
 variable "cluster_name" {
   type        = "string"
   description = "Name of the cluster."
-  default     = "cluster"
+  default     = "lokomotive-benchmark"
 }
 variable "facility" {
   type        = "string"
@@ -33,6 +33,21 @@ variable "ssh_keys" {
   default     = [
     "~/.ssh/.id_rsa.pub"
   ]
+}
+variable "controller_node_type" {
+  type        = "string"
+  description = "Packet server type to use for controller nodes."
+  default     = "t1.small"
+}
+variable "worker_node_type" {
+  type        = "string"
+  description = "Packet server type to use for worker nodes."
+  default     = "t1.small"
+}
+variable "worker_node_count" {
+  type        = "string"
+  description = "Number of worker nodes in the cluster. Must be 2 or higher."
+  default     = "2"
 }
 
 data "aws_route53_zone" "cluster" {
@@ -73,9 +88,9 @@ module "packet-svc-mesh-benchmark" {
   facility     = "${var.facility}"
 
   controller_count = "1"
+  controller_type = "${var.controller_node_type}"
 
-  # This should be 2 or higher, as one worker node needs to be dedicated for running load generator
-  worker_count              = "2"
+  worker_count              = "${var.worker_node_count}"
   worker_nodes_hostnames    = "${concat("${module.worker-pool-0.worker_nodes_hostname}")}"
   worker_nodes_public_ipv4s = "${concat("${module.worker-pool-0.worker_nodes_public_ipv4}")}"
   management_cidrs = ["${var.management_cidrs}"]
@@ -102,7 +117,8 @@ module "worker-pool-0" {
   facility     = "${var.facility}"
 
   pool_name = "workers"
-  count     = "2"
+  count     = "${var.worker_node_count}"
+  type      = "${var.worker_node_type}"
 
   kubeconfig = "${module.packet-svc-mesh-benchmark.kubeconfig}"
 }
