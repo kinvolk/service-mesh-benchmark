@@ -1,9 +1,10 @@
---- a/linkerd.yaml	2019-04-09 14:16:47.561825873 +0200
-+++ b/linkerd.yaml	2019-04-09 13:50:20.413962480 +0200
-@@ -4,6 +4,82 @@
- metadata:
+--- a/linkerd.yaml	2019-05-19 15:15:54.520694542 +0200
++++ b/linkerd.yaml	2019-05-19 15:15:43.580714932 +0200
+@@ -9,4 +9,79 @@
    name: linkerd
- ---
+   annotations:
+     linkerd.io/inject: disabled
++---
 +apiVersion: policy/v1beta1
 +kind: PodSecurityPolicy
 +metadata:
@@ -78,15 +79,12 @@
 +  resources: ['podsecuritypolicies']
 +  resourceNames: ['psp-linkerd']
 +  verbs: ['use']
-+---
-+
- kind: ConfigMap
- apiVersion: v1
+ ---
+@@ -41,4 +116,18 @@
  metadata:
-@@ -31,6 +107,20 @@
    name: linkerd-identity
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -100,14 +98,12 @@
 +- kind: ServiceAccount
 +  name: linkerd-identity
 +  namespace: linkerd
-+---
- kind: ClusterRole
- apiVersion: rbac.authorization.k8s.io/v1beta1
+ ---
+@@ -82,4 +171,18 @@
  metadata:
-@@ -270,6 +360,20 @@
    name: linkerd-controller
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -121,14 +117,12 @@
 +- kind: ServiceAccount
 +  name: linkerd-controller
 +  namespace: linkerd
-+---
- kind: ClusterRole
- apiVersion: rbac.authorization.k8s.io/v1beta1
+ ---
+@@ -92,4 +195,18 @@
  metadata:
-@@ -679,6 +783,20 @@
    name: linkerd-web
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -142,14 +136,12 @@
 +- kind: ServiceAccount
 +  name: linkerd-web
 +  namespace: linkerd
-+---
- kind: Service
- apiVersion: v1
+ ---
+@@ -229,4 +346,18 @@
  metadata:
-@@ -877,6 +995,20 @@
    name: linkerd-prometheus
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -163,14 +155,12 @@
 +- kind: ServiceAccount
 +  name: linkerd-prometheus
 +  namespace: linkerd
-+---
- kind: ClusterRole
- apiVersion: rbac.authorization.k8s.io/v1beta1
+ ---
+@@ -239,4 +370,18 @@
  metadata:
-@@ -1194,6 +1326,20 @@
    name: linkerd-grafana
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -184,14 +174,31 @@
 +- kind: ServiceAccount
 +  name: linkerd-grafana
 +  namespace: linkerd
-+---
- kind: Service
- apiVersion: v1
+ ---
+@@ -281,4 +426,18 @@
  metadata:
-@@ -1457,6 +1603,20 @@
+   name: linkerd-proxy-injector
+   namespace: linkerd
++---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-injector
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-proxy-injector
++  namespace: linkerd
+ ---
+@@ -317,4 +476,18 @@
+ metadata:
    name: linkerd-sp-validator
    namespace: linkerd
- ---
++---
 +apiVersion: rbac.authorization.k8s.io/v1
 +kind: RoleBinding
 +metadata:
@@ -205,7 +212,23 @@
 +- kind: ServiceAccount
 +  name: linkerd-sp-validator
 +  namespace: linkerd
-+---
- kind: ClusterRole
- apiVersion: rbac.authorization.k8s.io/v1
+ ---
+@@ -355,4 +528,18 @@
  metadata:
+   name: linkerd-tap
+   namespace: linkerd
++---
++apiVersion: rbac.authorization.k8s.io/v1
++kind: RoleBinding
++metadata:
++  name: rb-psp-linkerd-tap
++  namespace: linkerd
++roleRef:
++  kind: Role
++  name: role-psp-linkerd
++  apiGroup: rbac.authorization.k8s.io
++subjects:
++- kind: ServiceAccount
++  name: linkerd-tap
++  namespace: linkerd
+ ---
