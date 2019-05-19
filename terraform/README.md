@@ -3,8 +3,9 @@
 This directory contains Terraform code, which spawns a Kubernetes cluster in a
 Packet datacenter to perform the benchmark on.
 
-To get it up and running, please create a file `variables.auto.tfvars`
-in the `terraform` sub-directory and define these variables:
+To configure your cluster, please copy the file `variables.auto.tfvars.template` 
+to `variables.auto.tfvars`, then edit `variables.auto.tfvars` and set the
+variables as discussed below.
 
 ```
 dns_zone          = "cluster.example.com"
@@ -19,9 +20,12 @@ Optionally, you may also set:
 cluster_name="my-lokomotive-benchmarkcluster" 
 facility="<packet dataceter>"
 ssh_keys=["list of keys to grant ssh access to nodes"]
+controller_node_type = "t1.small"
+worker_node_type = "t1.small"
+worker_node_count = "2"   #  must be 2 or higher
 ```
 
-The above variables are defined in the `cluster.tf` file.
+F.y.i, The above variables are defined in the `cluster.tf` file.
 
-After completing the initial set-up, please run `terraform init` in the
+After completing the initial configuration, please run `terraform init` in the
 terraform sub-directory.

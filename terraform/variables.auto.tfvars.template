@@ -1,0 +1,22 @@
+### Mandatory settings
+
+dns_zone          = "cluster.example.com"
+
+# List of CIDRs allowed to ssh into nodes.
+# You can get your IP by executing 'curl -4 icanhazip.com'
+management_cidrs  = ["cird1/mask", "cidr2/mask", "<your ip address>/32"]
+
+packet_auth_token = "<packet API token>"
+packet_project_id = "<packet project id>"
+
+
+### Optional settings
+
+facility="ams1"
+cluster_name="lokomotive-benchmark"
+
+ssh_keys=["~/.ssh/.id_rsa.pub"]
+
+controller_node_type = "t1.small"
+worker_node_type = "t1.small"
+worker_node_count = "2"   #  must be 2 or higher
