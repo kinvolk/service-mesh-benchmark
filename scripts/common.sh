@@ -22,11 +22,13 @@ function print_kubeconfig_path() {
     }
 
     export KUBECONFIG="$(readlink -f ${asset_dir}/auth/kubeconfig)"
-    for i in {1..6}; do stderr "Running 'KUBECONFIG=$KUBECONFIG kubectl cluster-info'... ($i/6)"; kubectl cluster-info >/dev/null 2>&1 && {
-        stderr "Will use existing cluster with kubeconfig at '$KUBECONFIG'"
-        echo "$(readlink -f $KUBECONFIG)"
-        exit 0
-    } || sleep 5; done
+    [ -f "${KUBECONFIG:-}" ] && {
+        for i in {1..6}; do stderr "Running 'KUBECONFIG=$KUBECONFIG kubectl cluster-info'... ($i/6)"; kubectl cluster-info >/dev/null 2>&1 && {
+            stderr "Will use existing cluster with kubeconfig at '$KUBECONFIG'"
+            echo "$(readlink -f $KUBECONFIG)"
+            exit 0
+        } || sleep 5; done
+    }
 
     stderr "No existing cluster / kubeconfg found."
 }
