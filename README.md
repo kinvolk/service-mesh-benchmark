@@ -60,3 +60,8 @@ tuned, and bare, simply issue:
 Please note that you must always use scripts from the directory of your
 respective cluster service mesh. If your cluster currently has istio installed,
 please only use scripts from `scripts/istio/`.
+
+## Cleaning up
+
+After you finish running benchmarks, you can tear down infrastructure by going to `terraform` directory and running `terraform destroy`.
+Once it's complete, it should be fine to remove `assets` directory.
