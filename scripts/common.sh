@@ -68,6 +68,7 @@ function ask_create_cluster() {
 
     rm -rf "$asset_dir"
     pushd "${terraform_dir}"
+    terraform init
     (terraform destroy || true) && terraform apply || {
         echo "Failed to set up test cluster."
         exit 1; }
