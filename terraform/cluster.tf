@@ -80,7 +80,7 @@ module "packet-svc-mesh-benchmark" {
   dns_zone    = "${var.dns_zone}"
   dns_zone_id = "${data.aws_route53_zone.cluster.zone_id}"
 
-  ssh_keys  = ["$${var.ssh_keys}"]
+  ssh_keys  = ["${var.ssh_keys}"]
   asset_dir = "../assets"
 
   cluster_name = "${var.cluster_name}"
@@ -110,7 +110,7 @@ module "worker-pool-0" {
     packet   = "packet.default"
   }
 
-  ssh_keys  = ["$${var.ssh_keys}"]
+  ssh_keys  = ["${var.ssh_keys}"]
 
   cluster_name = "${var.cluster_name}"
   project_id   = "${var.packet_project_id}"
