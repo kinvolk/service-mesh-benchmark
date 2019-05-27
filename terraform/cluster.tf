@@ -31,7 +31,7 @@ variable "ssh_keys" {
   type        = "list"
   description = "List of SSH public key files or SSH public keys."
   default     = [
-    "~/.ssh/.id_rsa.pub"
+    "~/.ssh/id_rsa.pub"
   ]
 }
 variable "controller_node_type" {

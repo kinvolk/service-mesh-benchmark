@@ -15,7 +15,7 @@ packet_project_id = "<packet project id>"
 facility="ams1"
 cluster_name="lokomotive-benchmark"
 
-ssh_keys=["~/.ssh/.id_rsa.pub"]
+ssh_keys=["~/.ssh/id_rsa.pub"]
 
 controller_node_type = "t1.small"
 worker_node_type = "t1.small"
