@@ -20,7 +20,7 @@ linkerd=$(grok_cmd 4 "linkerd2-cli-edge-19.5.3-linux" $@)
 asset_dir="${script_dir}/../../assets"
 KUBECONFIG=$(print_kubeconfig_path "$asset_dir")
 [ ! -f "$KUBECONFIG" ] && {
-    echo "No working cluster config found, aborting."
+    echo "No working cluster config found, aborting. Did you run '$script_dir/setup-cluster.sh' ?"
     exit 1; }
 export KUBECONFIG
 
