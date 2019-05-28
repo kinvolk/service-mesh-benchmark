@@ -29,9 +29,14 @@ variable "facility" {
 }
 variable "ssh_keys" {
   type        = "list"
-  description = "List of SSH public key files or SSH public keys."
+  description = "List of SSH public keys."
+  default     = []
+}
+variable "ssh_key_files" {
+  type        = "list"
+  description = "List of SSH public key files."
   default     = [
-    "~/.ssh/.id_rsa.pub"
+    "~/.ssh/id_rsa.pub"
   ]
 }
 variable "controller_node_type" {
@@ -49,7 +54,13 @@ variable "worker_node_count" {
   description = "Number of worker nodes in the cluster. Must be 2 or higher."
   default     = "2"
 }
+resource "null_resource" "ssh_keys" {
+  count = "${length("${var.ssh_key_files}")}"
 
+  triggers = {
+    ssh_key = "${file("${var.ssh_key_files[count.index]}")}"
+  }
+}
 data "aws_route53_zone" "cluster" {
   name = "${var.dns_zone}."
 
@@ -80,7 +91,7 @@ module "packet-svc-mesh-benchmark" {
   dns_zone    = "${var.dns_zone}"
   dns_zone_id = "${data.aws_route53_zone.cluster.zone_id}"
 
-  ssh_keys  = ["$${var.ssh_keys}"]
+  ssh_keys  = ["${var.ssh_keys}", "${null_resource.ssh_keys.*.triggers.ssh_key}"]
   asset_dir = "../assets"
 
   cluster_name = "${var.cluster_name}"
@@ -110,7 +121,7 @@ module "worker-pool-0" {
     packet   = "packet.default"
   }
 
-  ssh_keys  = ["$${var.ssh_keys}"]
+  ssh_keys  = ["${var.ssh_keys}", "${null_resource.ssh_keys.*.triggers.ssh_key}"]
 
   cluster_name = "${var.cluster_name}"
   project_id   = "${var.packet_project_id}"

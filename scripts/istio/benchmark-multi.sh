@@ -13,7 +13,7 @@ source "$script_dir/../common.sh"
 asset_dir="${script_dir}/../../assets"
 KUBECONFIG=$(print_kubeconfig_path "$asset_dir")
 [ ! -f "$KUBECONFIG" ] && {
-    echo "No working cluster config found, aborting."
+    echo "No working cluster config found, aborting. Did you run '$script_dir/setup-cluster.sh' ?"
     exit 1; }
 export KUBECONFIG
 

@@ -3,7 +3,7 @@
 This directory contains Terraform code, which spawns a Kubernetes cluster in a
 Packet datacenter to perform the benchmark on.
 
-To configure your cluster, please copy the file `variables.auto.tfvars.template` 
+To configure your cluster, please copy the file `variables.auto.tfvars.template`
 to `variables.auto.tfvars`, then edit `variables.auto.tfvars` and set the
 variables as discussed below.
 
@@ -17,7 +17,7 @@ packet_project_id = "<packet project id>"
 
 Optionally, you may also set:
 ```
-cluster_name="my-lokomotive-benchmarkcluster" 
+cluster_name="my-lokomotive-benchmarkcluster"
 facility="<packet dataceter>"
 ssh_keys=["list of keys to grant ssh access to nodes"]
 controller_node_type = "t1.small"

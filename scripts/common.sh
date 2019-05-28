@@ -9,11 +9,12 @@ function stderr() {
 #---
 
 function print_kubeconfig_path() {
+    stderr "Checking available kubeconfig file..."
     local asset_dir="$1"
 
     # check for kubeconfig already in use
     [ -f "${KUBECONFIG:-}" ] && {
-        for i in {1..6}; do kubectl cluster-info >/dev/null 2>&1 && {
+        for i in {1..6}; do stderr "Running 'KUBECONFIG=$KUBECONFIG kubectl cluster-info'... ($i/6)"; kubectl cluster-info >/dev/null 2>&1 && {
             stderr "Will use existing cluster with kubeconfig at '$KUBECONFIG'"
             echo "$(readlink -f $KUBECONFIG)"
             exit 0
@@ -21,11 +22,13 @@ function print_kubeconfig_path() {
     }
 
     export KUBECONFIG="$(readlink -f ${asset_dir}/auth/kubeconfig)"
-    for i in {1..6}; do kubectl cluster-info >/dev/null 2>&1 && {
-        stderr "Will use existing cluster with kubeconfig at '$KUBECONFIG'"
-        echo "$(readlink -f $KUBECONFIG)"
-        exit 0
-    } || sleep 5; done
+    [ -f "${KUBECONFIG:-}" ] && {
+        for i in {1..6}; do stderr "Running 'KUBECONFIG=$KUBECONFIG kubectl cluster-info'... ($i/6)"; kubectl cluster-info >/dev/null 2>&1 && {
+            stderr "Will use existing cluster with kubeconfig at '$KUBECONFIG'"
+            echo "$(readlink -f $KUBECONFIG)"
+            exit 0
+        } || sleep 5; done
+    }
 
     stderr "No existing cluster / kubeconfg found."
 }
@@ -65,6 +68,7 @@ function ask_create_cluster() {
 
     rm -rf "$asset_dir"
     pushd "${terraform_dir}"
+    terraform init
     (terraform destroy || true) && terraform apply || {
         echo "Failed to set up test cluster."
         exit 1; }
