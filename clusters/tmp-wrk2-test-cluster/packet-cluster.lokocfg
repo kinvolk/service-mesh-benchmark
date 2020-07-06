@@ -1,0 +1,61 @@
+# Variables
+variable "packet_project_id" {}
+variable "route53_zone" {}
+variable "state_s3_bucket" {}
+variable "state_s3_key" {}
+variable "state_s3_region" {}
+variable "lock_dynamodb_table" {}
+
+# Cluster config
+backend "s3" {
+  bucket         = var.state_s3_bucket
+  key            = var.state_s3_key
+  region         = var.state_s3_region
+  dynamodb_table = var.lock_dynamodb_table
+}
+
+cluster "packet" {
+  project_id   = var.packet_project_id
+  cluster_name = "test-wrk2"
+  facility     = "sjc1"
+
+  controller_type = "t1.small.x86"
+  asset_dir        = "./assets"
+  controller_count = 1
+
+  ssh_pubkeys = [
+    # This key is from eleven machine
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAEAQDEQ9A99EJGhbBF2Lrf4u4ZA50f9DNgWeZ2PobshS/B2gl1s9HVZNbwFg4D/2u5mdXLPo0aRWRwU8YV4Owra3NIVMXAL4kHc9jkBRCKIV9siKjJaMO82S/bH+FW61M0JAxlTPwbIR+KKq+rzIbL5NiWTLrZzF9SETaBdkgMJHPE1dnv60KrZn5Sz6Bm0wAiF+NmnCZo81MK6J1YBAoqNRwy8w1hxr4IvYGcA+6skCQ3leqtnodaBwSl0p9143nuJBZR9N5bUuiGF6hfC8Sx31zXCHz6L/02/CuCBJmPS2p10RV+5LNJqChqDX10KbKL0+q0VMgMinf1b1wzt+Sahf0OIvtzNzuQxX+ofJf7YTI7P28FhTHSx6xNr9EObUtW0uBdZ6UjBqu20RxLc+ox3loUExSQobWjO+VbECROAIFWbQPerX5AObkp8x9OEgux+b3KXMV9tgQYnknKr5TRop9+0khcPhufXopqzep1aAehVCM/nGyno/4m5t+kSkHys7qcWnXvo8ceJ/VpNXUrrWdJ4wU6jOl17CN1H3yzEBZsCQ1latca8nAS/FAAIFFVK4UMbbF63yoanH7+ydbQfhTdOx7GubgUvSRaUr+wnsx6NKt6DZNVnfbihCAl0h6nb5suXSgMLOWM3PHYtpqqLtCICjjwYe6X6grkXBLcH74AEq0cnJXabadXx5/ZQlQF1USNoe39GP1zkX4/0Ij3fY2f4ainSVt6kdKrIfuAmve5+W/ouzWSebs9rfzOSl3kzcj+qfLbkJKXzNNwHTiqDsCfkOF5ES8Ec0ELQvDZIBRKq8g5W72iFWr35yEfuDgtqo3kT1A1MKgOsTw6qHsqjKD/XfT4dYomAf35lSDE/Mzt0REfkjFk8trKVbEsuG5reBH8vu5A9nPpsjq4G8wPlxKphwu1DpTNo/wRGe87vnjXj0hNiwkdCSLS05j8+sujE98512b56HkKOuVo0HY0iz0mEG8thjmeiZntt5vds1gBdCIt5UpHeqHosWEs4dB7bdq33Y1lpnGiNUskP4C3Q2W5nKF2Gj901OXwj9MctaezrRRKYqltyt+Q0eb6TkMdlNJY5MybdS5XMdKhPMac+BsZDaiOpTwTyj68bqK4vhKsDt5pyYH3hFI6A9Oht1g9p5AA7lQtvgnLooKe394xg+8/yhKAp0wWD1Ps4Yslpy1TmSgpqkOE/B8Y0bv0NETkBVgjvKgIKWvOvLJ5BbbwQ/iiK0oUHXuv9+QCnX0VB8LEIKoCznxHwCS4Tyv/J9SwGncr1koU1AJqWyEnFQr8RkKRZ9bOLTDtMCqumDsMfbsZ+1PU46HT3vnEUoojNbQTZhvAjzjl7mtA1TQAugQB4ogb surajd.service@gmail.com",
+    # This key is from local machine
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAEAQDAfWUSGO4+xtBFWYGRqNlX28axZyhoRK2V228AoxSJVRJNzCLfQjeoRqUSQctDVX1Jv0xhAi5P+q5oJ64YOANH3p96852EwltJQNHhd6ZZG9JoauMH+IuT0iEX8EzECOVw56SojENieY+vsO7tUPiN/WCI/AZHJVpipgW6CKsvwWuvDPa1q3lRHPlr4cf6eEdGp/nNXBm82o4SJytQJMxGn8e/+gTEjKiCAegeKPH3kWww8z/YT3jRVqeSjxtZmtwScbtFW7QUnHhKyCTrkJ4CWFOMtNHIviZs7F+uJSVSBidjZY7t6xOjU7ASPKAoRmKYEIWYTyin6oWb4pavOVG3GkiboYF5NRFlL4u/+lDxs2RpcLFx8qCRGNnbT8/8aiTvTcnuRKnJ3blCpCZFzYmWVkLDEfx2pVouHDBHCaSSmG5VoO2RcOS70AucFRooFYjZPM5pRib7hHszamgCWVvY8plsrG1Kkr/MM3H6aidlZF1lqrzDW/9sBYvW1HIfKODPtILfgLMYeAcBk+ER3eFM73bsZE3th013PJ7dbLIJvYgu/oE7JpZQ6ordpQ2vNkyywngdYUB+WaAGtDcywCUcaXMmxP2dT0QJ56E3/MgMBfri+4rR/4zhjaV9eSR19geePO8pygo05OYiMbNMs287TS6+vC9gnnp/WUQxQ6E2cEJbxeiAI9c2A75TiHNPr9wsubzGj4vUw/8u9MvfcxZijpaJklpC1bbRxTkDyrRl4g2xRIyOJ9ieAzY/MyT2p+ewTPNmJYqniUjb7Xlq5I7wTIzGJGS4IaG35RWqOkylmx4g27+kNpmUhZ9OyeNHsqa+b8mNii0wkFUmzsicv3X/R1YCNs9zeMgqtNcxqz4tQmqfuaMSTOark7ZGA3h+eWYHxeXSmWuFBFjNcfXFTrqzviY8hZvTMDrHKi5wWTE9tVKTrpgKnN5RJeuF7dnKCrXYe9RYrY10SjHw82Cock5kgeCWZaKHSCH4T/QhenUm8VrJmdgwTreCaahwunpHDvX602Rf4mbKPuRlqlfeJztDTscpH1ia2aiqkHRt3ZYGwVZKaPf2J3RXt8odiAtzwEgODAUa4lJOHAdqkV6iqLwdydqkIqKZ3XQ5N7uSnLYk0Nxr/ObANw4lUhRFExn+e2mUg1SxcmUqhthGPwxJETu7B1HPZTrCuImIYX/GIz/zlKuaHSwRtTfmXkR7S91U6sATlGc2314kJphWY/GqFnC2rrmZI/YinL0EsyYU4WypD21lUAdWPbfBxBa5iW9NdgUXnZpRC4EFvJFsKQuNoXLWd5vxhjTxl5KlxErx5zVMENSycnODbLRQyfutQDib0ZWFIYW5gUINv/wTnx12nd33 surajd.service@gmail.com",
+  ]
+
+  management_cidrs  = ["0.0.0.0/0"]
+  node_private_cidr = "10.88.72.128/25"
+
+  dns {
+    zone = var.route53_zone
+    provider = "route53"
+  }
+
+  worker_pool "pool-1" {
+    count = 1
+    node_type = "c2.medium.x86"
+  }
+}
+
+
+# Component config
+component "openebs-operator" {}
+
+component "openebs-storage-class" {
+  storage-class "openebs-test-sc" {
+    replica_count = 1
+    default = true
+  }
+}
+
+component "prometheus-operator" {
+  watch_labeled_service_monitors = "false"
+  watch_labeled_prometheus_rules = "false"
+}
