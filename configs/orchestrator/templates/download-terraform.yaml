@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-terraform
+  namespace: orchestrator
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-terraform
+        image: hashicorp/terraform:{{.Values.terraform.version}}
+        command:
+        - sh
+        args:
+        - -c
+        - 'mv /bin/terraform /binaries'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries

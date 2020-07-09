@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-charts
+  namespace: orchestrator
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-charts
+        image: golang
+        env:
+        - name: BRANCH
+          value: {{.Values.charts.branch}}
+        command:
+        - bash
+        args:
+        - -c
+        - 'cd /binaries && git clone https://github.com/kinvolk/service-mesh-benchmark/'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-install-configs
+  namespace: orchestrator
+data:
+{{ (.Files.Glob "cluster-install-configs/packet.lokocfg").AsConfig | indent 2 }}
+{{ (.Files.Glob "cluster-install-configs/lokocfg.vars.envsubst").AsConfig | indent 2 }}
+{{ (.Files.Glob "cluster-install-configs/run.sh").AsConfig | indent 2 }}
+{{ (.Files.Glob "cluster-install-configs/cleanup.sh").AsConfig | indent 2 }}
+{{ (.Files.Glob "cluster-install-configs/cleanup-setup.sh").AsConfig | indent 2 }}
