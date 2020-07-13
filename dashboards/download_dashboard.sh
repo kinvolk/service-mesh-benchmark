@@ -16,6 +16,6 @@ host="$3"
 echo "Downloading dashboard UID $dashboard_uid from $host" >&2
 
 
-curl -H "Authorization: Bearer $apikey" \
+curl -sH "Authorization: Bearer $apikey" \
                 http://$host/api/dashboards/uid/$dashboard_uid \
-        | sed -e "s/\"$dashboard_uid\"/null/" -e 's/,"url":"[^"]\+",/,/'
+        | sed -e "s/\"$dashboard_uid\"/null/" -e 's/,"url":"[^"]\+",/,/' | jq
