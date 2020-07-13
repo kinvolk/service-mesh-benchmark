@@ -8,10 +8,10 @@
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
     "created": "2020-07-10T17:18:18Z",
-    "updated": "2020-07-13T11:12:03Z",
+    "updated": "2020-07-13T13:43:00Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 25,
+    "version": 27,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -42,7 +42,7 @@
     "links": [],
     "panels": [
       {
-        "content": "<hr>\n<center><h5> Runtime info </h5></center>",
+        "content": "<center><h5>Benchmark run-time information</h5></center>",
         "datasource": null,
         "gridPos": {
           "h": 2,
@@ -1452,24 +1452,6 @@
         "type": "text"
       },
       {
-        "content": "<br />\n<h1><i><b><center>&nbsp Run </center></b></i></h1>\n",
-        "datasource": null,
-        "gridPos": {
-          "h": 2,
-          "w": 1,
-          "x": 0,
-          "y": 22
-        },
-        "id": 50,
-        "mode": "html",
-        "options": {},
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "text"
-      },
-      {
         "cacheTimeout": null,
         "colorBackground": false,
         "colorValue": false,
@@ -1491,7 +1473,7 @@
         "gridPos": {
           "h": 2,
           "w": 2,
-          "x": 1,
+          "x": 0,
           "y": 22
         },
         "id": 46,
@@ -1546,7 +1528,7 @@
         "title": "started",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "70%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -1578,7 +1560,7 @@
         "gridPos": {
           "h": 2,
           "w": 2,
-          "x": 3,
+          "x": 2,
           "y": 22
         },
         "id": 47,
@@ -1633,7 +1615,7 @@
         "title": "concluded",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "70%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -1664,8 +1646,8 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 2,
-          "x": 5,
+          "w": 1,
+          "x": 4,
           "y": 22
         },
         "id": 48,
@@ -1717,10 +1699,95 @@
         "thresholds": "",
         "timeFrom": null,
         "timeShift": null,
-        "title": "duration",
+        "title": "length",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "70%",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": null,
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 2,
+          "w": 2,
+          "x": 5,
+          "y": 22
+        },
+        "id": 43,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "sum(wrk2_benchmark_run_average_tcp_reconnect_rate{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "instant": true,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Avg. TCP reconnects",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -1794,7 +1861,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_thread_count",
+            "expr": "wrk2_benchmark_run_thread_count{exported_instance=\"$instance\",exported_job=\"$run\"}",
             "instant": true,
             "refId": "A"
           }
@@ -1805,7 +1872,7 @@
         "title": "Load generator threads",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "80%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -1890,7 +1957,7 @@
         "title": "Requested RPS",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "70%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -2088,7 +2155,7 @@
         "title": "Requests sent",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "80%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -2173,7 +2240,7 @@
         "title": "Total bytes read",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "80%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -2258,7 +2325,7 @@
         "title": "Effective RPS",
         "transparent": true,
         "type": "singlestat",
-        "valueFontSize": "70%",
+        "valueFontSize": "50%",
         "valueMaps": [
           {
             "op": "=",
@@ -2348,91 +2415,6 @@
       },
       {
         "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": null,
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 2,
-          "x": 9,
-          "y": 26
-        },
-        "id": 43,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "options": {},
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false,
-          "ymax": null,
-          "ymin": null
-        },
-        "tableColumn": "",
-        "targets": [
-          {
-            "expr": "sum(wrk2_benchmark_run_average_tcp_reconnect_rate{exported_instance=\"$instance\",exported_job=\"$run\"})",
-            "instant": true,
-            "refId": "A"
-          }
-        ],
-        "thresholds": "",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Avg. TCP reconnects",
-        "transparent": true,
-        "type": "singlestat",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
-      },
-      {
-        "cacheTimeout": null,
         "columns": [],
         "datasource": null,
         "description": "",
@@ -2441,7 +2423,7 @@
           "h": 7,
           "w": 4,
           "x": 7,
-          "y": 28
+          "y": 26
         },
         "id": 45,
         "links": [],
@@ -2495,7 +2477,7 @@
           "h": 48,
           "w": 24,
           "x": 0,
-          "y": 35
+          "y": 33
         },
         "id": 18,
         "options": {
@@ -2566,7 +2548,7 @@
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
-          "label": "benchmark instance",
+          "label": "Target application",
           "multi": false,
           "name": "instance",
           "options": [],
@@ -2592,7 +2574,7 @@
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
-          "label": "benchmark run",
+          "label": "benchmark",
           "multi": false,
           "name": "run",
           "options": [],
@@ -2631,6 +2613,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 25
+    "version": 27
   }
 }
