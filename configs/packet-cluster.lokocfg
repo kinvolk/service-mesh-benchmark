@@ -1,0 +1,67 @@
+# Variables
+variable "packet_project_id" {}
+variable "route53_zone" {}
+variable "state_s3_bucket" {}
+variable "state_s3_key" {}
+variable "state_s3_region" {}
+variable "lock_dynamodb_table" {}
+
+# Cluster config
+backend "s3" {
+  bucket         = var.state_s3_bucket
+  key            = var.state_s3_key
+  region         = var.state_s3_region
+  dynamodb_table = var.lock_dynamodb_table
+}
+
+cluster "packet" {
+  project_id   = var.packet_project_id
+  cluster_name = "benchmark"
+  facility     = "dfw2"
+
+  # no t1.small in DFW2
+  controller_type = "x1.small.x86"
+  asset_dir        = "./assets"
+  controller_count = 1
+
+  ssh_pubkeys = [
+# YOUR PUBKEY GOES HERE
+  ]
+
+  management_cidrs  = ["0.0.0.0/0"]
+  node_private_cidr = "[YOUR PACKET REGION'S PRIVATE CIDR]"
+
+  dns {
+    zone = var.route53_zone
+    provider = "route53"
+  }
+
+  worker_pool "applications" {
+    count = 4
+    node_type = "n2.xlarge.x86"
+  }
+
+  # Reserved for the load generator
+  worker_pool "loadgenerator" {
+    count = 2
+    node_type = "n2.xlarge.x86"
+    taints = "load-generator-node=None:NoSchedule"
+  }
+}
+
+
+# Component config
+component "openebs-operator" {}
+
+component "openebs-storage-class" {
+  storage-class "openebs-test-sc" {
+    replica_count = 1
+    default = true
+  }
+}
+
+component "prometheus-operator" {
+  watch_labeled_service_monitors = "false"
+  watch_labeled_prometheus_rules = "false"
+  namespace = "monitoring"
+}

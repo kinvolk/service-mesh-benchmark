@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+  name: pushgateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pushgateway
+  template:
+    metadata:
+      name: pushgateway
+      labels:
+        app: pushgateway
+        visualize: "true"
+        run: pushgateway
+    spec:
+      containers:
+      - name: pushgateway
+        image: prom/pushgateway
+        ports:
+        - name: web
+          containerPort: 9091
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: pushgateway
+    visualize: "true"
+    app: pushgateway
+  name: pushgateway
+spec:
+  selector:
+    app: pushgateway
+  type: NodePort
+  ports:
+  - name: scrape
+    protocol: TCP
+    port: 9091
+    nodePort: 30901
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pushgateway
+    release: prometheus-operator
+  name: pushgateway
+  namespace: monitoring
+spec:
+  endpoints:
+  - port: scrape
+    interval: "1s"
+  namespaceSelector:
+    matchNames:
+    - monitoring
+  selector:
+    matchLabels:
+      app: pushgateway

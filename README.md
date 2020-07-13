@@ -1,68 +1,116 @@
 # Kinvolk service mesh benchmark suite
 
-For an introduction to the purpose of this repository please see our [blog post](https://kinvolk.io/blog/2019/05/kubernetes-service-mesh-benchmarking/).
+This is a work-in-progress of the v2.0 release of our benchmark automation suite.
+
+Please refer to the [1.0 release](tree/release-1.0) for automation discussed in our [2019 blog post](https://kinvolk.io/blog/2019/05/kubernetes-service-mesh-benchmarking/).
 
 ## Content
 
 This repository contains following subfolders:
 
-* `scripts` - Contains scripts to set up clusters and service meshes, and to run benchmarks
-* `terraform` - Contains Terraform code required for setting up cluster. See [terraform/README.md](terraform/README.md) for more details.
-* `wrk2` - Contains Dockerfile and kubernetes manifest templates for wrk2, which we use for generating load during benchmarks.
+* `configs` - [Lokomotive kubernetes](https://github.com/kinvolk/lokomotive/) configuration files and helper scripts, [helm](https://github.com/helm/helm/releases) charts for demo applications
+* `dashboards` - Grafana dashboards
 
-## Requirements
 
-In order to run benchmark, following things needs to be set up:
-* configure AWS credentials locally with `aws configure`
-* make sure BGP is enabled in your packet project. Local BGP is sufficient.
-* follow [terraform/README.md](terraform/README.md) for setting up Terraform requirements
-* install `isitoctl` [binary](https://istio.io/docs/setup/kubernetes/download/)
-* install `Terraform` [binary](https://learn.hashicorp.com/terraform/getting-started/install.html)
-* install `terraform-provider-ct` [locally](https://github.com/poseidon/terraform-provider-ct/blob/master/README.md#install)
-* install `linkerd` [binary](https://linkerd.io/2/getting-started/)
-* have an up-to-date installation of `kubectl` for your respective environment.
+## Set up a cluster
 
-## Set up a cluster and install a service mesh
+We use [Packet](https://www.packet.com/) infrastructure to run the benchmark
+on, AWS S3 for sharing cluster state, and AWS Route53 for the clusters' public
+DNS entries. You'll need a Packet account and respective API token as well as
+an AWS account and accompanying secret key before you can provision a cluster.
 
-You can now run either
-* `scripts/linkerd/setup-cluster.sh`
-or
-* `scripts/istio/setup-cluster.sh`
+You'll also need a recent version of [Lokomotive](https://github.com/kinvolk/lokomotive/releases/) to provision a cluster.
 
-The script will detect whether you already have a cluster working (by checking
-with `kubectl`) and either install the service mesh right away, or use
-terraform to provision a new cluster first, then install the respective service
-mesh.  This level of automation lets you call setup-cluster.sh from other scripts.
+1. Create `configs/lokocfg.vars` and fill in:
+   ```
+   packet_project_id = "[ID of the packet project to deploy to]"
+   route53_zone = "[cluster's route53 zone]"
+   state_s3_bucket = "[PRIVATE AWS S3 bucket to share cluster state in]"
+   state_s3_key = "[key in S3 bucket, e.g. cluster name]"
+   state_s3_region = "[AWS S3 region to use]"
+   lock_dynamodb_table = "[DynamoDB table name to use as state lock, e.g. cluster name]"
+   ```
+2. Review the benchmark cluster config in `configs/packet-cluster.lokocfg`, and
+   add your public SSH key(s) to the `ssh_pubkeys = [` array. 
+3. Provision the cluster by running
+   ```
+   $ cd configs
+   configs $ lokoctl cluster apply
+   ```
 
-Please note that you do not commit a cluster to a specific service mesh by
-running the setup script in either directory. You may, for example, remove a
-linkerd installation and switch to istio by running:
-* `scripts/linkerd/cleanup-linkerd.sh`
-* `scripts/istio/setup-cluster.sh`
+After provisioning concluded, make sure to run
+```
+$ export KUBECONFIG=assets/cluster-assets/auth/kubeconfig
+```
+to get `kubectl` access to the cluster.
+
+### Deploy prometheus push gateway
+
+The benchmark load generator will push intermediate run-time metrics as well
+as final latency metrics to a prometheus push gateway.
+A push gateway is currently not bundled with Lokomotive's prometheus
+component. Deploy by issuing
+```
+$ kubectl apply -n monitoring -f configs/prometheus-pushgateway.yaml
+```
+
+### Deploy demo apps
+
+Demo apps will be used to run the benchmarks against. We'll use [Linkerd's
+emojivoto](https://github.com/BuoyantIO/emojivoto) and [Istio's bookinfo](https://istio.io/latest/docs/examples/bookinfo/) apps. 
+
+We will deploy multiple instances of each app to emulate many applications in a
+cluster. For the default set-up, which includes 4 application nodes, we
+recommend deploying 30 "bookinfo" instances, and 40 "emojivoto" instances:
+
+```shell
+$ cd configs
+configs $ for i in $(seq 30) ; do \
+            helm install --create-namespace bookinfo-$i \
+                         --namespace bookinfo-$i \
+                /home/t-lo/code/kinvolk/service-mesh-benchmark/configs/bookinfo \
+          done
+...
+configs $ for i in $(seq 40) ; do \
+            helm install --create-namespace emojivoto-$i \
+                         --namespace emojivoto-$i \
+                /home/t-lo/code/kinvolk/service-mesh-benchmark/configs/emojivoto \
+          done
+```
+
+### Upload Grafana dashboard
+
+1. Get the Grafana Admin password from the cluster
+   ```
+   $ kubectl -n monitoring get secret prometheus-operator-grafana -o jsonpath='{.data.admin-password}' | base64 -d && echo
+   ```
+2. Forward the Grafana service port from the cluster
+   ```
+   $ kubectl -n monitoring port-forward svc/prometheus-operator-grafana 3000:80 &
+   ```
+3. Log in to [Grafana](http://localhost:3000/) and create an API key we'll use
+   to upload the dashboard
+4. Upload the dashboard:
+   ```
+   $ cd dashboard
+   dashboard $ ./upload_dashboard.sh "[API KEY]" grafana-wrk2-cockpit.json localhost:3000
+   ```
 
 ## Run a benchmark
 
-Before continuing, make sure the `KUBECONFIG` environment variable points to
-the kubernetes configuration of the correct cluster.
+Benchmarks use the prometheus metrics pusher container of our [wrk2
+fork](https://github.com/kinvolk/wrk2). 
 
-You're now set up to start a benchmark. You may specify the number of apps in
-the cluster, the benchmark run time, the requests per second, and the number of
-parallel connections / threads used by the benchmark load generator via the
-command line.
-
-The following example starts a linkerd benchmark running 5 minutes, with 10
-apps a constant request rate of 100RPS, using 8 load generator threads:
-* `scripts/linkerd/benchmark.sh 10 5m 100 8`
-
-If you want to run a full series of benchmarks for linkerd, istio stock, istio
-tuned, and bare, simply issue:
-* `scripts/linkerd/benchark-multi.sh 10 5m 100 8`
-
-Please note that you must always use scripts from the directory of your
-respective cluster service mesh. If your cluster currently has istio installed,
-please only use scripts from `scripts/istio/`.
-
-## Cleaning up
-
-After you finish running benchmarks, you can tear down infrastructure by going to `terraform` directory and running `terraform destroy`.
-Once it's complete, it should be fine to remove `assets` directory.
+1. Make sure the Grafana port-forward is active and open the "wrk2 cockpit"
+   Grafana dashboard uploaded above.
+2. Use the `run_benchmarks.sh` wrapper script to deploy the benchmark container
+   and to set it up for benchmarking one of the two demo apps deployed above.
+   The script will auto-detect the number of instances and will use all
+   instances' endpoints:
+   ```
+   $ configs/run_benchmark.sh emojivoto
+   ```
+   or
+   ```
+   $ configs/run_benchmark.sh bookinfo
+   ```
