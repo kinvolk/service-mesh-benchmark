@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: wrk2-prometheus
+  name: wrk2-prometheus
+spec:
+  containers:
+  - args:
+    - -p
+    - "${PUSHGW}"
+    - -c
+    - "${CONNECTIONS}"
+    - -d
+    - "${DURATION}"
+    - -r
+    - "${RPS}"
+${ENDPOINTS}
+    image: quay.io/kinvolk/wrk2-prometheus
+    imagePullPolicy: Always
+    name: wrk2-prometheus
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-pwtb5
+      readOnly: true
+    - mountPath: /tmpfs
+      name: tempfs
+  restartPolicy: Never
+  tolerations:
+  - effect: NoSchedule
+    key: load-generator-node
+    operator: Exists
+  volumes:
+  - name: tempfs
+    emptyDir:
+        medium: Memory
+  - name: default-token-pwtb5
+    secret:
+      defaultMode: 420
+      secretName: default-token-pwtb5
