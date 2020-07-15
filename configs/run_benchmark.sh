@@ -1,14 +1,13 @@
 #!/bin/bash
 
 pushgw_base=http://pushgateway.monitoring:9091/metrics/job/wrk2_bench_test
-CONNECTIONS="$((32*3))"
 DURATION="120"
 
 app="$1"
 case "$app" in
     emojivoto) 
         PUSHGW=$pushgw_base/instance/emojivoto
-        RPS=25000
+        RPS=150000
         app_instance_count=$(kubectl get namespaces | grep emojivoto | wc -l)
         ;;
     bookinfo)
@@ -29,8 +28,16 @@ echo "RPS: $RPS"
 [ -n "$3" ] && DURATION="$3"
 echo "Duration: ${DURATION}s"
 
+# a connection / thread can safely handle about 400 concurrent connections
+#  but introduces jitter above that (machine dependent though)
+CONNECTIONS="$(( $RPS / 400 ))"
+[ $CONNECTIONS -lt 1 ] && CONNECTIONS=1
+
 [ -n "$4" ] && CONNECTIONS="$4"
 echo "Connections/Threads: ${CONNECTIONS}"
+
+# clean up stale jobs
+kubectl delete jobs/wrk2-prometheus >/dev/null 2>&1
 
 script_location="$(dirname "${BASH_SOURCE[0]}")"
 
