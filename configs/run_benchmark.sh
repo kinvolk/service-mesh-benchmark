@@ -1,7 +1,13 @@
 #!/bin/bash
+#
+#
+# Usage:
+# run_benchmark.sh <baremetal|linkerd|istio> <emojivoto|bookinfo> [<rps>] \
+#    [<duration>] [<number of concurrent threads / connections>] \
+#    [<run ID>]
 
 pushgw_base=http://pushgateway.monitoring:9091/metrics
-DURATION="120"
+DURATION="600"
 
 job="$1"
 case "$job" in
@@ -46,10 +52,6 @@ esac
 echo "App: $app"
 [ -n "$3" ] && RPS="$3"
 
-run="$(date --rfc-3339=seconds | sed -e 's/ /_/g' -e 's/+[0-9:]\+$//')"
-PUSHGW="$PUSHGW/run/$run"
-echo "Run: $run"
-
 echo "RPS: $RPS"
 
 [ -n "$4" ] && DURATION="$4"
@@ -62,6 +64,11 @@ CONNECTIONS="$(( $RPS / 400 ))"
 
 [ -n "$5" ] && CONNECTIONS="$5"
 echo "Connections/Threads: ${CONNECTIONS}"
+
+run="$(date --rfc-3339=seconds | sed -e 's/ /_/g' -e 's/+[0-9:]\+$//')"
+[ -n "$6" ] && run="$6"
+PUSHGW="$PUSHGW/run/$run"
+echo "Run: $run"
 
 # clean up stale jobs
 kubectl delete jobs/wrk2-prometheus >/dev/null 2>&1
