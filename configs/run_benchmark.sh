@@ -1,9 +1,30 @@
 #!/bin/bash
 
-pushgw_base=http://pushgateway.monitoring:9091/metrics/job/wrk2_bench_test
+pushgw_base=http://pushgateway.monitoring:9091/metrics
 DURATION="120"
 
-app="$1"
+job="$1"
+case "$job" in
+    baremetal)
+        pushgw_base="$pushgw_base/job/bare-metal"
+        ;;
+    linkerd)
+        pushgw_base="$pushgw_base/job/svmesh-linkerd"
+        ;;
+    istio)
+        pushgw_base="$pushgw_base/job/svcmesh-istio"
+        ;;
+    *)
+        echo "Unsupported job '$1'."
+        echo "Supported jobs are 'baremetal', 'linkerd', and 'istio'."
+        exit
+        ;;
+esac
+
+echo "Benchmark job: $job"
+
+
+app="$2"
 case "$app" in
     emojivoto) 
         PUSHGW=$pushgw_base/instance/emojivoto
@@ -17,15 +38,21 @@ case "$app" in
         ;;
     *)
         echo "Unsupported app '$1'."
+        echo "Supported apps are 'emojivoto' and 'bookinfo'."
         exit
         ;;
 esac
 
 echo "App: $app"
-[ -n "$2" ] && RPS="$2"
+[ -n "$3" ] && RPS="$3"
+
+run="$(date --rfc-3339=seconds | sed -e 's/ /_/g' -e 's/+[0-9:]\+$//')"
+PUSHGW="$PUSHGW/run/$run"
+echo "Run: $run"
+
 echo "RPS: $RPS"
 
-[ -n "$3" ] && DURATION="$3"
+[ -n "$4" ] && DURATION="$4"
 echo "Duration: ${DURATION}s"
 
 # a connection / thread can safely handle about 400 concurrent connections
@@ -33,7 +60,7 @@ echo "Duration: ${DURATION}s"
 CONNECTIONS="$(( $RPS / 400 ))"
 [ $CONNECTIONS -lt 1 ] && CONNECTIONS=1
 
-[ -n "$4" ] && CONNECTIONS="$4"
+[ -n "$5" ] && CONNECTIONS="$5"
 echo "Connections/Threads: ${CONNECTIONS}"
 
 # clean up stale jobs
