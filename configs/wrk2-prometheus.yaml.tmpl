@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wrk2-prometheus
+  labels:
+    jobgroup: wrk2-prometheus
+spec:
+  template:
+    metadata:
+      name: wrk2-prometheus
+      labels:
+        jobgroup: wrk2-prometheus
+        app: wrk2-prometheus
+        custom-affinity: load-generator-node
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 10001
+      tolerations:
+      - effect: NoSchedule
+        key: load-generator-node
+        operator: Exists
+      volumes:
+      - name: tempfs
+        emptyDir:
+          medium: Memory
+      containers:
+      - name: wrk2-prometheus
+        image: quay.io/kinvolk/wrk2-prometheus
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: tempfs
+          mountPath: "/tmpfs"
+        args:
+        - -p
+        - "${PUSHGW}"
+        - -c
+        - "${CONNECTIONS}"
+        - -d
+        - "${DURATION}"
+        - -r
+        - "${RPS}"
+${ENDPOINTS}

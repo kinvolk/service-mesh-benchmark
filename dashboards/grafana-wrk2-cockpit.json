@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-10T17:18:18Z",
-    "updated": "2020-07-13T13:43:00Z",
+    "created": "2020-07-13T14:17:55Z",
+    "updated": "2020-07-15T13:50:10Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 27,
+    "version": 6,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -38,7 +38,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 26,
-    "iteration": 1594629486388,
+    "iteration": 1594820696955,
     "links": [],
     "panels": [
       {
@@ -123,9 +123,9 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
-            "legendFormat": "{{exported_instance}} of {{exported_job}}",
+            "legendFormat": "{{exported_job}}: {{exported_instance}} <br> {{run}} ",
             "refId": "A"
           }
         ],
@@ -188,13 +188,13 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": false,
             "legendFormat": "Average RPS",
             "refId": "A"
           },
           {
-            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": false,
             "legendFormat": "Current RPS",
             "refId": "B"
@@ -285,7 +285,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_current_rps{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": false,
             "legendFormat": "{{thread}}",
             "refId": "A"
@@ -399,7 +399,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_duration{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_duration{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -458,7 +458,7 @@
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -520,19 +520,19 @@
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_requested_rps{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "legendFormat": "Requested RPS",
             "refId": "A"
           },
           {
-            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "legendFormat": "Average RPS",
             "refId": "B"
           },
           {
-            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "legendFormat": "Current RPS",
             "refId": "C"
@@ -588,7 +588,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_average_rps{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": false,
             "legendFormat": "{{thread}}",
             "refId": "A"
@@ -700,7 +700,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_thread_count{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_thread_count{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -785,7 +785,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_requests{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_requests{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "refId": "A"
           }
@@ -870,7 +870,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_responses{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_responses{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "refId": "A"
           }
@@ -955,7 +955,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_average_tcp_reconnect_rate{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_average_tcp_reconnect_rate{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "refId": "A"
           }
@@ -1040,7 +1040,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_current_tcp_reconnect_rate{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_current_tcp_reconnect_rate{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "refId": "A"
           }
@@ -1107,7 +1107,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_node_loadavg{kind!=\"raw\",exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_node_loadavg{kind!=\"raw\",exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": false,
             "legendFormat": "{{kind}} {{interval}}",
             "refId": "A"
@@ -1137,8 +1137,8 @@
             "format": "short",
             "label": null,
             "logBase": 1,
-            "max": null,
-            "min": null,
+            "max": "2",
+            "min": "0",
             "show": true
           },
           {
@@ -1201,7 +1201,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_node_meminfo{exported_instance=\"$instance\",exported_job=\"$run\",kind=~\"(available|free|total)\"}*1000",
+            "expr": "wrk2_benchmark_node_meminfo{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}*1000",
             "instant": false,
             "legendFormat": "{{kind}}",
             "refId": "A"
@@ -1362,13 +1362,13 @@
         "legend": {
           "alignAsTable": true,
           "avg": false,
-          "current": false,
+          "current": true,
           "max": false,
           "min": false,
           "rightSide": true,
           "show": true,
           "total": false,
-          "values": false
+          "values": true
         },
         "lines": true,
         "linewidth": 1,
@@ -1434,13 +1434,103 @@
         }
       },
       {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 1,
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 20
+        },
+        "hiddenSeries": false,
+        "id": 50,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "instance:node_load1_per_cpu:ratio",
+            "legendFormat": "{{instance}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Cluster node loadavg (1m) per CPU thread",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
         "content": "<hr>\n<center><h5> Benchmark results (updated after a benchmark run has concluded.)</h5></center>",
         "datasource": null,
         "gridPos": {
           "h": 2,
           "w": 24,
           "x": 0,
-          "y": 20
+          "y": 27
         },
         "id": 37,
         "mode": "html",
@@ -1471,10 +1561,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 0,
-          "y": 22
+          "y": 29
         },
         "id": 46,
         "interval": null,
@@ -1516,7 +1606,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",exported_job=\"$run\",kind=\"start\"} * 1000",
+            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",kind=\"start\"} * 1000",
             "instant": true,
             "legendFormat": "",
             "refId": "A"
@@ -1558,10 +1648,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 2,
-          "y": 22
+          "y": 29
         },
         "id": 47,
         "interval": null,
@@ -1603,7 +1693,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",exported_job=\"$run\",kind=\"end\"} * 1000",
+            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",kind=\"end\"} * 1000",
             "instant": true,
             "legendFormat": "",
             "refId": "A"
@@ -1645,10 +1735,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 1,
           "x": 4,
-          "y": 22
+          "y": 29
         },
         "id": 48,
         "interval": null,
@@ -1690,7 +1780,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",exported_job=\"$run\",kind=\"duration\"}",
+            "expr": "wrk2_benchmark_run_runtime{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",kind=\"duration\"}",
             "instant": true,
             "legendFormat": "",
             "refId": "A"
@@ -1734,7 +1824,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 22
+          "y": 29
         },
         "id": 43,
         "interval": null,
@@ -1776,7 +1866,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "sum(wrk2_benchmark_run_average_tcp_reconnect_rate{exported_instance=\"$instance\",exported_job=\"$run\"})",
+            "expr": "sum(wrk2_benchmark_run_average_tcp_reconnect_rate{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
             "refId": "A"
           }
@@ -1819,7 +1909,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 22
+          "y": 29
         },
         "id": 34,
         "interval": null,
@@ -1861,7 +1951,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_thread_count{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_run_thread_count{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -1904,7 +1994,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 22
+          "y": 29
         },
         "id": 28,
         "interval": null,
@@ -1946,7 +2036,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_requested_rps{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_run_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -1973,7 +2063,7 @@
           "h": 11,
           "w": 13,
           "x": 11,
-          "y": 22
+          "y": 29
         },
         "id": 17,
         "options": {
@@ -2011,7 +2101,7 @@
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_latency_ms{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_latency_ms{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "format": "time_series",
             "instant": true,
             "intervalFactor": 1,
@@ -2024,61 +2114,6 @@
         "title": "Latency  percentile histogram (milliseconds)",
         "transparent": true,
         "type": "bargauge"
-      },
-      {
-        "columns": [],
-        "datasource": null,
-        "fontSize": "100%",
-        "gridPos": {
-          "h": 9,
-          "w": 5,
-          "x": 0,
-          "y": 24
-        },
-        "id": 24,
-        "options": {},
-        "pageSize": null,
-        "showHeader": true,
-        "sort": {
-          "col": 0,
-          "desc": true
-        },
-        "styles": [
-          {
-            "alias": "Time",
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "Time",
-            "type": "hidden"
-          },
-          {
-            "alias": "",
-            "colorMode": null,
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "decimals": 2,
-            "pattern": "/.*/",
-            "thresholds": [],
-            "type": "number",
-            "unit": "short"
-          }
-        ],
-        "targets": [
-          {
-            "expr": "wrk2_benchmark_url_call_count{exported_instance=\"$instance\",exported_job=\"$run\"}",
-            "instant": true,
-            "legendFormat": "{{url}}",
-            "refId": "A"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "URL call counts",
-        "transform": "timeseries_to_rows",
-        "transparent": true,
-        "type": "table"
       },
       {
         "cacheTimeout": null,
@@ -2102,7 +2137,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 24
+          "y": 31
         },
         "id": 27,
         "interval": null,
@@ -2144,7 +2179,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_requests{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_run_requests{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -2187,7 +2222,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 24
+          "y": 31
         },
         "id": 26,
         "interval": null,
@@ -2229,7 +2264,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_bytes_read{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_bytes_read{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -2272,7 +2307,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 24
+          "y": 31
         },
         "id": 44,
         "interval": null,
@@ -2314,7 +2349,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_rps{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_run_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "refId": "A"
           }
@@ -2341,9 +2376,64 @@
         "fontSize": "100%",
         "gridPos": {
           "h": 7,
+          "w": 5,
+          "x": 0,
+          "y": 32
+        },
+        "id": 24,
+        "options": {},
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "hidden"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 2,
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_url_call_count{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "instant": true,
+            "legendFormat": "{{url}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "URL call counts",
+        "transform": "timeseries_to_rows",
+        "transparent": true,
+        "type": "table"
+      },
+      {
+        "columns": [],
+        "datasource": null,
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 7,
           "w": 2,
           "x": 5,
-          "y": 26
+          "y": 33
         },
         "id": 22,
         "options": {},
@@ -2388,19 +2478,19 @@
         ],
         "targets": [
           {
-            "expr": "wrk2_benchmark_socket_errors{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_socket_errors{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "legendFormat": "Socket {{t}}",
             "refId": "A"
           },
           {
-            "expr": "wrk2_benchmark_http_errors{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_http_errors{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "legendFormat": "HTTP ret != 200",
             "refId": "B"
           },
           {
-            "expr": "wrk2_benchmark_requests_timed_out{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_requests_timed_out{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "legendFormat": "HTTP timeout",
             "refId": "C"
@@ -2423,7 +2513,7 @@
           "h": 7,
           "w": 4,
           "x": 7,
-          "y": 26
+          "y": 33
         },
         "id": 45,
         "links": [],
@@ -2443,22 +2533,27 @@
           },
           {
             "alias": "",
-            "colorMode": null,
+            "colorMode": "value",
             "colors": [
-              "rgba(245, 54, 54, 0.9)",
+              "rgba(50, 172, 45, 0.97)",
               "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
+              "rgba(245, 54, 54, 0.9)"
             ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
-            "pattern": "/.*/",
-            "thresholds": [],
+            "mappingType": 1,
+            "pattern": "Value",
+            "thresholds": [
+              "0.8",
+              "1"
+            ],
             "type": "number",
             "unit": "short"
           }
         ],
         "targets": [
           {
-            "expr": "wrk2_benchmark_run_node_loadavg{kind!=\"raw\",exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_run_node_loadavg{kind!=\"raw\",exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
             "legendFormat": "{{kind}} {{interval}}",
             "refId": "A"
@@ -2477,7 +2572,7 @@
           "h": 48,
           "w": 24,
           "x": 0,
-          "y": 33
+          "y": 40
         },
         "id": 18,
         "options": {
@@ -2515,7 +2610,7 @@
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_latency_detailed_ms{exported_instance=\"$instance\",exported_job=\"$run\"}",
+            "expr": "wrk2_benchmark_latency_detailed_ms{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "format": "time_series",
             "instant": true,
             "intervalFactor": 1,
@@ -2548,6 +2643,33 @@
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
+          "label": "Benchmark job",
+          "multi": false,
+          "name": "job",
+          "options": [],
+          "query": "wrk2_benchmark_progress",
+          "refresh": 1,
+          "regex": "/.*exported_job=\"([^\"]*).*/",
+          "skipUrlSync": false,
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "isNone": true,
+            "selected": false,
+            "text": "None",
+            "value": ""
+          },
+          "datasource": "Prometheus",
+          "definition": "wrk2_benchmark_progress",
+          "hide": 0,
+          "includeAll": false,
           "label": "Target application",
           "multi": false,
           "name": "instance",
@@ -2566,21 +2688,22 @@
         {
           "allValue": null,
           "current": {
-            "tags": [],
-            "text": "wrk2_bench_test",
-            "value": "wrk2_bench_test"
+            "isNone": true,
+            "selected": false,
+            "text": "None",
+            "value": ""
           },
           "datasource": "Prometheus",
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
-          "label": "benchmark",
+          "label": "Benchmark run",
           "multi": false,
           "name": "run",
           "options": [],
           "query": "wrk2_benchmark_progress",
           "refresh": 1,
-          "regex": "/.*exported_job=\"([^\"]*).*/",
+          "regex": "/.*run=\"([^\"]*).*/",
           "skipUrlSync": false,
           "sort": 1,
           "tagValuesQuery": "",
@@ -2613,6 +2736,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 27
+    "version": 6
   }
 }

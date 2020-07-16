@@ -1,47 +1,97 @@
 #!/bin/bash
+#
+#
+# Usage:
+# run_benchmark.sh <baremetal|linkerd|istio> <emojivoto|bookinfo> [<rps>] \
+#    [<duration>] [<number of concurrent threads / connections>] \
+#    [<run ID>]
 
-pushgw_base=http://pushgateway.monitoring:9091/metrics/job/wrk2_bench_test
-connections="$((32*3))"
-duration="120"
+pushgw_base=http://pushgateway.monitoring:9091/metrics
+DURATION="600"
 
-app="$1"
+job="$1"
+case "$job" in
+    baremetal)
+        pushgw_base="$pushgw_base/job/bare-metal"
+        ;;
+    linkerd)
+        pushgw_base="$pushgw_base/job/svmesh-linkerd"
+        ;;
+    istio)
+        pushgw_base="$pushgw_base/job/svcmesh-istio"
+        ;;
+    *)
+        echo "Unsupported job '$1'."
+        echo "Supported jobs are 'baremetal', 'linkerd', and 'istio'."
+        exit
+        ;;
+esac
+
+echo "Benchmark job: $job"
+
+
+app="$2"
 case "$app" in
     emojivoto) 
-        pushgw=$pushgw_base/instance/emojivoto
-        rps=25000
+        PUSHGW=$pushgw_base/instance/emojivoto
+        RPS=150000
         app_instance_count=$(kubectl get namespaces | grep emojivoto | wc -l)
         ;;
     bookinfo)
-        pushgw=$pushgw_base/instance/bookinfo
-        rps=3000
+        PUSHGW=$pushgw_base/instance/bookinfo
+        RPS=3000
         app_instance_count=$(kubectl get namespaces | grep bookinfo | wc -l)
         ;;
     *)
         echo "Unsupported app '$1'."
+        echo "Supported apps are 'emojivoto' and 'bookinfo'."
         exit
         ;;
 esac
 
 echo "App: $app"
-echo "RPS: $rps"
+[ -n "$3" ] && RPS="$3"
 
-[ -n "$2" ] && duration="$2"
-echo "Duration: ${duration}s"
+echo "RPS: $RPS"
 
-[ -n "$3" ] && connections="$2"
-echo "Connections/Threads: ${connections}"
+[ -n "$4" ] && DURATION="$4"
+echo "Duration: ${DURATION}s"
+
+# a connection / thread can safely handle about 400 concurrent connections
+#  but introduces jitter above that (machine dependent though)
+CONNECTIONS="$(( $RPS / 400 ))"
+[ $CONNECTIONS -lt 1 ] && CONNECTIONS=1
+
+[ -n "$5" ] && CONNECTIONS="$5"
+echo "Connections/Threads: ${CONNECTIONS}"
+
+run="$(date --rfc-3339=seconds | sed -e 's/ /_/g' -e 's/+[0-9:]\+$//')"
+[ -n "$6" ] && run="$6"
+PUSHGW="$PUSHGW/run/$run"
+echo "Run: $run"
+
+# clean up stale jobs
+kubectl delete jobs/wrk2-prometheus >/dev/null 2>&1
 
 script_location="$(dirname "${BASH_SOURCE[0]}")"
 
-kubectl run wrk2-prometheus \
-            --restart=Never \
-            --image=quay.io/kinvolk/wrk2-prometheus \
-            --overrides='{ "apiVersion": "v1", "spec": {"tolerations": [ {"key":"load-generator-node", "operator":"Exists", "effect": "NoSchedule" } ] } }' \
-                -- \
-            -p $pushgw \
-            -c $connections \
-            -d $duration \
-            -r $rps \
-            $($script_location/render_endpoints.sh \
-                            $script_location/endpoints-$app.txt.tmpl \
-                            $app_instance_count)
+ENDPOINTS=""
+for count in $(seq $app_instance_count); do
+    INSTANCE="$count"
+    export INSTANCE
+    if [ -n "$ENDPOINTS" ]; then
+        ENDPOINTS="$(echo "$ENDPOINTS";
+                     envsubst <"$script_location/endpoints-$app.txt.tmpl")" 
+    else
+        ENDPOINTS="$(envsubst <"$script_location/endpoints-$app.txt.tmpl")" 
+    fi
+done
+
+export PUSHGW CONNECTIONS DURATION RPS ENDPOINTS
+envsubst < "$script_location/wrk2-prometheus.yaml.tmpl" > wrk2-prometheus.yaml
+
+echo "YAML written to 'wrk2-prometheus.yaml'. Now deploying."
+
+kubectl apply -f wrk2-prometheus.yaml
+
+echo "Done."
