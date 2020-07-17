@@ -1,0 +1,8 @@
+wrk2:
+  duration: 120
+  connections: 96
+  RPS: 3000
+  serviceMesh: ""
+  app:
+    name: emojivoto
+    count: "10"
