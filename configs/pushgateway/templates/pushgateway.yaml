@@ -4,6 +4,7 @@ metadata:
   annotations:
     prometheus.io/scrape: 'true'
   name: pushgateway
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -32,15 +33,14 @@ metadata:
     visualize: "true"
     app: pushgateway
   name: pushgateway
+  namespace: monitoring
 spec:
   selector:
     app: pushgateway
-  type: NodePort
   ports:
   - name: scrape
     protocol: TCP
     port: 9091
-    nodePort: 30901
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
