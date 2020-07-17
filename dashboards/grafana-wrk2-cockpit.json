@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-13T14:17:55Z",
-    "updated": "2020-07-15T13:50:10Z",
+    "created": "2020-07-17T09:36:58Z",
+    "updated": "2020-07-17T10:04:58Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 6,
+    "version": 7,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 26,
-    "iteration": 1594820696955,
+    "id": 30,
+    "iteration": 1594978990354,
     "links": [],
     "panels": [
       {
@@ -123,7 +123,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=\"init\"}",
             "instant": true,
             "legendFormat": "{{exported_job}}: {{exported_instance}} <br> {{run}} ",
             "refId": "A"
@@ -353,7 +353,7 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 0,
           "y": 4
@@ -423,7 +423,7 @@
       {
         "datasource": null,
         "gridPos": {
-          "h": 2,
+          "h": 4,
           "w": 4,
           "x": 2,
           "y": 4
@@ -458,91 +458,17 @@
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=~\"(init|run)\"}",
             "instant": true,
+            "legendFormat": "{{status}}",
             "refId": "A"
           }
         ],
         "timeFrom": null,
         "timeShift": null,
-        "title": "Benchmark Run Progress",
+        "title": "Progress",
         "transparent": true,
         "type": "bargauge"
-      },
-      {
-        "cacheTimeout": null,
-        "datasource": null,
-        "gridPos": {
-          "h": 3,
-          "w": 6,
-          "x": 0,
-          "y": 6
-        },
-        "id": 2,
-        "links": [],
-        "options": {
-          "fieldOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "defaults": {
-              "mappings": [
-                {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": "null"
-                }
-              ],
-              "max": 100,
-              "min": 0,
-              "nullValueMode": "connected",
-              "thresholds": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ],
-              "unit": "none"
-            },
-            "override": {},
-            "values": false
-          },
-          "orientation": "horizontal",
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true
-        },
-        "pluginVersion": "6.5.0",
-        "targets": [
-          {
-            "expr": "wrk2_benchmark_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
-            "instant": true,
-            "legendFormat": "Requested RPS",
-            "refId": "A"
-          },
-          {
-            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "legendFormat": "Average RPS",
-            "refId": "B"
-          },
-          {
-            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "legendFormat": "Current RPS",
-            "refId": "C"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "gauge"
       },
       {
         "aliasColors": {},
@@ -638,6 +564,81 @@
       },
       {
         "cacheTimeout": null,
+        "datasource": null,
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 8
+        },
+        "id": 2,
+        "links": [],
+        "options": {
+          "fieldOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "defaults": {
+              "mappings": [
+                {
+                  "id": 0,
+                  "op": "=",
+                  "text": "N/A",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "max": 100,
+              "min": 0,
+              "nullValueMode": "connected",
+              "thresholds": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ],
+              "unit": "none"
+            },
+            "override": {},
+            "values": false
+          },
+          "orientation": "horizontal",
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "pluginVersion": "6.5.0",
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "instant": true,
+            "legendFormat": "Requested RPS",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
+            "instant": true,
+            "legendFormat": "Average RPS",
+            "refId": "B"
+          },
+          {
+            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
+            "instant": true,
+            "legendFormat": "Current RPS",
+            "refId": "C"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "gauge"
+      },
+      {
+        "cacheTimeout": null,
         "colorBackground": false,
         "colorValue": false,
         "colors": [
@@ -655,10 +656,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 4,
+          "h": 2,
           "w": 2,
           "x": 0,
-          "y": 9
+          "y": 11
         },
         "id": 11,
         "interval": null,
@@ -743,7 +744,7 @@
           "h": 2,
           "w": 2,
           "x": 2,
-          "y": 9
+          "y": 11
         },
         "id": 40,
         "interval": null,
@@ -828,7 +829,7 @@
           "h": 2,
           "w": 2,
           "x": 4,
-          "y": 9
+          "y": 11
         },
         "id": 10,
         "interval": null,
@@ -892,176 +893,6 @@
         "valueName": "current"
       },
       {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": null,
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 2,
-          "x": 2,
-          "y": 11
-        },
-        "id": 41,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "options": {},
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false,
-          "ymax": null,
-          "ymin": null
-        },
-        "tableColumn": "",
-        "targets": [
-          {
-            "expr": "sum(wrk2_benchmark_average_tcp_reconnect_rate{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "refId": "A"
-          }
-        ],
-        "thresholds": "",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Avg. TCP reconnects",
-        "transparent": true,
-        "type": "singlestat",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": null,
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 2,
-          "x": 4,
-          "y": 11
-        },
-        "id": 42,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "options": {},
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false,
-          "ymax": null,
-          "ymin": null
-        },
-        "tableColumn": "",
-        "targets": [
-          {
-            "expr": "sum(wrk2_benchmark_current_tcp_reconnect_rate{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "refId": "A"
-          }
-        ],
-        "thresholds": "",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Curr. TCP reconnects",
-        "transparent": true,
-        "type": "singlestat",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
-      },
-      {
         "aliasColors": {},
         "bars": false,
         "cacheTimeout": null,
@@ -1072,8 +903,8 @@
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
-          "h": 7,
-          "w": 6,
+          "h": 6,
+          "w": 9,
           "x": 0,
           "y": 13
         },
@@ -1101,7 +932,16 @@
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
-        "seriesOverrides": [],
+        "seriesOverrides": [
+          {
+            "alias": "Mem total",
+            "yaxis": 2
+          },
+          {
+            "alias": "Mem used",
+            "yaxis": 2
+          }
+        ],
         "spaceLength": 10,
         "stack": false,
         "steppedLine": false,
@@ -1111,13 +951,18 @@
             "instant": false,
             "legendFormat": "{{kind}} {{interval}}",
             "refId": "A"
+          },
+          {
+            "expr": "wrk2_benchmark_node_meminfo{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",kind=~\"(used|total)\"}*1000",
+            "legendFormat": "Mem {{kind}}",
+            "refId": "B"
           }
         ],
         "thresholds": [],
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "Load generator node(s) per core / thread CPU load",
+        "title": "Load generator node relative CPU load and memory utilisation",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -1142,110 +987,12 @@
             "show": true
           },
           {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "cacheTimeout": null,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "description": "",
-        "fill": 1,
-        "fillGradient": 1,
-        "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 6,
-          "y": 13
-        },
-        "hiddenSeries": false,
-        "id": 38,
-        "legend": {
-          "alignAsTable": false,
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "rightSide": false,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "links": [],
-        "nullPointMode": "null",
-        "options": {
-          "dataLinks": []
-        },
-        "percentage": false,
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "expr": "wrk2_benchmark_node_meminfo{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}*1000",
-            "instant": false,
-            "legendFormat": "{{kind}}",
-            "refId": "A"
-          },
-          {
-            "expr": "",
-            "refId": "C"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "Load generator node(s) memory utilisation",
-        "tooltip": {
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "transparent": true,
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
             "format": "decbytes",
             "label": null,
             "logBase": 1,
             "max": null,
             "min": "0",
             "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
           }
         ],
         "yaxis": {
@@ -1262,9 +1009,9 @@
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 12,
+          "h": 6,
+          "w": 8,
+          "x": 9,
           "y": 13
         },
         "hiddenSeries": false,
@@ -1352,9 +1099,9 @@
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
-          "h": 7,
-          "w": 6,
-          "x": 18,
+          "h": 6,
+          "w": 7,
+          "x": 17,
           "y": 13
         },
         "hiddenSeries": false,
@@ -1445,7 +1192,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 20
+          "y": 19
         },
         "hiddenSeries": false,
         "id": 50,
@@ -1530,7 +1277,7 @@
           "h": 2,
           "w": 24,
           "x": 0,
-          "y": 27
+          "y": 26
         },
         "id": 37,
         "mode": "html",
@@ -1564,7 +1311,7 @@
           "h": 3,
           "w": 2,
           "x": 0,
-          "y": 29
+          "y": 28
         },
         "id": 46,
         "interval": null,
@@ -1651,7 +1398,7 @@
           "h": 3,
           "w": 2,
           "x": 2,
-          "y": 29
+          "y": 28
         },
         "id": 47,
         "interval": null,
@@ -1738,7 +1485,7 @@
           "h": 3,
           "w": 1,
           "x": 4,
-          "y": 29
+          "y": 28
         },
         "id": 48,
         "interval": null,
@@ -1824,7 +1571,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 29
+          "y": 28
         },
         "id": 43,
         "interval": null,
@@ -1909,7 +1656,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 29
+          "y": 28
         },
         "id": 34,
         "interval": null,
@@ -1994,7 +1741,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 29
+          "y": 28
         },
         "id": 28,
         "interval": null,
@@ -2063,7 +1810,7 @@
           "h": 11,
           "w": 13,
           "x": 11,
-          "y": 29
+          "y": 28
         },
         "id": 17,
         "options": {
@@ -2137,7 +1884,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 31
+          "y": 30
         },
         "id": 27,
         "interval": null,
@@ -2222,7 +1969,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 31
+          "y": 30
         },
         "id": 26,
         "interval": null,
@@ -2307,7 +2054,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 31
+          "y": 30
         },
         "id": 44,
         "interval": null,
@@ -2378,7 +2125,7 @@
           "h": 7,
           "w": 5,
           "x": 0,
-          "y": 32
+          "y": 31
         },
         "id": 24,
         "options": {},
@@ -2433,7 +2180,7 @@
           "h": 7,
           "w": 2,
           "x": 5,
-          "y": 33
+          "y": 32
         },
         "id": 22,
         "options": {},
@@ -2513,7 +2260,7 @@
           "h": 7,
           "w": 4,
           "x": 7,
-          "y": 33
+          "y": 32
         },
         "id": 45,
         "links": [],
@@ -2572,7 +2319,7 @@
           "h": 48,
           "w": 24,
           "x": 0,
-          "y": 40
+          "y": 39
         },
         "id": 18,
         "options": {
@@ -2736,6 +2483,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 6
+    "version": 7
   }
 }
