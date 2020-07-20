@@ -1,2 +1,0 @@
-enableLinkerdServiceMonitor: false
-enableIstioServiceMonitor: false

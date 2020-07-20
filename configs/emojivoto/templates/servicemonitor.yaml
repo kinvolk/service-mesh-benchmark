@@ -1,4 +1,3 @@
-{{ if .Values.enableLinkerdServiceMonitor }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -14,9 +13,7 @@ spec:
       app: emojivoto
   endpoints:
   - targetPort: 4191
-{{ end }}
-
-{{ if .Values.enableIstioServiceMonitor }}
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -33,4 +30,3 @@ spec:
   endpoints:
   - targetPort: 15090
     path: /stats/prometheus
-{{ end }}
