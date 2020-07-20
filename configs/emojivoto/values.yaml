@@ -1,1 +1,2 @@
 enableLinkerdServiceMonitor: false
+enableIstioServiceMonitor: false
