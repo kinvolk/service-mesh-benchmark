@@ -15,3 +15,22 @@ spec:
   endpoints:
   - targetPort: 4191
 {{ end }}
+
+{{ if .Values.enableIstioServiceMonitor }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    servicemesh: istio
+    app: bookinfo
+    release: prometheus-operator
+  name: istio-proxies
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: bookinfo
+  endpoints:
+  - targetPort: 15090
+    path: /stats/prometheus
+{{ end }}
