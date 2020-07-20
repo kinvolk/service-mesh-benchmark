@@ -1,0 +1,32 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    servicemesh: linkerd
+    app: emojivoto
+    release: prometheus-operator
+  name: linkerd-proxies
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: emojivoto
+  endpoints:
+  - targetPort: 4191
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    servicemesh: istio
+    app: emojivoto
+    release: prometheus-operator
+  name: istio-proxies
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: emojivoto
+  endpoints:
+  - targetPort: 15090
+    path: /stats/prometheus

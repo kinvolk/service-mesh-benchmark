@@ -6,6 +6,7 @@ metadata:
   labels:
     app: details
     service: details
+    app: bookinfo
 spec:
   ports:
   - port: 9080
@@ -21,6 +22,7 @@ metadata:
   labels:
     app: ratings
     service: ratings
+    app: bookinfo
 spec:
   ports:
   - port: 9080
@@ -36,6 +38,7 @@ metadata:
   labels:
     app: reviews
     service: reviews
+    app: bookinfo
 spec:
   ports:
   - port: 9080
@@ -51,6 +54,7 @@ metadata:
   labels:
     app: productpage
     service: productpage
+    app: bookinfo
 spec:
   ports:
   - port: 9080
