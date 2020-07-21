@@ -1,0 +1,61 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: benchmark-data-plane-{{.Release.Name}}
+spec:
+  allowPrivilegeEscalation: false
+  fsGroup:
+    ranges:
+    - max: 65535
+      min: 1337
+    rule: MustRunAs
+  readOnlyRootFilesystem: false
+  allowedCapabilities:
+  - NET_ADMIN
+  - NET_RAW
+  - NET_BIND_SERVICE
+  requiredDropCapabilities:
+  - ALL
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    ranges:
+    - max: 65535
+      min: 10001
+    rule: MustRunAs
+  volumes:
+  - configMap
+  - emptyDir
+  - projected
+  - secret
+  - downwardAPI
+  - persistentVolumeClaim
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: benchmark-psp
+  namespace: {{.Release.Namespace}}
+rules:
+- apiGroups: ['policy','extensions']
+  resources: ['podsecuritypolicies']
+  verbs: ['use']
+  resourceNames: ['benchmark-data-plane-{{.Release.Name}}']
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: benchmark-psp
+  namespace: {{.Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: benchmark-psp
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: {{.Release.Namespace}}
