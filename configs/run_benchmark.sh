@@ -94,4 +94,30 @@ echo "YAML written to 'wrk2-prometheus.yaml'. Now deploying."
 
 kubectl apply -f wrk2-prometheus.yaml
 
+echo "Benchmark started. Waiting for benchmark to conclude."
+
+sleep 10
+while kubectl get jobs \
+        | grep wrk2-prometheus \
+        | grep  -v "1/1"; do
+        sleep 10
+done
+
+echo "Benchmark concluded. Updating summary metrics."
+
+kubectl apply -f ${script_location}/../metrics-merger/metrics-merger.yaml
+sleep 10
+while kubectl get jobs \
+        | grep wrk2-metrics-merger \
+        | grep  -v "1/1"; do
+        sleep 1
+done
+
+kubectl logs jobs/wrk2-metrics-merger
+
+echo "Metrics updated. Cleaning up."
+
+kubectl delete job wrk2-prometheus
+kubectl delete job wrk2-metrics-merger
+
 echo "Done."
