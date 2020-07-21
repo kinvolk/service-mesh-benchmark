@@ -1,15 +1,15 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: linkerd-bookinfo-data-plane-{{.Release.Name}}
+  name: bookinfo-data-plane-{{.Release.Name}}
 spec:
   allowPrivilegeEscalation: false
   fsGroup:
     ranges:
     - max: 65535
-      min: 10001
+      min: 1337
     rule: MustRunAs
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   allowedCapabilities:
   - NET_ADMIN
   - NET_RAW
@@ -43,7 +43,7 @@ rules:
 - apiGroups: ['policy','extensions']
   resources: ['podsecuritypolicies']
   verbs: ['use']
-  resourceNames: ['linkerd-bookinfo-data-plane-{{.Release.Name}}']
+  resourceNames: ['bookinfo-data-plane-{{.Release.Name}}']
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
