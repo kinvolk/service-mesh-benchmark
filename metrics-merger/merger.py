@@ -91,9 +91,6 @@ def create_summary_gauge(p, mesh, r, detailed=False):
 # -- main --
 #
 
-
-print(argv)
-
 if 3 != len(argv):
     print(
        'Command line error: Prometheus URL and push gateway are required.')
@@ -112,10 +109,8 @@ for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
 
     r = CollectorRegistry()
     workaround = mesh
-    if mesh == "svcmesh-linkerd":
-        workaround = "svmesh-linkerd"
-    g, percs, runs = create_summary_gauge(p, workaround, r)
-    dg, dpercs, druns = create_summary_gauge(p, workaround, r, detailed=True)
+    g, percs, runs = create_summary_gauge(p, mesh, r)
+    dg, dpercs, druns = create_summary_gauge(p, mesh, r, detailed=True)
 
     print("%s: %d runs with %d percentiles (coarse)" % (mesh, runs, percs))
     print("%s: %d runs with %d percentiles (detailed)" % (mesh, druns, dpercs))
