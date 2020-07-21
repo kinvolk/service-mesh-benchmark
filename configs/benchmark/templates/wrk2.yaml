@@ -15,8 +15,6 @@ spec:
         custom-affinity: load-generator-node
     spec:
       restartPolicy: Never
-      securityContext:
-        runAsUser: 10001
       tolerations:
       - effect: NoSchedule
         key: load-generator-node
@@ -25,6 +23,7 @@ spec:
       - name: tempfs
         emptyDir:
           medium: Memory
+      shareProcessNamespace: true
       containers:
       - name: wrk2-prometheus
         image: quay.io/kinvolk/wrk2-prometheus

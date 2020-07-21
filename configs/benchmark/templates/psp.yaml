@@ -14,8 +14,7 @@ spec:
   - NET_ADMIN
   - NET_RAW
   - NET_BIND_SERVICE
-  requiredDropCapabilities:
-  - ALL
+  - KILL
   runAsUser:
     rule: RunAsAny
   seLinux:
