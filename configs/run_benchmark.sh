@@ -34,7 +34,7 @@ app="$2"
 case "$app" in
     emojivoto) 
         PUSHGW=$pushgw_base/instance/emojivoto
-        RPS=150000
+        RPS=50000
         app_instance_count=$(kubectl get namespaces | grep emojivoto | wc -l)
         ;;
     bookinfo)
@@ -76,7 +76,7 @@ kubectl delete jobs/wrk2-prometheus >/dev/null 2>&1
 script_location="$(dirname "${BASH_SOURCE[0]}")"
 
 ENDPOINTS=""
-for count in $(seq $app_instance_count); do
+for count in $(seq 0 1 $(($app_instance_count - 1))); do
     INSTANCE="$count"
     export INSTANCE
     if [ -n "$ENDPOINTS" ]; then
