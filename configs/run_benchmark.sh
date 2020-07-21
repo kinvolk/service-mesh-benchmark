@@ -15,7 +15,7 @@ case "$job" in
         pushgw_base="$pushgw_base/job/bare-metal"
         ;;
     linkerd)
-        pushgw_base="$pushgw_base/job/svmesh-linkerd"
+        pushgw_base="$pushgw_base/job/svcmesh-linkerd"
         ;;
     istio)
         pushgw_base="$pushgw_base/job/svcmesh-istio"
