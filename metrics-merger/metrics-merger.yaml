@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wrk2-metrics-merger
+  labels:
+    jobgroup: wrk2-metrics-merger
+spec:
+  template:
+    metadata:
+      name: wrk2-metrics-merger
+      labels:
+        jobgroup: wrk2-metrics-merger
+        app: wrk2-metrics-merger
+        custom-affinity: load-generator-node
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 10001
+      tolerations:
+      - effect: NoSchedule
+        key: load-generator-node
+        operator: Exists
+      containers:
+      - name: metrics-merger
+        image: quay.io/kinvolk/svcmesh-bench-results-merger
+        imagePullPolicy: Always
+        env:
+        - name: PROMETHEUS_URL
+          value: "http://prometheus-operator-prometheus.monitoring:9090"
+        args:
+        - "http://prometheus-operator-prometheus.monitoring:9090"
+        - "pushgateway.monitoring:9091"

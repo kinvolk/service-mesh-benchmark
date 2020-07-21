@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-17T09:36:58Z",
-    "updated": "2020-07-17T10:04:58Z",
+    "created": "2020-07-21T12:56:03Z",
+    "updated": "2020-07-21T16:51:45Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 7,
+    "version": 5,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 30,
-    "iteration": 1594978990354,
+    "id": 27,
+    "iteration": 1595346014483,
     "links": [],
     "panels": [
       {
@@ -298,7 +298,7 @@
         "title": "Current RPS, per thread",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -527,7 +527,7 @@
         "title": "Average RPS, per thread",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -965,7 +965,7 @@
         "title": "Load generator node relative CPU load and memory utilisation",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -1055,7 +1055,7 @@
         "title": "Application RSS memory consumption",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -1145,7 +1145,7 @@
         "title": "Application CPU consumption",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -1200,6 +1200,7 @@
           "alignAsTable": true,
           "avg": false,
           "current": true,
+          "hideEmpty": true,
           "max": false,
           "min": false,
           "rightSide": true,
@@ -1235,7 +1236,7 @@
         "title": "Cluster node loadavg (1m) per CPU thread",
         "tooltip": {
           "shared": true,
-          "sort": 0,
+          "sort": 2,
           "value_type": "individual"
         },
         "transparent": true,
@@ -2395,7 +2396,7 @@
           "name": "job",
           "options": [],
           "query": "wrk2_benchmark_progress",
-          "refresh": 1,
+          "refresh": 2,
           "regex": "/.*exported_job=\"([^\"]*).*/",
           "skipUrlSync": false,
           "sort": 1,
@@ -2422,7 +2423,7 @@
           "name": "instance",
           "options": [],
           "query": "wrk2_benchmark_progress",
-          "refresh": 1,
+          "refresh": 2,
           "regex": "/.*exported_instance=\"([^\"]*).*/",
           "skipUrlSync": false,
           "sort": 1,
@@ -2449,7 +2450,7 @@
           "name": "run",
           "options": [],
           "query": "wrk2_benchmark_progress",
-          "refresh": 1,
+          "refresh": 2,
           "regex": "/.*run=\"([^\"]*).*/",
           "skipUrlSync": false,
           "sort": 1,
@@ -2483,6 +2484,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 7
+    "version": 5
   }
 }

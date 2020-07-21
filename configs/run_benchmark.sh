@@ -15,7 +15,7 @@ case "$job" in
         pushgw_base="$pushgw_base/job/bare-metal"
         ;;
     linkerd)
-        pushgw_base="$pushgw_base/job/svmesh-linkerd"
+        pushgw_base="$pushgw_base/job/svcmesh-linkerd"
         ;;
     istio)
         pushgw_base="$pushgw_base/job/svcmesh-istio"
@@ -34,7 +34,7 @@ app="$2"
 case "$app" in
     emojivoto) 
         PUSHGW=$pushgw_base/instance/emojivoto
-        RPS=150000
+        RPS=50000
         app_instance_count=$(kubectl get namespaces | grep emojivoto | wc -l)
         ;;
     bookinfo)
@@ -76,7 +76,7 @@ kubectl delete jobs/wrk2-prometheus >/dev/null 2>&1
 script_location="$(dirname "${BASH_SOURCE[0]}")"
 
 ENDPOINTS=""
-for count in $(seq $app_instance_count); do
+for count in $(seq 0 1 $(($app_instance_count - 1))); do
     INSTANCE="$count"
     export INSTANCE
     if [ -n "$ENDPOINTS" ]; then
@@ -93,5 +93,31 @@ envsubst < "$script_location/wrk2-prometheus.yaml.tmpl" > wrk2-prometheus.yaml
 echo "YAML written to 'wrk2-prometheus.yaml'. Now deploying."
 
 kubectl apply -f wrk2-prometheus.yaml
+
+echo "Benchmark started. Waiting for benchmark to conclude."
+
+sleep 10
+while kubectl get jobs \
+        | grep wrk2-prometheus \
+        | grep  -v "1/1"; do
+        sleep 10
+done
+
+echo "Benchmark concluded. Updating summary metrics."
+
+kubectl apply -f ${script_location}/../metrics-merger/metrics-merger.yaml
+sleep 10
+while kubectl get jobs \
+        | grep wrk2-metrics-merger \
+        | grep  -v "1/1"; do
+        sleep 1
+done
+
+kubectl logs jobs/wrk2-metrics-merger
+
+echo "Metrics updated. Cleaning up."
+
+kubectl delete job wrk2-prometheus
+kubectl delete job wrk2-metrics-merger
 
 echo "Done."
