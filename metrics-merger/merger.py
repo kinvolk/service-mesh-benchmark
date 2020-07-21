@@ -26,6 +26,14 @@ def get_completed_runs(p, mesh):
     return ret
 # --
 
+def get_requested_rps(p, mesh, run):
+    m = p.query(
+         metric='wrk2_benchmark_run_requested_rps{run="%s",exported_job="%s"}'
+                 % (run, mesh))
+    j = json.loads(m)
+    return j.get("data",{}).get("result")[0]["value"][1]
+# --
+
 def get_latency_histogram(run,detailed=False):
     # return histogram of a single run as dict 
     # {<percentile>: <latency in ms>, ...}
@@ -73,16 +81,23 @@ def create_summary_gauge(p, mesh, r, detailed=False):
 
     g = Gauge('wrk2_benchmark_summary_latency_%sms' % (detailed,),
               '%s latency summary' % (mesh,),
-                labelnames=["p","source_run"], registry=r)
+                labelnames=["p","source_run", "requested_rps"], registry=r)
 
     percs_count=0; runs_count=0
+    run_requested_rps={}
+
     # create latency entries for all runs, per percentile
     for perc, latencies in histograms.items():
         percs_count = percs_count + 1
         runs_count=0
         for run, lat in latencies.items():
+            if run in run_requested_rps:
+                rps = run_requested_rps[run]
+            else:
+                rps = get_requested_rps(p, mesh, run)
+                run_requested_rps[run] = rps
             runs_count = runs_count + 1
-            g.labels(p=perc, source_run=run).set(lat)
+            g.labels(p=perc, source_run=run, requested_rps=rps).set(lat)
 
     return g, percs_count, runs_count
 # --
