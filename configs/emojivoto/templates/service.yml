@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: emoji-svc
   namespace: {{.Release.Namespace}}
+  labels:
+    app: emojivoto
 spec:
   ports:
   - name: grpc
@@ -19,6 +21,8 @@ kind: Service
 metadata:
   name: voting-svc
   namespace: {{.Release.Namespace}}
+  labels:
+    app: emojivoto
 spec:
   ports:
   - name: grpc
@@ -35,6 +39,8 @@ kind: Service
 metadata:
   name: web-svc
   namespace: {{.Release.Namespace}}
+  labels:
+    app: emojivoto
 spec:
   ports:
   - name: http
