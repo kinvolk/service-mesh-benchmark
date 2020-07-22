@@ -77,12 +77,14 @@ function run_bench() {
             --set wrk2.app.count="$app_count" \
             --set wrk2.RPS="$rps" \
             --set wrk2.duration=600 \
+            --set wrk2.connections=128 \
             ${script_location}/../configs/benchmark/
     else
         helm install benchmark --namespace benchmark \
             --set wrk2.app.count="$app_count" \
             --set wrk2.RPS="$rps" \
             --set wrk2.duration=600 \
+            --set wrk2.connections=128 \
             ${script_location}/../configs/benchmark/
     fi
 
