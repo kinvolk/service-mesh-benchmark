@@ -36,12 +36,6 @@ cluster "packet" {
   }
 }
 
-component "istio-operator" {
-  profile = "default"
-}
-
-component "linkerd" {}
-
 component "openebs-operator" {}
 
 component "openebs-storage-class" {
@@ -62,6 +56,16 @@ component "prometheus-operator" {
       "cluster" = var.cluster_name
     }
   }
+}
+
+component "metrics-server" {}
+
+component "experimental-istio-operator" {
+  enable_monitoring = true
+}
+
+component "experimental-linkerd" {
+  enable_monitoring = true
 }
 
 

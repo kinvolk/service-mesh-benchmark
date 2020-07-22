@@ -49,7 +49,7 @@ lokoctl cluster apply -v --confirm --skip-components
 n=0
 until [ "$n" -ge 10 ]
 do
-  lokoctl component apply openebs-operator openebs-storage-class prometheus-operator contour metallb cert-manager external-dns && break
+  lokoctl component apply openebs-operator openebs-storage-class prometheus-operator metrics-server contour metallb cert-manager external-dns && break
   n=$((n+1))
   sleep 5
   log "retry #${n}"
