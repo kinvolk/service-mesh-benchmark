@@ -91,7 +91,7 @@ function run_bench() {
     while kubectl get jobs -n benchmark \
             | grep wrk2-prometheus \
             | grep -qv 1/1; do
-        kubectl logs --tail 1 -n wrk2-prometheus \
+        kubectl logs --tail 1 -n benchmark \
                                         jobs/wrk2-prometheus -c wrk2-prometheus
         sleep 10
     done
