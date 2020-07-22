@@ -71,7 +71,7 @@ if ! kubectl -n monitoring get secret scrape-config; then
 
   params:
     'match[]':
-    - '{job=~"node-exporter|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web"}'
+    - '{job=~"node-exporter|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web|pushgateway"}'
     - '{__name__=~"job:.*"}'
 
   static_configs:
@@ -92,6 +92,127 @@ log "waiting for promtheus to apply above setting..."
 sleep 300
 
 cp ./assets/cluster-assets/auth/kubeconfig ~/.kube/config
+cp -r /binaries/service-mesh-benchmark .
 
-# step: Now install all the stuff that is needed for benchmarking in various combinations
-# step: Wait for the metrics to be scraped
+# Number of workload application deployments to do.
+workload_num=10
+
+# Workload application will be deployed once.
+cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/
+for ((i = 0; i < workload_num; i++))
+do
+  helm install --create-namespace "emojivoto-${i}" --namespace "emojivoto-${i}" .
+done
+
+function install_mesh() {
+  local mesh="${1}"
+  log "installing mesh: ${mesh}"
+  cd /clusters/"${CLUSTER_NAME}"
+
+  if [ "${mesh}" = "bare-metal" ]; then
+    return
+
+  elif [ "${mesh}" = "linkerd" ]; then
+    lokoctl component apply experimental-linkerd
+
+    # Let linkerd get ready
+    log "Waiting for linkerd to be ready..."
+    sleep 30
+
+    # Now inject the linkerd proxy in all the workload namespaces
+    for ((i = 0; i < workload_num; i++))
+    do
+      kubectl annotate namespace "emojivoto-${i}" linkerd.io/inject=enabled
+      kubectl delete pods --all -n "emojivoto-${i}"
+    done
+
+  else
+    lokoctl component apply experimental-istio-operator
+
+    # Let isito get ready
+    log "Waiting for istio to be ready..."
+    sleep 30
+
+    # Now inject the isito proxy in all the workload namespaces
+    for ((i = 0; i < workload_num; i++))
+    do
+      kubectl label namespace "emojivoto-${i}" istio-injection=enabled
+      kubectl delete pods --all -n "emojivoto-${i}"
+    done
+  fi
+}
+
+function cleanup_mesh() {
+  local mesh="${1}"
+  log "cleaning mesh: ${mesh}"
+
+  if [ "${mesh}" = "bare-metal" ]; then
+    return
+
+  elif [ "${mesh}" = "linkerd" ]; then
+    lokoctl component delete experimental-linkerd --delete-namespace --confirm
+
+    # Remove the annotation so that pods are started without any sidecar
+    for ((i = 0; i < workload_num; i++))
+    do
+      kubectl annotate namespace "emojivoto-${i}" linkerd.io/inject-
+      kubectl delete pods --all -n "emojivoto-${i}"
+    done
+
+  else
+    lokoctl component delete experimental-istio-operator --delete-namespace --confirm
+
+    # Remove the labels so that pods are started without any sidecar
+    for ((i = 0; i < workload_num; i++))
+    do
+      kubectl label namespace "emojivoto-${i}" istio-injection-
+
+      # Extra cleanup to do after istio because it does not do it automatically.
+      kubectl delete validatingwebhookconfiguration istiod-istio-system
+      kubectl get mutatingwebhookconfiguration istio-sidecar-injector
+      kubectl delete $(kubectl get apiservice -o name | grep istio)
+
+      kubectl delete pods --all -n "emojivoto-${i}"
+    done
+  fi
+}
+
+# TODO: Add istio later
+for mesh in bare-metal linkerd
+do
+  install_mesh $mesh
+
+  # TODO: Decide on number of runs of benchmark to run against the apps.
+  for ((i=0;i<1;i++))
+  do
+    kubectl create ns benchmark-${mesh}-${i}
+
+    svcmesh="${mesh}"
+    if [ "${svcmesh}" = "bare-metal" ]; then
+      svcmesh=""
+    elif [ "${svcmesh}" = "linkerd" ]; then
+      kubectl annotate namespace benchmark-${mesh}-${i} linkerd.io/inject=enabled
+    else
+      kubectl label namespace benchmark-${mesh}-${i} istio-injection=enabled
+    fi
+
+    cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
+    helm install benchmark-${mesh}-${i} --namespace benchmark-${mesh}-${i} . --set wrk2.serviceMesh="${svcmesh}" --set wrk2.app.count="${workload_num}"
+
+    # Wait for the job to finish
+    while true
+    do
+      complete=$(kubectl -n benchmark-${mesh}-${i} get job wrk2-prometheus -o jsonpath='{.status.completionTime}')
+      #
+      if [ -z "${complete}" ]; then
+        log "waiting for job wrk2-prometheus to finish in benchmark-${mesh}-${i} namespace"
+      else
+        break
+      fi
+      sleep 10
+    done
+
+  done
+
+  cleanup_mesh $mesh
+done
