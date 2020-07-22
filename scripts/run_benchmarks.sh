@@ -25,9 +25,11 @@ function grace() {
 # --
 
 function install_emojivoto() {
+    local mesh="$1"
     for i in $(seq 0 1 59); do
         kubectl create namespace emojivoto-$i
-        kubectl label namespace emojivoto-$i istio-injection=enabled
+        [ "$mesh" == "istio" ] && \
+            kubectl label namespace emojivoto-$i istio-injection=enabled
         helm install emojivoto-$i --namespace emojivoto-$i \
                                  ${script_location}/../configs/emojivoto/ &
     done
@@ -61,29 +63,34 @@ function run_bench() {
     local rps="$2"
 
     echo "Installing emojivoto"
-    install_emojivoto
+    install_emojivoto "$mesh"
 
     local app_count=$(kubectl get namespaces | grep emojivoto | wc -l)
 
     echo "Running $mesh benchmark"
     kubectl create ns benchmark
-    kubectl label namespace benchmark istio-injection=enabled
+    [ "$mesh" == "istio" ] && \
+        kubectl label namespace benchmark istio-injection=enabled
     if [ "$mesh" != "baremetal" ] ; then
         helm install benchmark --namespace benchmark \
             --set wrk2.serviceMesh="$mesh" \
             --set wrk2.app.count="$app_count" \
             --set wrk2.RPS="$rps" \
+            --set wrk2.duration=600 \
             ${script_location}/../configs/benchmark/
     else
         helm install benchmark --namespace benchmark \
             --set wrk2.app.count="$app_count" \
             --set wrk2.RPS="$rps" \
+            --set wrk2.duration=600 \
             ${script_location}/../configs/benchmark/
     fi
 
     while kubectl get jobs -n benchmark \
             | grep wrk2-prometheus \
-            | grep -v 1/1; do
+            | grep -qv 1/1; do
+        kubectl logs --tail 1 -n wrk2-prometheus \
+                                        jobs/wrk2-prometheus -c wrk2-prometheus
         sleep 10
     done
 
