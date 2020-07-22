@@ -6,3 +6,4 @@ wrk2:
   app:
     name: emojivoto
     count: "10"
+  appImage: quay.io/kinvolk/wrk2-prometheus
