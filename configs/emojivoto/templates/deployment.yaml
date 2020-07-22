@@ -14,6 +14,8 @@ spec:
       app: emoji-svc
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: emoji-svc
     spec:
@@ -43,41 +45,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: vote-bot
-    app.kubernetes.io/part-of: emojivoto
-    app.kubernetes.io/version: v10
-  name: vote-bot
-  namespace: {{.Release.Namespace}}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: vote-bot
-  template:
-    metadata:
-      labels:
-        app: vote-bot
-    spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-      containers:
-      - command:
-        - emojivoto-vote-bot
-        env:
-        - name: WEB_HOST
-          value: web-svc.{{.Release.Namespace}}:80
-        image: buoyantio/emojivoto-web:v10
-        name: vote-bot
-        resources:
-          requests:
-            cpu: 10m
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
     app.kubernetes.io/name: voting
     app.kubernetes.io/part-of: emojivoto
     app.kubernetes.io/version: v10
@@ -90,6 +57,8 @@ spec:
       app: voting-svc
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: voting-svc
     spec:
@@ -131,6 +100,8 @@ spec:
       app: web-svc
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: web-svc
     spec:

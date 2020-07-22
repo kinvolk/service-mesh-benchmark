@@ -14,6 +14,8 @@ spec:
       version: v1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: details
         version: v1
@@ -46,6 +48,8 @@ spec:
       version: v1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: ratings
         version: v1
@@ -78,6 +82,8 @@ spec:
       version: v1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: reviews
         version: v1
@@ -119,6 +125,8 @@ spec:
       version: v2
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: reviews
         version: v2
@@ -160,6 +168,8 @@ spec:
       version: v3
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: reviews
         version: v3
@@ -201,6 +211,8 @@ spec:
       version: v1
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: productpage
         version: v1
