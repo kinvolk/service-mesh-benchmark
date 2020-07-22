@@ -78,13 +78,18 @@ function run_benchmarks() {
 
             echo "Installing linkerd"
             lokoctl component apply experimental-linkerd
+			[ $? -ne 0 ] && {
+				# this sometimes fails with a namespace error, works the 2nd time
+				sleep 5
+            	lokoctl component apply experimental-linkerd; }
+
             grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
 
             run_bench linkerd $rps
 
             echo "Removing linkerd"
             lokoctl component delete experimental-linkerd --delete-namespace --confirm
-            kubectl delete namespace linkerd
+            kubectl delete namespace linkerd --now --timeout=30s
             grace "kubectl get namespaces | grep linkerd"
 
 

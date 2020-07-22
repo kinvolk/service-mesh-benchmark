@@ -97,7 +97,7 @@ kubectl apply -f wrk2-prometheus.yaml
 echo "Benchmark started. Waiting for benchmark to conclude."
 
 sleep 10
-while kubectl get jobs \
+while kubectl get jobs -n wrk2-prometheus \
         | grep wrk2-prometheus \
         | grep  -v "1/1"; do
         sleep 10
@@ -107,7 +107,7 @@ echo "Benchmark concluded. Updating summary metrics."
 
 kubectl apply -f ${script_location}/../metrics-merger/metrics-merger.yaml
 sleep 10
-while kubectl get jobs \
+while kubectl get jobs  -n wrk2-prometheus \
         | grep wrk2-metrics-merger \
         | grep  -v "1/1"; do
         sleep 1
@@ -117,7 +117,7 @@ kubectl logs jobs/wrk2-metrics-merger
 
 echo "Metrics updated. Cleaning up."
 
-kubectl delete job wrk2-prometheus
+kubectl delete -f wrk2-prometheus.yaml
 kubectl delete job wrk2-metrics-merger
 
 echo "Done."
