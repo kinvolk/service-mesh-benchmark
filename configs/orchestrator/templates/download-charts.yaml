@@ -17,7 +17,7 @@ spec:
         - bash
         args:
         - -c
-        - 'cd /binaries && git clone https://github.com/kinvolk/service-mesh-benchmark/'
+        - 'cd /binaries && git clone https://github.com/kinvolk/service-mesh-benchmark/ && cd service-mesh-benchmark && git checkout $BRANCH'
         volumeMounts:
         - name: binaries
           mountPath: /binaries
