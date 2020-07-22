@@ -9,6 +9,8 @@ spec:
   template:
     metadata:
       name: wrk2-prometheus
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         jobgroup: wrk2-prometheus
         app: wrk2-prometheus
