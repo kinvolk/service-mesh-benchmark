@@ -26,9 +26,10 @@ function grace() {
 
 function install_emojivoto() {
     for i in $(seq 0 1 59); do
-        helm install --create-namespace emojivoto-$i \
-                     --namespace emojivoto-$i \
-                     ${script_location}/../configs/emojivoto/ &
+        kubectl create namespace emojivoto-$i
+        kubectl label namespace emojivoto-$i istio-injection=enabled
+        helm install emojivoto-$i --namespace emojivoto-$i \
+                                 ${script_location}/../configs/emojivoto/ &
     done
 
     wait
@@ -39,7 +40,8 @@ function install_emojivoto() {
 
 function delete_emojivoto() {
     for i in $(seq 0 1 59); do
-        kubectl delete namespace emojivoto-$i --wait &
+        { helm uninstall emojivoto-$i --namespace emojivoto-$i;
+          kubectl delete namespace emojivoto-$i --wait; } &
     done
 
     wait
@@ -60,16 +62,55 @@ function run_bench() {
 
     echo "Installing emojivoto"
     install_emojivoto
+
+    local app_count=$(kubectl get namespaces | grep emojivoto | wc -l)
+
     echo "Running $mesh benchmark"
-    run ${script_location}/run_benchmark.sh $mesh emojivoto $rps
+    kubectl create ns benchmark
+    kubectl label namespace benchmark istio-injection=enabled
+    if [ "$mesh" != "baremetal" ] ; then
+        helm install benchmark --namespace benchmark \
+            --set wrk2.serviceMesh="$mesh" \
+            --set wrk2.app.count="$app_count" \
+            --set wrk2.RPS="$rps" \
+            ${script_location}/../configs/benchmark/
+    else
+        helm install benchmark --namespace benchmark \
+            --set wrk2.app.count="$app_count" \
+            --set wrk2.RPS="$rps" \
+            ${script_location}/../configs/benchmark/
+    fi
+
+    while kubectl get jobs -n benchmark \
+            | grep wrk2-prometheus \
+            | grep -v 1/1; do
+        sleep 10
+    done
+
+    echo "Benchmark concluded. Updating summary metrics."
+
+    kubectl apply -f ${script_location}/../metrics-merger/metrics-merger.yaml
+    sleep 10
+    while kubectl get jobs \
+            | grep wrk2-metrics-merger \
+            | grep  -v "1/1"; do
+        sleep 1
+    done
+
+    kubectl logs jobs/wrk2-metrics-merger
+
+    echo "Cleaning up."
+    helm uninstall benchmark --namespace benchmark
+    kubectl delete ns benchmark --wait
+    kubectl delete -f ${script_location}/../metrics-merger/metrics-merger.yaml
+
     echo "Deleting emojivoto"
     delete_emojivoto
-
 }
 # --
 
 function run_benchmarks() {
-    for rps in 50000 100000 150000 200000 250000; do
+    for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000; do
         for repeat in 1 2 3; do
 
             echo "########## Run #$repeat w/ $rps RPS"
@@ -78,10 +119,10 @@ function run_benchmarks() {
 
             echo "Installing linkerd"
             lokoctl component apply experimental-linkerd
-			[ $? -ne 0 ] && {
-				# this sometimes fails with a namespace error, works the 2nd time
-				sleep 5
-            	lokoctl component apply experimental-linkerd; }
+            [ $? -ne 0 ] && {
+                # this sometimes fails with a namespace error, works the 2nd time
+                sleep 5
+                lokoctl component apply experimental-linkerd; }
 
             grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
 
