@@ -38,13 +38,13 @@ cluster "packet" {
 
   worker_pool "applications" {
     count = 6
-    node_type = "n2.xlarge.x86"
+    node_type = "m2.xlarge.x86"
   }
 
   # Reserved for the load generator
   worker_pool "loadgenerator" {
     count = 1
-    node_type = "n2.xlarge.x86"
+    node_type = "m2.xlarge.x86"
     taints = "load-generator-node=None:NoSchedule"
   }
 }
