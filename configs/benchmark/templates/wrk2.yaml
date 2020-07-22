@@ -38,9 +38,9 @@ spec:
         {{- if empty .Values.wrk2.serviceMesh }}
         - "http://pushgateway.monitoring:9091/metrics/job/bare-metal/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
         {{- else if eq .Values.wrk2.serviceMesh "linkerd" }}
-        - "http://pushgateway.monitoring:9091/metrics/job/svmesh-linkerd/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        - "http://pushgateway.monitoring:9091/metrics/job/svcmesh-linkerd/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
         {{- else if eq .Values.wrk2.serviceMesh "istio" }}
-        - "http://pushgateway.monitoring:9091/metrics/job/svmesh-istio/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        - "http://pushgateway.monitoring:9091/metrics/job/svcmesh-istio/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
         {{- else }}
         {{ fail "Please provide a valid 'wrk2.serviceMesh' name, supported names are: 'linkerd', 'istio'. For no service mesh skip the variable." }}
         {{- end }}
