@@ -26,7 +26,7 @@ spec:
       shareProcessNamespace: true
       containers:
       - name: wrk2-prometheus
-        image: quay.io/kinvolk/wrk2-prometheus
+        image: {{ .Values.wrk2.appImage }}
         imagePullPolicy: Always
         volumeMounts:
         - name: tempfs
