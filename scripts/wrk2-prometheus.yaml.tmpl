@@ -24,6 +24,7 @@ spec:
       - name: tempfs
         emptyDir:
           medium: Memory
+      shareProcessNamespace: true
       containers:
       - name: wrk2-prometheus
         image: quay.io/kinvolk/wrk2-prometheus
