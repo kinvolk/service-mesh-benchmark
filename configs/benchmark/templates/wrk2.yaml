@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wrk2-prometheus
+  namespace: {{.Release.Namespace}}
+  labels:
+    jobgroup: wrk2-prometheus
+spec:
+  template:
+    metadata:
+      name: wrk2-prometheus
+      labels:
+        jobgroup: wrk2-prometheus
+        app: wrk2-prometheus
+        custom-affinity: load-generator-node
+    spec:
+      restartPolicy: Never
+      tolerations:
+      - effect: NoSchedule
+        key: load-generator-node
+        operator: Exists
+      volumes:
+      - name: tempfs
+        emptyDir:
+          medium: Memory
+      shareProcessNamespace: true
+      containers:
+      - name: wrk2-prometheus
+        image: quay.io/kinvolk/wrk2-prometheus
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: tempfs
+          mountPath: "/tmpfs"
+        args:
+        - -p
+        {{- if empty .Values.wrk2.serviceMesh }}
+        - "http://pushgateway.monitoring:9091/metrics/job/bare-metal/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        {{- else if eq .Values.wrk2.serviceMesh "linkerd" }}
+        - "http://pushgateway.monitoring:9091/metrics/job/svmesh-linkerd/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        {{- else if eq .Values.wrk2.serviceMesh "istio" }}
+        - "http://pushgateway.monitoring:9091/metrics/job/svmesh-istio/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        {{- else }}
+        {{ fail "Please provide a valid 'wrk2.serviceMesh' name, supported names are: 'linkerd', 'istio'. For no service mesh skip the variable." }}
+        {{- end }}
+        - -c
+        - "{{.Values.wrk2.connections}}"
+        - -d
+        - "{{.Values.wrk2.duration}}"
+        - -r
+        - "{{.Values.wrk2.RPS}}"
+        {{- end }}
+{{- if eq .Values.wrk2.app.name "emojivoto" }}
+{{- template "emojivotoURLs" . }}
+{{- else if eq .Values.wrk2.app.name "bookinfo" }}
+{{- template "bookinfoURLs" . }}
+{{- end }}
