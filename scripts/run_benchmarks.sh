@@ -68,44 +68,52 @@ function run_bench() {
 }
 # --
 
-for rps in 50000 100000 150000 200000 250000; do
-    for repeat in 1 2 3; do
+function run_benchmarks() {
+    for rps in 50000 100000 150000 200000 250000; do
+        for repeat in 1 2 3; do
 
-        echo "########## Run #$repeat w/ $rps RPS"
+            echo "########## Run #$repeat w/ $rps RPS"
 
-        run_bench baremetal $rps
+            run_bench baremetal $rps
 
-        echo "Installing linkerd"
-        lokoctl component apply experimental-linkerd
-        grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
-        
-        run_bench linkerd $rps
+            echo "Installing linkerd"
+            lokoctl component apply experimental-linkerd
+            grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
 
-        echo "Removing linkerd"
-        lokoctl component delete experimental-linkerd --delete-namespace --confirm
-        kubectl delete namespace linkerd
-        grace "kubectl get namespaces | grep linkerd"
-        
+            run_bench linkerd $rps
 
-        echo "Installing istio"
-        lokoctl component apply experimental-istio-operator
-        grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
-        
-        run_bench istio $rps
+            echo "Removing linkerd"
+            lokoctl component delete experimental-linkerd --delete-namespace --confirm
+            kubectl delete namespace linkerd
+            grace "kubectl get namespaces | grep linkerd"
 
-        echo "Removing istio"
-        lokoctl component delete experimental-istio-operator --delete-namespace --confirm
-        kubectl delete namespace istio-system  --now --timeout=30s
-        for i in $(seq 20); do
-            # this is ugly but istio-system namespace gets stuck sometimes
-            kubectl get namespaces | grep istio-system || break
-            kubectl get namespace istio-system -o json > istio-system.json
-            sed 's/"kubernetes"//' istio-system.json \
-                                                > istio-system-finalise.json
-            kubectl replace --raw "/api/v1/namespaces/istio-system/finalize" \
-                -f ./istio-system-finalise.json
-            sleep 1
+
+            echo "Installing istio"
+            lokoctl component apply experimental-istio-operator
+            grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
+
+            run_bench istio $rps
+
+            echo "Removing istio"
+            lokoctl component delete experimental-istio-operator --delete-namespace --confirm
+            kubectl delete namespace istio-system  --now --timeout=30s
+            for i in $(seq 20); do
+                # this is ugly but istio-system namespace gets stuck sometimes
+                kubectl get namespaces | grep istio-system || break
+                kubectl get namespace istio-system -o json > istio-system.json
+                sed 's/"kubernetes"//' istio-system.json \
+                                                    > istio-system-finalise.json
+                kubectl replace --raw "/api/v1/namespaces/istio-system/finalize" \
+                    -f ./istio-system-finalise.json
+                sleep 1
+            done
+            grace "kubectl get namespaces | grep istio-system"
         done
-        grace "kubectl get namespaces | grep istio-system"
     done
-done
+}
+# --
+
+if [ "$(basename $0)" = "run_benchmarks.sh" ] ; then
+    run_benchmarks $@
+fi
+
