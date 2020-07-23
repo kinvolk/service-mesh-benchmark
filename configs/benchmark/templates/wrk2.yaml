@@ -16,6 +16,8 @@ spec:
         app: wrk2-prometheus
         custom-affinity: load-generator-node
     spec:
+      nodeSelector:
+        role: benchmark
       restartPolicy: Never
       tolerations:
       - effect: NoSchedule
