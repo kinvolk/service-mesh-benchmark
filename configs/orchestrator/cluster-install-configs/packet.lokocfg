@@ -30,9 +30,16 @@ cluster "packet" {
   }
 
   worker_pool "workload" {
-    # TODO: Change following
+    # TODO: Change the count later
     count     = 1
-    node_type = "c2.medium.x86"
+    node_type = "m2.xlarge.x86"
+    labels    = "role=workload"
+  }
+
+  worker_pool "benchmark" {
+    count     = 1
+    node_type = "m2.xlarge.x86"
+    labels    = "role=benchmark"
   }
 }
 
