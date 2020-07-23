@@ -20,6 +20,8 @@ spec:
         app: details
         version: v1
     spec:
+      nodeSelector:
+        role: workload
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
@@ -54,6 +56,8 @@ spec:
         app: ratings
         version: v1
     spec:
+      nodeSelector:
+        role: workload
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
@@ -88,6 +92,8 @@ spec:
         app: reviews
         version: v1
     spec:
+      nodeSelector:
+        role: workload
       serviceAccountName: bookinfo-reviews
       containers:
       - name: reviews
@@ -131,6 +137,8 @@ spec:
         app: reviews
         version: v2
     spec:
+      nodeSelector:
+        role: workload
       serviceAccountName: bookinfo-reviews
       containers:
       - name: reviews
@@ -174,6 +182,8 @@ spec:
         app: reviews
         version: v3
     spec:
+      nodeSelector:
+        role: workload
       serviceAccountName: bookinfo-reviews
       containers:
       - name: reviews
@@ -217,6 +227,8 @@ spec:
         app: productpage
         version: v1
     spec:
+      nodeSelector:
+        role: workload
       serviceAccountName: bookinfo-productpage
       containers:
       - name: productpage
