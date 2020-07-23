@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-23T13:14:57Z",
-    "updated": "2020-07-23T15:47:59Z",
+    "created": "2020-07-23T17:21:04Z",
+    "updated": "2020-07-23T17:23:23Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 16,
+    "version": 2,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 26,
-    "iteration": 1595517285509,
+    "id": 27,
+    "iteration": 1595524872819,
     "links": [],
     "panels": [
       {
@@ -1093,7 +1093,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\".*-proxy\"})  by (container)",
+            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"})  by (container)",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1405,7 +1405,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\".*-proxy\"}) by (container)",
+            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"}) by (container)",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -3072,6 +3072,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 16
+    "version": 2
   }
 }
