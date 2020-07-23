@@ -19,8 +19,6 @@ spec:
       - image: quay.io/kinvolk/smb-orchestrator
         name: orchestrator
         env:
-        - name: CT_VER
-          value: {{.Values.ct.version}}
         - name: REGION_EIPS
           value: {{.Values.clouds.packet.regionEIPs}}
         volumeMounts:
