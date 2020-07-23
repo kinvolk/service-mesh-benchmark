@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-summary",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-21T12:55:58Z",
-    "updated": "2020-07-21T16:55:36Z",
+    "created": "2020-07-23T13:14:59Z",
+    "updated": "2020-07-23T13:52:55Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 2,
+    "version": 4,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,7 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 26,
+    "id": 27,
+    "iteration": 1595510760147,
     "links": [],
     "panels": [
       {
@@ -98,11 +99,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -191,11 +192,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -284,11 +285,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -377,11 +378,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -470,11 +471,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -563,11 +564,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -656,11 +657,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -716,7 +717,7 @@
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 10,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -736,7 +737,7 @@
           "values": true
         },
         "lines": false,
-        "linewidth": 1,
+        "linewidth": 0,
         "links": [],
         "nullPointMode": "null as zero",
         "options": {
@@ -749,11 +750,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -860,11 +861,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -953,11 +954,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1046,11 +1047,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1139,11 +1140,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1232,11 +1233,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1325,11 +1326,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1418,11 +1419,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1511,11 +1512,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1622,11 +1623,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1715,11 +1716,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1808,11 +1809,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1901,11 +1902,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1994,11 +1995,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2087,11 +2088,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2180,11 +2181,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2273,11 +2274,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2340,14 +2341,14 @@
             "value": "70000"
           },
           "datasource": "Prometheus",
-          "definition": "wrk2_benchmark_summary_latency_ms",
+          "definition": "wrk2_benchmark_summary_latency_diff_ms",
           "hide": 0,
           "includeAll": false,
           "label": "Requested RPS",
           "multi": false,
           "name": "rps",
           "options": [],
-          "query": "wrk2_benchmark_summary_latency_ms",
+          "query": "wrk2_benchmark_summary_latency_diff_ms",
           "refresh": 2,
           "regex": "/.*requested_rps=\"([^\"]*).*/",
           "skipUrlSync": false,
@@ -2361,7 +2362,7 @@
       ]
     },
     "time": {
-      "from": "now-1s",
+      "from": "now-5s",
       "to": "now"
     },
     "timepicker": {
@@ -2381,6 +2382,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": null,
-    "version": 2
+    "version": 4
   }
 }

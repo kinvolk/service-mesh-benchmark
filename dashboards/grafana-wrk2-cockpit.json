@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-21T12:56:03Z",
-    "updated": "2020-07-21T16:51:45Z",
+    "created": "2020-07-23T13:14:57Z",
+    "updated": "2020-07-23T13:24:36Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 5,
+    "version": 2,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 27,
-    "iteration": 1595346014483,
+    "id": 26,
+    "iteration": 1595510105950,
     "links": [],
     "panels": [
       {
@@ -353,7 +353,7 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 3,
+          "h": 4,
           "w": 2,
           "x": 0,
           "y": 4
@@ -564,11 +564,97 @@
       },
       {
         "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": null,
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 0,
+          "y": 8
+        },
+        "id": 51,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=\"init\"}",
+            "instant": true,
+            "legendFormat": "{{rps}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Requested RPS",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "name"
+      },
+      {
+        "cacheTimeout": null,
         "datasource": null,
         "gridPos": {
           "h": 3,
-          "w": 6,
-          "x": 0,
+          "w": 4,
+          "x": 2,
           "y": 8
         },
         "id": 2,
@@ -612,12 +698,6 @@
         },
         "pluginVersion": "6.5.0",
         "targets": [
-          {
-            "expr": "wrk2_benchmark_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
-            "instant": true,
-            "legendFormat": "Requested RPS",
-            "refId": "A"
-          },
           {
             "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
@@ -1786,6 +1866,7 @@
           {
             "expr": "wrk2_benchmark_run_requested_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
             "instant": true,
+            "legendFormat": "",
             "refId": "A"
           }
         ],
@@ -2415,14 +2496,14 @@
             "value": ""
           },
           "datasource": "Prometheus",
-          "definition": "wrk2_benchmark_progress",
+          "definition": "wrk2_benchmark_progress{exported_job=\"$job\"}",
           "hide": 0,
           "includeAll": false,
           "label": "Target application",
           "multi": false,
           "name": "instance",
           "options": [],
-          "query": "wrk2_benchmark_progress",
+          "query": "wrk2_benchmark_progress{exported_job=\"$job\"}",
           "refresh": 2,
           "regex": "/.*exported_instance=\"([^\"]*).*/",
           "skipUrlSync": false,
@@ -2442,18 +2523,18 @@
             "value": ""
           },
           "datasource": "Prometheus",
-          "definition": "wrk2_benchmark_progress",
+          "definition": "wrk2_benchmark_progress{exported_job=\"$job\",exported_instance=\"$instance\"}",
           "hide": 0,
           "includeAll": false,
           "label": "Benchmark run",
           "multi": false,
           "name": "run",
           "options": [],
-          "query": "wrk2_benchmark_progress",
+          "query": "wrk2_benchmark_progress{exported_job=\"$job\",exported_instance=\"$instance\"}",
           "refresh": 2,
           "regex": "/.*run=\"([^\"]*).*/",
           "skipUrlSync": false,
-          "sort": 1,
+          "sort": 2,
           "tagValuesQuery": "",
           "tags": [],
           "tagsQuery": "",
@@ -2484,6 +2565,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit",
     "uid": null,
-    "version": 5
+    "version": 2
   }
 }
