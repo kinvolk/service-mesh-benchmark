@@ -103,9 +103,6 @@ def create_summary_gauge(p, mesh, r, detailed=False):
     g = Gauge('wrk2_benchmark_summary_latency_%sms' % (detailed,),
               '%s latency summary' % (mesh,),
                 labelnames=["p","source_run", "requested_rps"], registry=r)
-    gdiff = Gauge('wrk2_benchmark_summary_latency_diff_%sms' % (detailed,),
-              '%s latency summary' % (mesh,),
-                labelnames=["p","source_run", "requested_rps"], registry=r)
 
     percs_count=0; runs_count=0
 
@@ -114,15 +111,11 @@ def create_summary_gauge(p, mesh, r, detailed=False):
         for perc, latencies in histograms[rps].items():
             percs_count = percs_count + 1
             runs_count=0
-            prev_lat = 0
             for run, lat in latencies.items():
                 runs_count = runs_count + 1
                 g.labels(p=perc, source_run=run, requested_rps=rps).set(lat)
-                l = lat - prev_lat
-                gdiff.labels(p=perc, source_run=run, requested_rps=rps).set(l)
-                prev_lat = lat
 
-    return g, gdiff, percs_count, runs_count
+    return g, percs_count, runs_count
 # --
 
 #
@@ -147,8 +140,8 @@ for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
 
     r = CollectorRegistry()
     workaround = mesh
-    g, diff, percs, runs = create_summary_gauge(p, mesh, r)
-    dg, ddiff, dpercs, druns = create_summary_gauge(p, mesh, r, detailed=True)
+    g, percs, runs = create_summary_gauge(p, mesh, r)
+    dg, dpercs, druns = create_summary_gauge(p, mesh, r, detailed=True)
 
     print("%s: %d runs with %d percentiles (coarse)" % (mesh, runs, percs))
     print("%s: %d runs with %d percentiles (detailed)" % (mesh, druns, dpercs))

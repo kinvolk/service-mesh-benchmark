@@ -8,10 +8,10 @@
     "slug": "wrk2-summary",
     "expires": "0001-01-01T00:00:00Z",
     "created": "2020-07-23T13:14:59Z",
-    "updated": "2020-07-23T13:52:55Z",
+    "updated": "2020-07-23T16:23:02Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 4,
+    "version": 8,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -38,7 +38,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 27,
-    "iteration": 1595510760147,
+    "iteration": 1595512593521,
     "links": [],
     "panels": [
       {
@@ -61,12 +61,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -77,6 +77,7 @@
         "hiddenSeries": false,
         "id": 2,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -85,7 +86,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -99,11 +100,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -118,7 +119,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -154,12 +155,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -170,6 +171,7 @@
         "hiddenSeries": false,
         "id": 3,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -178,7 +180,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -192,11 +194,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -211,7 +213,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -247,12 +249,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -263,6 +265,7 @@
         "hiddenSeries": false,
         "id": 5,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -271,7 +274,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -285,11 +288,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -304,7 +307,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -340,12 +343,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -356,6 +359,7 @@
         "hiddenSeries": false,
         "id": 4,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -364,7 +368,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -378,11 +382,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -397,7 +401,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -433,12 +437,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -449,6 +453,7 @@
         "hiddenSeries": false,
         "id": 7,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -457,7 +462,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -471,11 +476,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -490,7 +495,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -526,12 +531,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -542,6 +547,7 @@
         "hiddenSeries": false,
         "id": 6,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -550,7 +556,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -564,11 +570,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -583,7 +589,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -619,12 +625,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -635,6 +641,7 @@
         "hiddenSeries": false,
         "id": 9,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -643,7 +650,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -657,11 +664,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -676,7 +683,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -712,12 +719,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 10,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -728,6 +735,7 @@
         "hiddenSeries": false,
         "id": 8,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -736,7 +744,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 0,
         "links": [],
         "nullPointMode": "null as zero",
@@ -745,16 +753,16 @@
         },
         "percentage": false,
         "pluginVersion": "6.5.0",
-        "pointradius": 2,
+        "pointradius": 0.5,
         "points": false,
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -769,7 +777,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -823,12 +831,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -839,6 +847,7 @@
         "hiddenSeries": false,
         "id": 14,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -847,7 +856,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -861,11 +870,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -880,7 +889,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -916,12 +925,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -932,6 +941,7 @@
         "hiddenSeries": false,
         "id": 15,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -940,7 +950,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -954,11 +964,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -973,7 +983,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1009,12 +1019,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1025,6 +1035,7 @@
         "hiddenSeries": false,
         "id": 16,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1033,7 +1044,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1047,11 +1058,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1066,7 +1077,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1102,12 +1113,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1118,6 +1129,7 @@
         "hiddenSeries": false,
         "id": 17,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1126,7 +1138,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1140,11 +1152,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1159,7 +1171,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1195,12 +1207,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1211,6 +1223,7 @@
         "hiddenSeries": false,
         "id": 18,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1219,7 +1232,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1233,11 +1246,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1252,7 +1265,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1288,12 +1301,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1304,6 +1317,7 @@
         "hiddenSeries": false,
         "id": 19,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1312,7 +1326,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1326,11 +1340,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1345,7 +1359,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1381,12 +1395,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1397,6 +1411,7 @@
         "hiddenSeries": false,
         "id": 20,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1405,7 +1420,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1419,11 +1434,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1438,7 +1453,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1474,12 +1489,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1490,6 +1505,7 @@
         "hiddenSeries": false,
         "id": 21,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1498,7 +1514,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1512,11 +1528,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-linkerd\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-linkerd\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1531,7 +1547,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1585,12 +1601,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1601,6 +1617,7 @@
         "hiddenSeries": false,
         "id": 23,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1609,7 +1626,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1623,11 +1640,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1642,7 +1659,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1678,12 +1695,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1694,6 +1711,7 @@
         "hiddenSeries": false,
         "id": 24,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1702,7 +1720,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1716,11 +1734,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1735,7 +1753,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1771,12 +1789,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1787,6 +1805,7 @@
         "hiddenSeries": false,
         "id": 25,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1795,7 +1814,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1809,11 +1828,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1828,7 +1847,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1864,12 +1883,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1880,6 +1899,7 @@
         "hiddenSeries": false,
         "id": 26,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1888,7 +1908,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1902,11 +1922,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -1921,7 +1941,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -1957,12 +1977,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -1973,6 +1993,7 @@
         "hiddenSeries": false,
         "id": 27,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -1981,7 +2002,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -1995,11 +2016,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2014,7 +2035,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -2050,12 +2071,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -2066,6 +2087,7 @@
         "hiddenSeries": false,
         "id": 28,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -2074,7 +2096,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -2088,11 +2110,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2107,7 +2129,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -2143,12 +2165,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -2159,6 +2181,7 @@
         "hiddenSeries": false,
         "id": 29,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
@@ -2167,7 +2190,7 @@
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -2181,11 +2204,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2200,7 +2223,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -2236,12 +2259,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
         "datasource": null,
-        "fill": 1,
+        "fill": 3,
         "fillGradient": 0,
         "gridPos": {
           "h": 14,
@@ -2252,15 +2275,17 @@
         "hiddenSeries": false,
         "id": 30,
         "legend": {
+          "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
           "min": false,
+          "rightSide": false,
           "show": false,
           "total": false,
           "values": true
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
@@ -2274,11 +2299,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "wrk2_benchmark_summary_latency_diff_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-istio\"}",
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-istio\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "Run {{source_run}}",
@@ -2293,7 +2318,7 @@
         "tooltip": {
           "shared": true,
           "sort": 1,
-          "value_type": "cumulative"
+          "value_type": "individual"
         },
         "transparent": true,
         "type": "graph",
@@ -2341,14 +2366,14 @@
             "value": "70000"
           },
           "datasource": "Prometheus",
-          "definition": "wrk2_benchmark_summary_latency_diff_ms",
+          "definition": "wrk2_benchmark_summary_latency_ms",
           "hide": 0,
           "includeAll": false,
           "label": "Requested RPS",
           "multi": false,
           "name": "rps",
           "options": [],
-          "query": "wrk2_benchmark_summary_latency_diff_ms",
+          "query": "wrk2_benchmark_summary_latency_ms",
           "refresh": 2,
           "regex": "/.*requested_rps=\"([^\"]*).*/",
           "skipUrlSync": false,
@@ -2362,7 +2387,7 @@
       ]
     },
     "time": {
-      "from": "now-5s",
+      "from": "now-5m",
       "to": "now"
     },
     "timepicker": {
@@ -2382,6 +2407,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": null,
-    "version": 4
+    "version": 8
   }
 }

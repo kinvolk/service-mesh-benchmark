@@ -7,8 +7,8 @@
     "canStar": true,
     "slug": "wrk2-benchmark-cockpit",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-23T13:14:57Z",
-    "updated": "2020-07-23T13:24:36Z",
+    "created": "2020-07-23T17:21:04Z",
+    "updated": "2020-07-23T17:23:23Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
     "version": 2,
@@ -37,28 +37,10 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 26,
-    "iteration": 1595510105950,
+    "id": 27,
+    "iteration": 1595524872819,
     "links": [],
     "panels": [
-      {
-        "content": "<center><h5>Benchmark run-time information</h5></center>",
-        "datasource": null,
-        "gridPos": {
-          "h": 2,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 20,
-        "mode": "html",
-        "options": {},
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "text"
-      },
       {
         "cacheTimeout": null,
         "colorBackground": false,
@@ -79,9 +61,9 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 6,
+          "w": 24,
           "x": 0,
-          "y": 2
+          "y": 0
         },
         "id": 8,
         "interval": null,
@@ -125,7 +107,7 @@
           {
             "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=\"init\"}",
             "instant": true,
-            "legendFormat": "{{exported_job}}: {{exported_instance}} <br> {{run}} ",
+            "legendFormat": "{{exported_job}}: {{exported_instance}} {{run}} ",
             "refId": "A"
           }
         ],
@@ -146,6 +128,143 @@
         "valueName": "name"
       },
       {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": null,
+        "decimals": 1,
+        "format": "s",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 0,
+          "y": 2
+        },
+        "id": 35,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "pluginVersion": "6.5.0",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_duration{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "instant": true,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Benchmark duration",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "datasource": null,
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 2,
+          "y": 2
+        },
+        "id": 13,
+        "options": {
+          "displayMode": "lcd",
+          "fieldOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "defaults": {
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "thresholds": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "override": {},
+            "values": false
+          },
+          "orientation": "horizontal"
+        },
+        "pluginVersion": "6.5.0",
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=~\"(init|run)\"}",
+            "instant": true,
+            "legendFormat": "{{status}}",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Progress",
+        "transparent": true,
+        "type": "bargauge"
+      },
+      {
         "aliasColors": {},
         "bars": false,
         "dashLength": 10,
@@ -154,7 +273,7 @@
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
-          "h": 11,
+          "h": 10,
           "w": 10,
           "x": 6,
           "y": 2
@@ -343,8 +462,7 @@
           "#d44a3a"
         ],
         "datasource": null,
-        "decimals": 1,
-        "format": "s",
+        "format": "none",
         "gauge": {
           "maxValue": 100,
           "minValue": 0,
@@ -353,12 +471,12 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 4,
+          "h": 3,
           "w": 2,
           "x": 0,
-          "y": 4
+          "y": 6
         },
-        "id": 35,
+        "id": 51,
         "interval": null,
         "links": [],
         "mappingType": 1,
@@ -376,7 +494,6 @@
         "nullPointMode": "connected",
         "nullText": null,
         "options": {},
-        "pluginVersion": "6.5.0",
         "postfix": "",
         "postfixFontSize": "50%",
         "prefix": "",
@@ -399,15 +516,16 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "wrk2_benchmark_duration{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"}",
+            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=\"init\"}",
             "instant": true,
+            "legendFormat": "{{rps}}",
             "refId": "A"
           }
         ],
         "thresholds": "",
         "timeFrom": null,
         "timeShift": null,
-        "title": "Benchmark duration",
+        "title": "Requested RPS",
         "transparent": true,
         "type": "singlestat",
         "valueFontSize": "80%",
@@ -418,27 +536,37 @@
             "value": "null"
           }
         ],
-        "valueName": "avg"
+        "valueName": "name"
       },
       {
+        "cacheTimeout": null,
         "datasource": null,
         "gridPos": {
-          "h": 4,
+          "h": 3,
           "w": 4,
           "x": 2,
-          "y": 4
+          "y": 6
         },
-        "id": 13,
+        "id": 2,
+        "links": [],
         "options": {
-          "displayMode": "lcd",
           "fieldOptions": {
             "calcs": [
               "lastNotNull"
             ],
             "defaults": {
-              "mappings": [],
+              "mappings": [
+                {
+                  "id": 0,
+                  "op": "=",
+                  "text": "N/A",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
               "max": 100,
               "min": 0,
+              "nullValueMode": "connected",
               "thresholds": [
                 {
                   "color": "green",
@@ -448,27 +576,36 @@
                   "color": "red",
                   "value": 80
                 }
-              ]
+              ],
+              "unit": "none"
             },
             "override": {},
             "values": false
           },
-          "orientation": "horizontal"
+          "orientation": "horizontal",
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
         },
         "pluginVersion": "6.5.0",
         "targets": [
           {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=~\"(init|run)\"}",
+            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
             "instant": true,
-            "legendFormat": "{{status}}",
-            "refId": "A"
+            "legendFormat": "Average RPS",
+            "refId": "B"
+          },
+          {
+            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
+            "instant": true,
+            "legendFormat": "Current RPS",
+            "refId": "C"
           }
         ],
         "timeFrom": null,
         "timeShift": null,
-        "title": "Progress",
+        "title": "",
         "transparent": true,
-        "type": "bargauge"
+        "type": "gauge"
       },
       {
         "aliasColors": {},
@@ -480,7 +617,7 @@
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
-          "h": 6,
+          "h": 5,
           "w": 8,
           "x": 16,
           "y": 7
@@ -584,162 +721,7 @@
           "h": 3,
           "w": 2,
           "x": 0,
-          "y": 8
-        },
-        "id": 51,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "options": {},
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false,
-          "ymax": null,
-          "ymin": null
-        },
-        "tableColumn": "",
-        "targets": [
-          {
-            "expr": "wrk2_benchmark_progress{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",status=\"init\"}",
-            "instant": true,
-            "legendFormat": "{{rps}}",
-            "refId": "A"
-          }
-        ],
-        "thresholds": "",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Requested RPS",
-        "transparent": true,
-        "type": "singlestat",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "name"
-      },
-      {
-        "cacheTimeout": null,
-        "datasource": null,
-        "gridPos": {
-          "h": 3,
-          "w": 4,
-          "x": 2,
-          "y": 8
-        },
-        "id": 2,
-        "links": [],
-        "options": {
-          "fieldOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "defaults": {
-              "mappings": [
-                {
-                  "id": 0,
-                  "op": "=",
-                  "text": "N/A",
-                  "type": 1,
-                  "value": "null"
-                }
-              ],
-              "max": 100,
-              "min": 0,
-              "nullValueMode": "connected",
-              "thresholds": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ],
-              "unit": "none"
-            },
-            "override": {},
-            "values": false
-          },
-          "orientation": "horizontal",
-          "showThresholdLabels": false,
-          "showThresholdMarkers": true
-        },
-        "pluginVersion": "6.5.0",
-        "targets": [
-          {
-            "expr": "sum(wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "legendFormat": "Average RPS",
-            "refId": "B"
-          },
-          {
-            "expr": "sum(wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\"})",
-            "instant": true,
-            "legendFormat": "Current RPS",
-            "refId": "C"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "",
-        "transparent": true,
-        "type": "gauge"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": null,
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 2,
-          "x": 0,
-          "y": 11
+          "y": 9
         },
         "id": 11,
         "interval": null,
@@ -821,10 +803,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 2,
-          "y": 11
+          "y": 9
         },
         "id": 40,
         "interval": null,
@@ -906,10 +888,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 4,
-          "y": 11
+          "y": 9
         },
         "id": 10,
         "interval": null,
@@ -975,6 +957,621 @@
       {
         "aliasColors": {},
         "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 0,
+          "y": 12
+        },
+        "hiddenSeries": false,
+        "id": 54,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=\"benchmark\", container=~\".*-proxy\"}",
+            "legendFormat": "{{container}} Memory",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Sidecar Memory usage - Load generator ",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 8,
+          "y": 12
+        },
+        "hiddenSeries": false,
+        "id": 55,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"})  by (container)",
+            "legendFormat": "{{container}} Memory",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Sidecar Memory usage - applications (max. across all sidecars)",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 16,
+          "y": 12
+        },
+        "hiddenSeries": false,
+        "id": 56,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"linkerd\", container!~\".*-proxy\"})",
+            "legendFormat": "Linkerd total Memory",
+            "refId": "E"
+          },
+          {
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"(istio-.*)\", container!~\".*-proxy\"})",
+            "legendFormat": "Istio total Memory",
+            "refId": "F"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Memory usage - Service mesh control plane",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 0,
+          "y": 18
+        },
+        "hiddenSeries": false,
+        "id": 57,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "linkerd-proxy Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "istio-proxy Memory",
+            "yaxis": 2
+          }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"benchmark\", container=~\".*-proxy\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "{{container}} CPU seconds",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Sidecar CPU usage - Load generator ",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 8,
+          "y": 18
+        },
+        "hiddenSeries": false,
+        "id": 58,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "istio-proxy Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "linkerd-proxy Memory",
+            "yaxis": 2
+          }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"}) by (container)",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "{{container}} CPU seconds",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Sidecar CPU usage  - applications (max. across all sidecars)",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 16,
+          "y": 18
+        },
+        "hiddenSeries": false,
+        "id": 59,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "hideZero": false,
+          "max": true,
+          "min": false,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "linkerd: destination CPU seconds",
+            "yaxis": 2
+          },
+          {
+            "alias": "Linkerd total Memory",
+            "yaxis": 2
+          },
+          {
+            "alias": "Istio total Memory",
+            "yaxis": 2
+          }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"linkerd\", container!~\".*-proxy\"})",
+            "legendFormat": "Linkerd total CPU seconds",
+            "refId": "C"
+          },
+          {
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"istio-.*\", container!~\".*-proxy\"})",
+            "legendFormat": "Istio total CPU seconds",
+            "refId": "D"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "CPU utilisation - Service mesh control plane",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "decbytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
@@ -983,10 +1580,10 @@
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
-          "h": 6,
-          "w": 9,
+          "h": 7,
+          "w": 6,
           "x": 0,
-          "y": 13
+          "y": 24
         },
         "hiddenSeries": false,
         "id": 39,
@@ -1089,100 +1686,10 @@
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
-          "h": 6,
-          "w": 8,
-          "x": 9,
-          "y": 13
-        },
-        "hiddenSeries": false,
-        "id": 30,
-        "legend": {
-          "alignAsTable": true,
-          "avg": false,
-          "current": false,
-          "max": false,
-          "min": false,
-          "rightSide": true,
-          "show": true,
-          "total": false,
-          "values": false
-        },
-        "lines": true,
-        "linewidth": 1,
-        "nullPointMode": "null",
-        "options": {
-          "dataLinks": []
-        },
-        "percentage": false,
-        "pointradius": 2,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
-        "targets": [
-          {
-            "expr": "container_memory_rss{namespace=~\"$instance-.*\", container!=\"POD\"}",
-            "legendFormat": "{{container}}-{{namespace}}",
-            "refId": "A"
-          }
-        ],
-        "thresholds": [],
-        "timeFrom": null,
-        "timeRegions": [],
-        "timeShift": null,
-        "title": "Application RSS memory consumption",
-        "tooltip": {
-          "shared": true,
-          "sort": 2,
-          "value_type": "individual"
-        },
-        "transparent": true,
-        "type": "graph",
-        "xaxis": {
-          "buckets": null,
-          "mode": "time",
-          "name": null,
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": null,
-            "logBase": 1,
-            "max": null,
-            "min": null,
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false,
-          "alignLevel": null
-        }
-      },
-      {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
-        "datasource": null,
-        "fill": 1,
-        "fillGradient": 1,
-        "gridPos": {
-          "h": 6,
-          "w": 7,
-          "x": 17,
-          "y": 13
+          "h": 7,
+          "w": 6,
+          "x": 6,
+          "y": 24
         },
         "hiddenSeries": false,
         "id": 32,
@@ -1270,9 +1777,9 @@
         "fillGradient": 1,
         "gridPos": {
           "h": 7,
-          "w": 24,
-          "x": 0,
-          "y": 19
+          "w": 12,
+          "x": 12,
+          "y": 24
         },
         "hiddenSeries": false,
         "id": 50,
@@ -1358,7 +1865,7 @@
           "h": 2,
           "w": 24,
           "x": 0,
-          "y": 26
+          "y": 31
         },
         "id": 37,
         "mode": "html",
@@ -1392,7 +1899,7 @@
           "h": 3,
           "w": 2,
           "x": 0,
-          "y": 28
+          "y": 33
         },
         "id": 46,
         "interval": null,
@@ -1479,7 +1986,7 @@
           "h": 3,
           "w": 2,
           "x": 2,
-          "y": 28
+          "y": 33
         },
         "id": 47,
         "interval": null,
@@ -1566,7 +2073,7 @@
           "h": 3,
           "w": 1,
           "x": 4,
-          "y": 28
+          "y": 33
         },
         "id": 48,
         "interval": null,
@@ -1652,7 +2159,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 28
+          "y": 33
         },
         "id": 43,
         "interval": null,
@@ -1737,7 +2244,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 28
+          "y": 33
         },
         "id": 34,
         "interval": null,
@@ -1822,7 +2329,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 28
+          "y": 33
         },
         "id": 28,
         "interval": null,
@@ -1892,7 +2399,7 @@
           "h": 11,
           "w": 13,
           "x": 11,
-          "y": 28
+          "y": 33
         },
         "id": 17,
         "options": {
@@ -1966,7 +2473,7 @@
           "h": 2,
           "w": 2,
           "x": 5,
-          "y": 30
+          "y": 35
         },
         "id": 27,
         "interval": null,
@@ -2051,7 +2558,7 @@
           "h": 2,
           "w": 2,
           "x": 7,
-          "y": 30
+          "y": 35
         },
         "id": 26,
         "interval": null,
@@ -2136,7 +2643,7 @@
           "h": 2,
           "w": 2,
           "x": 9,
-          "y": 30
+          "y": 35
         },
         "id": 44,
         "interval": null,
@@ -2207,7 +2714,7 @@
           "h": 7,
           "w": 5,
           "x": 0,
-          "y": 31
+          "y": 36
         },
         "id": 24,
         "options": {},
@@ -2262,7 +2769,7 @@
           "h": 7,
           "w": 2,
           "x": 5,
-          "y": 32
+          "y": 37
         },
         "id": 22,
         "options": {},
@@ -2342,7 +2849,7 @@
           "h": 7,
           "w": 4,
           "x": 7,
-          "y": 32
+          "y": 37
         },
         "id": 45,
         "links": [],
@@ -2401,7 +2908,7 @@
           "h": 48,
           "w": 24,
           "x": 0,
-          "y": 39
+          "y": 44
         },
         "id": 18,
         "options": {
@@ -2454,7 +2961,7 @@
         "type": "bargauge"
       }
     ],
-    "refresh": "5s",
+    "refresh": "",
     "schemaVersion": 21,
     "style": "dark",
     "tags": [],
