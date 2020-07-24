@@ -102,7 +102,7 @@ workload_num=10
 cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/
 for ((i = 0; i < workload_num; i++))
 do
-  helm install --create-namespace "emojivoto-${i}" --namespace "emojivoto-${i}" .
+  helm install --create-namespace "emojivoto-${i}" --namespace "emojivoto-${i}" . || true
 done
 
 # Deploy pushgateway in monitoring namespace
