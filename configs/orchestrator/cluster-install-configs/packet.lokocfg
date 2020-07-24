@@ -30,8 +30,7 @@ cluster "packet" {
   }
 
   worker_pool "workload" {
-    # TODO: Change the count later
-    count     = 1
+    count     = 6
     node_type = "m2.xlarge.x86"
     labels    = "role=workload"
   }

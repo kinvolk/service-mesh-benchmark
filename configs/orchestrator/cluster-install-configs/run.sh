@@ -96,7 +96,7 @@ cp ./assets/cluster-assets/auth/kubeconfig ~/.kube/config
 cp -r /binaries/service-mesh-benchmark .
 
 # Number of workload application deployments to do.
-workload_num=10
+workload_num=60
 
 function install_emojivoto() {
   local mesh="${1}"
@@ -242,9 +242,9 @@ function run_merge_job() {
 
 install_pushgateway
 
-for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000; do
+for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000 5500; do
 
-  for ((i=0;i<3;i++))
+  for ((i=0;i<5;i++))
   do
 
     for mesh in bare-metal linkerd istio
