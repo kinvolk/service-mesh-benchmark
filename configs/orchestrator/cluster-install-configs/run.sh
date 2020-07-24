@@ -166,6 +166,9 @@ function install_mesh() {
     log "Waiting for linkerd to be ready..."
     sleep 60
 
+    log "Pods in the linkerd namespace."
+    kubectl get pods -n linkerd
+
   else
     log "installing mesh: ${mesh}"
     lokoctl component apply experimental-istio-operator
@@ -174,6 +177,10 @@ function install_mesh() {
     log "Waiting for istio to be ready..."
     sleep 60
 
+    log "Pods in the istio-operator namespace."
+    kubectl get pods -n istio-operator
+    log "Pods in the istio-system namespace."
+    kubectl get pods -n istio-system
   fi
 }
 
@@ -243,6 +250,9 @@ function run_benchmark() {
       --set wrk2.RPS="${rps}" \
       --set wrk2.duration=600 \
       --set wrk2.connections=128
+
+  log "Pods in the ${name} namespace."
+  kubectl get pods -n "${name}"
 
   wait_for_job "${name}" wrk2-prometheus
 }
