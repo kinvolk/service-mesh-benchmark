@@ -102,6 +102,8 @@ function install_emojivoto() {
   local mesh="${1}"
 
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/
+
+  local i
   for ((i = 0; i < workload_num; i++))
   do
     kubectl create namespace "emojivoto-${i}"
@@ -116,6 +118,7 @@ function install_emojivoto() {
 }
 
 function cleanup_emojivoto() {
+  local i
   for ((i = 0; i < workload_num; i++))
   do
     helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
