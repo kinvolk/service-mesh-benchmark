@@ -50,6 +50,8 @@ spec:
         - "{{.Values.wrk2.duration}}"
         - -r
         - "{{.Values.wrk2.RPS}}"
+        - -i
+        - "{{.Values.wrk2.initDelay}}"
 {{- if eq .Values.wrk2.app.name "emojivoto" }}
 {{- template "emojivotoURLs" . }}
 {{- else if eq .Values.wrk2.app.name "bookinfo" }}

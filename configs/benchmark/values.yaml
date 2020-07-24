@@ -2,6 +2,7 @@ wrk2:
   duration: 120
   connections: 96
   RPS: 3000
+  initDelay: 0
   serviceMesh: ""
   app:
     name: emojivoto

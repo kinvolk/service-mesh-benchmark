@@ -78,12 +78,14 @@ function run_bench() {
             --set wrk2.RPS="$rps" \
             --set wrk2.duration=600 \
             --set wrk2.connections=128 \
+            --set wrk2.initDelay=60 \
             ${script_location}/../configs/benchmark/
     else
         helm install benchmark --namespace benchmark \
             --set wrk2.app.count="$app_count" \
             --set wrk2.RPS="$rps" \
             --set wrk2.duration=600 \
+            --set wrk2.initDelay=60 \
             --set wrk2.connections=128 \
             ${script_location}/../configs/benchmark/
     fi
@@ -91,8 +93,8 @@ function run_bench() {
     while kubectl get jobs -n benchmark \
             | grep wrk2-prometheus \
             | grep -qv 1/1; do
-        kubectl logs --tail 1 -n benchmark \
-                                        jobs/wrk2-prometheus -c wrk2-prometheus
+        kubectl logs \
+                --tail 1 -n benchmark  jobs/wrk2-prometheus -c wrk2-prometheus
         sleep 10
     done
 
@@ -119,7 +121,7 @@ function run_bench() {
 # --
 
 function run_benchmarks() {
-    for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000; do
+    for rps in 500 750 1000 1250 1500 2000 2500 3000 4000 5000 8000 10000; do
         for repeat in 1 2 3; do
 
             echo "########## Run #$repeat w/ $rps RPS"
