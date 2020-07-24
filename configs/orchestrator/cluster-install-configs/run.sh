@@ -240,17 +240,21 @@ function run_merge_job() {
   wait_for_job "${name}" wrk2-metrics-merger
 }
 
-for mesh in bare-metal linkerd istio
-do
-  install_mesh $mesh
+install_pushgateway
 
-  # TODO: Decide on number of runs of benchmark to run against the apps.
-  for ((i=0;i<1;i++))
+for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000; do
+
+  for ((i=0;i<3;i++))
   do
-    install_emojivoto $mesh
-    run_benchmark $mesh 3000
-    cleanup_emojivoto
-  done
 
-  cleanup_mesh $mesh
+    for mesh in bare-metal linkerd istio
+    do
+      install_mesh "${mesh}"
+      install_emojivoto "${mesh}"
+      run_benchmark "${mesh}" "${rps}" "${i}"
+      run_merge_job "${mesh}" "${rps}" "${i}"
+      cleanup_emojivoto
+      cleanup_mesh "${mesh}"
+    done
+  done
 done
