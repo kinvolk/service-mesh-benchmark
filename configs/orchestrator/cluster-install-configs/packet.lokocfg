@@ -55,6 +55,7 @@ component "prometheus-operator" {
   prometheus {
     watch_labeled_service_monitors = "false"
     watch_labeled_prometheus_rules = "false"
+    storage_size                   = "100Gi"
     ingress {
       host = "prometheus.${var.cluster_name}.${var.route53_zone}"
     }
