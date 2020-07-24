@@ -71,7 +71,8 @@ if ! kubectl -n monitoring get secret scrape-config; then
 
   params:
     'match[]':
-    - '{job=~"node-exporter|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web|pushgateway"}'
+    - '{job=~"node-exporter|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web|pushgateway|kubelet"}'
+    - 'node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate'
     - '{__name__=~"job:.*"}'
 
   static_configs:
