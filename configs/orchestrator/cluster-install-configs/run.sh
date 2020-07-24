@@ -122,7 +122,6 @@ function install_mesh() {
     # Now inject the linkerd proxy in all the workload namespaces
     for ((i = 0; i < workload_num; i++))
     do
-      kubectl annotate namespace "emojivoto-${i}" linkerd.io/inject=enabled
       kubectl delete pods --all -n "emojivoto-${i}"
     done
 
@@ -155,7 +154,6 @@ function cleanup_mesh() {
     # Remove the annotation so that pods are started without any sidecar
     for ((i = 0; i < workload_num; i++))
     do
-      kubectl annotate namespace "emojivoto-${i}" linkerd.io/inject-
       kubectl delete pods --all -n "emojivoto-${i}"
     done
 
