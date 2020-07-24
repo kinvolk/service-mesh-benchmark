@@ -68,3 +68,14 @@ component "prometheus-operator" {
   }
   namespace = "monitoring"
 }
+
+# uncomment, then `lokoctl component apply <component>` to install
+#
+#component "experimental-istio-operator" {
+#      enable_monitoring = true
+#}
+#
+#component "experimental-linkerd" {
+#      enable_monitoring = true
+#}
+
