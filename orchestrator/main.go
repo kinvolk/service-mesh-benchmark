@@ -25,18 +25,10 @@ type Job struct {
 	Done   bool
 }
 
-var terraformCTVersion string
-
 func main() {
 	// Get the map of region name to its EIP.
 	regionEIPs := getRegionEIPs()
 	fmt.Println(regionEIPs)
-
-	// Get the version of terraform_ct which will be passed on to the jobs.
-	terraformCTVersion = os.Getenv("CT_VER")
-	if terraformCTVersion == "" {
-		log.Fatalf("CT_VER not set for terraform_ct version")
-	}
 
 	// Generate the Jobs list.
 	var jobs []Job
@@ -199,6 +191,8 @@ spec:
         envFrom:
         - secretRef:
             name: cloud-secrets
+        - configMapRef:
+            name: orchestrator-config
         command:
         - bash
         args:
@@ -244,7 +238,6 @@ func getJob(j Job) *batchv1.Job {
 
 	ret.Name = j.Name
 	ret.Spec.Template.Spec.Containers[0].Env = []corev1.EnvVar{
-		{Name: "CT_VER", Value: terraformCTVersion},
 		{Name: "PACKET_REGION", Value: j.Region},
 		{Name: "PUBLIC_EIP", Value: j.EIP},
 		{Name: "CLUSTER_NAME", Value: j.Name},
