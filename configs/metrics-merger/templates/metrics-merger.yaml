@@ -4,6 +4,7 @@ metadata:
   name: wrk2-metrics-merger
   labels:
     jobgroup: wrk2-metrics-merger
+  namespace: {{.Release.Namespace}}
 spec:
   template:
     metadata:
@@ -16,10 +17,8 @@ spec:
       restartPolicy: Never
       securityContext:
         runAsUser: 10001
-      tolerations:
-      - effect: NoSchedule
-        key: load-generator-node
-        operator: Exists
+      nodeSelector:
+        role: benchmark
       containers:
       - name: metrics-merger
         image: quay.io/kinvolk/svcmesh-bench-results-merger
