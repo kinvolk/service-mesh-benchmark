@@ -71,7 +71,7 @@ if ! kubectl -n monitoring get secret scrape-config; then
 
   params:
     'match[]':
-    - '{job=~"node-exporter|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web|pushgateway|kubelet"}'
+    - '{job=~"node-exporter|kube-state-metrics|istio-operator|istiod|emoji-svc|voting-svc|web-svc|details|productpage|ratings|reviews|linkerd-controller-api|linkerd-dst|linkerd-identity|linkerd-proxy-injector|linkerd-sp-validator|linkerd-tap|linkerd-web|pushgateway|kubelet"}'
     - 'node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate'
     - '{__name__=~"job:.*"}'
 
@@ -164,7 +164,7 @@ function install_mesh() {
 
     # Let linkerd get ready
     log "Waiting for linkerd to be ready..."
-    sleep 15
+    sleep 60
 
   else
     log "installing mesh: ${mesh}"
@@ -172,7 +172,7 @@ function install_mesh() {
 
     # Let isito get ready
     log "Waiting for istio to be ready..."
-    sleep 15
+    sleep 60
 
   fi
 }
