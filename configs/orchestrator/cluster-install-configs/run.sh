@@ -114,6 +114,25 @@ function install_emojivoto() {
     helm install --create-namespace "emojivoto-${i}" \
       --namespace "emojivoto-${i}" \
       /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
+
+    [ "$mesh" == "bare-metal" ] && continue
+
+    # Run until injection of proxy happens
+    while true
+    do
+      log "Checking if the proxy is injected."
+      output=$(kubectl get pods -n "emojivoto-${i}" | grep -i running | awk '{print $2}' | grep 2) || true
+      if [ -z "${output}" ]
+      then
+        kubectl delete pods --all -n "emojivoto-${i}"
+        sleep 2
+      else
+        break
+      fi
+    done
+
+    log "Pods in the emojivoto-${i} namespace."
+    kubectl get pods -n "emojivoto-${i}"
   done
 }
 
