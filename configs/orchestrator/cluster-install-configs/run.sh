@@ -124,8 +124,10 @@ function cleanup_emojivoto() {
 }
 
 # Deploy pushgateway in monitoring namespace
-cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
-helm install pushgateway --namespace monitoring . || true
+function install_pushgateway() {
+  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
+  helm install pushgateway --namespace monitoring . || true
+}
 
 function install_mesh() {
   local mesh="${1}"
