@@ -182,40 +182,50 @@ function cleanup_mesh() {
   fi
 }
 
-function run_benchmark() {
-  local mesh="${1}"
-  local rps="${2}"
-  local ind="${3}"
-
-  kubectl create ns benchmark-${mesh}-${rps}-${ind}
-
-  svcmesh="${mesh}"
-  if [ "${svcmesh}" = "bare-metal" ]; then
-    svcmesh=""
-  elif [ "${svcmesh}" = "linkerd" ]; then
-    kubectl annotate namespace benchmark-${mesh}-${rps}-${ind} linkerd.io/inject=enabled
-  else
-    kubectl label namespace benchmark-${mesh}-${rps}-${ind} istio-injection=enabled
-  fi
-
-  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
-  helm install benchmark-${mesh}-${rps}-${ind} --namespace benchmark-${mesh}-${rps}-${ind} \
-    . --set wrk2.serviceMesh="${svcmesh}" \
-      --set wrk2.app.count="${workload_num}" \
-      --set wrk2.RPS="${rps}"
+function wait_for_job() {
+  local ns="${1}"
+  local job="${2}"
 
   # Wait for the job to finish
   while true
   do
-    complete=$(kubectl -n benchmark-${mesh}-${rps}-${ind} get job wrk2-prometheus -o jsonpath='{.status.completionTime}')
+    complete=$(kubectl -n "${ns}" get job "${job}" -o jsonpath='{.status.completionTime}')
     #
     if [ -z "${complete}" ]; then
-      log "waiting for job wrk2-prometheus to finish in benchmark-${mesh}-${rps}-${ind} namespace"
+      log "waiting for job ${job} to finish in ${ns} namespace"
     else
       break
     fi
     sleep 10
   done
+}
+
+function run_benchmark() {
+  local mesh="${1}"
+  local rps="${2}"
+  local ind="${3}"
+  local name="benchmark-${mesh}-${rps}-${ind}"
+
+  kubectl create ns "${name}"
+
+  svcmesh="${mesh}"
+  if [ "${svcmesh}" = "bare-metal" ]; then
+    svcmesh=""
+  elif [ "${svcmesh}" = "linkerd" ]; then
+    kubectl annotate namespace "${name}" linkerd.io/inject=enabled
+  else
+    kubectl label namespace "${name}" istio-injection=enabled
+  fi
+
+  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
+  helm install "${name}" --namespace "${name}" \
+    . --set wrk2.serviceMesh="${svcmesh}" \
+      --set wrk2.app.count="${workload_num}" \
+      --set wrk2.RPS="${rps}" \
+      --set wrk2.duration=600 \
+      --set wrk2.connections=128
+
+  wait_for_job "${name}" wrk2-prometheus
 }
 
 for mesh in bare-metal linkerd istio
