@@ -228,6 +228,18 @@ function run_benchmark() {
   wait_for_job "${name}" wrk2-prometheus
 }
 
+function run_merge_job() {
+  local mesh="${1}"
+  local rps="${2}"
+  local ind="${3}"
+  local name="metrics-merger-${mesh}-${rps}-${ind}"
+
+  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/metrics-merger/
+  helm install "${name}" --create-namespace --namespace "${name}" .
+
+  wait_for_job "${name}" wrk2-metrics-merger
+}
+
 for mesh in bare-metal linkerd istio
 do
   install_mesh $mesh
