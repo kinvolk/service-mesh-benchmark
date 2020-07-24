@@ -7,11 +7,11 @@
     "canStar": true,
     "slug": "wrk2-summary",
     "expires": "0001-01-01T00:00:00Z",
-    "created": "2020-07-23T13:14:59Z",
-    "updated": "2020-07-23T16:23:02Z",
+    "created": "2020-07-23T17:20:59Z",
+    "updated": "2020-07-24T11:01:23Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 8,
+    "version": 14,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 27,
-    "iteration": 1595512593521,
+    "id": 26,
+    "iteration": 1595588438294,
     "links": [],
     "panels": [
       {
@@ -58,6 +58,120 @@
         "title": "",
         "transparent": true,
         "type": "text"
+      },
+      {
+        "columns": [],
+        "datasource": "Prometheus",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 16,
+          "w": 8,
+          "x": 16,
+          "y": 0
+        },
+        "id": 32,
+        "options": {},
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": 3,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "hidden"
+          },
+          {
+            "alias": "Peak Latency (1.0 percentile)",
+            "colorMode": "value",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(245, 54, 54, 0.9)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Value",
+            "thresholds": [
+              "500",
+              " 2000"
+            ],
+            "type": "number",
+            "unit": "ms"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_instance",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          },
+          {
+            "alias": "Mesh",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_job",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "benchmark run",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD_HH:mm:ss",
+            "decimals": 2,
+            "link": true,
+            "linkTargetBlank": true,
+            "linkTooltip": "Go to run ${__cell_2}.",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=bare-metal&var-instance=${__cell_1}&var-run=${__cell_2}",
+            "mappingType": 1,
+            "pattern": "source_run",
+            "thresholds": [],
+            "type": "number",
+            "unit": "dateTimeAsIso",
+            "valueMaps": []
+          }
+        ],
+        "targets": [
+          {
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"bare-metal\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,source_run)",
+            "format": "table",
+            "instant": true,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Bare Metal benchmark runs",
+        "transform": "table",
+        "transparent": true,
+        "type": "table"
       },
       {
         "aliasColors": {},
@@ -830,6 +944,120 @@
         "type": "text"
       },
       {
+        "columns": [],
+        "datasource": "Prometheus",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 16,
+          "w": 8,
+          "x": 16,
+          "y": 16
+        },
+        "id": 33,
+        "options": {},
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": 3,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "hidden"
+          },
+          {
+            "alias": "Peak Latency (1.0 percentile)",
+            "colorMode": "value",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(245, 54, 54, 0.9)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Value",
+            "thresholds": [
+              "500",
+              " 2000"
+            ],
+            "type": "number",
+            "unit": "ms"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_instance",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          },
+          {
+            "alias": "Mesh",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_job",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "benchmark run",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD_HH:mm:ss",
+            "decimals": 2,
+            "link": true,
+            "linkTargetBlank": true,
+            "linkTooltip": "Go to run ${__cell_2}.",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-linkerd&var-instance=${__cell_1}&var-run=${__cell_2}",
+            "mappingType": 1,
+            "pattern": "source_run",
+            "thresholds": [],
+            "type": "number",
+            "unit": "dateTimeAsIso",
+            "valueMaps": []
+          }
+        ],
+        "targets": [
+          {
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-linkerd\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,source_run)",
+            "format": "table",
+            "instant": true,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Linkerd benchmark runs",
+        "transform": "table",
+        "transparent": true,
+        "type": "table"
+      },
+      {
         "aliasColors": {},
         "bars": false,
         "cacheTimeout": null,
@@ -1598,6 +1826,120 @@
         "title": "",
         "transparent": true,
         "type": "text"
+      },
+      {
+        "columns": [],
+        "datasource": "Prometheus",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 16,
+          "w": 8,
+          "x": 16,
+          "y": 32
+        },
+        "id": 34,
+        "options": {},
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": 3,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "hidden"
+          },
+          {
+            "alias": "Peak Latency (1.0 percentile)",
+            "colorMode": "value",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(245, 54, 54, 0.9)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Value",
+            "thresholds": [
+              "500",
+              " 2000"
+            ],
+            "type": "number",
+            "unit": "ms"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_instance",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          },
+          {
+            "alias": "Mesh",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "exported_job",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "benchmark run",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD_HH:mm:ss",
+            "decimals": 2,
+            "link": true,
+            "linkTargetBlank": true,
+            "linkTooltip": "Go to run ${__cell_2} .",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-istio&var-instance=${__cell_1}&var-run=${__cell_2}",
+            "mappingType": 1,
+            "pattern": "source_run",
+            "thresholds": [],
+            "type": "number",
+            "unit": "dateTimeAsIso",
+            "valueMaps": []
+          }
+        ],
+        "targets": [
+          {
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-istio\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,source_run)",
+            "format": "table",
+            "instant": true,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Istio benchmark runs",
+        "transform": "table",
+        "transparent": true,
+        "type": "table"
       },
       {
         "aliasColors": {},
@@ -2407,6 +2749,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": null,
-    "version": 8
+    "version": 14
   }
 }
