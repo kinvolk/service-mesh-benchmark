@@ -90,7 +90,7 @@ cat /tmp/scrape.yaml
 
 # Wait for sometime because prometheus can take some time to start scraping
 log "waiting for promtheus to apply above setting..."
-sleep 300
+sleep 180
 
 cp ./assets/cluster-assets/auth/kubeconfig ~/.kube/config
 cp -r /binaries/service-mesh-benchmark .
@@ -145,7 +145,7 @@ function install_mesh() {
 
     # Let linkerd get ready
     log "Waiting for linkerd to be ready..."
-    sleep 30
+    sleep 15
 
   else
     log "installing mesh: ${mesh}"
@@ -153,7 +153,7 @@ function install_mesh() {
 
     # Let isito get ready
     log "Waiting for istio to be ready..."
-    sleep 30
+    sleep 15
 
   fi
 }
