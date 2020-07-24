@@ -182,8 +182,7 @@ function cleanup_mesh() {
   fi
 }
 
-# TODO: Add istio later
-for mesh in bare-metal linkerd
+for mesh in bare-metal linkerd istio
 do
   install_mesh $mesh
 
