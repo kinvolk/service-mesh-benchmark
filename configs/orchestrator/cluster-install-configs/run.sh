@@ -179,6 +179,42 @@ function cleanup_mesh() {
   fi
 }
 
+function run_benchmark() {
+  local mesh="${1}"
+  local rps="${2}"
+  local ind="${3}"
+
+  kubectl create ns benchmark-${mesh}-${rps}-${ind}
+
+  svcmesh="${mesh}"
+  if [ "${svcmesh}" = "bare-metal" ]; then
+    svcmesh=""
+  elif [ "${svcmesh}" = "linkerd" ]; then
+    kubectl annotate namespace benchmark-${mesh}-${rps}-${ind} linkerd.io/inject=enabled
+  else
+    kubectl label namespace benchmark-${mesh}-${rps}-${ind} istio-injection=enabled
+  fi
+
+  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
+  helm install benchmark-${mesh}-${rps}-${ind} --namespace benchmark-${mesh}-${rps}-${ind} \
+    . --set wrk2.serviceMesh="${svcmesh}" \
+      --set wrk2.app.count="${workload_num}" \
+      --set wrk2.RPS="${rps}"
+
+  # Wait for the job to finish
+  while true
+  do
+    complete=$(kubectl -n benchmark-${mesh}-${rps}-${ind} get job wrk2-prometheus -o jsonpath='{.status.completionTime}')
+    #
+    if [ -z "${complete}" ]; then
+      log "waiting for job wrk2-prometheus to finish in benchmark-${mesh}-${rps}-${ind} namespace"
+    else
+      break
+    fi
+    sleep 10
+  done
+}
+
 for mesh in bare-metal linkerd istio
 do
   install_mesh $mesh
@@ -186,33 +222,9 @@ do
   # TODO: Decide on number of runs of benchmark to run against the apps.
   for ((i=0;i<1;i++))
   do
-    kubectl create ns benchmark-${mesh}-${i}
-
-    svcmesh="${mesh}"
-    if [ "${svcmesh}" = "bare-metal" ]; then
-      svcmesh=""
-    elif [ "${svcmesh}" = "linkerd" ]; then
-      kubectl annotate namespace benchmark-${mesh}-${i} linkerd.io/inject=enabled
-    else
-      kubectl label namespace benchmark-${mesh}-${i} istio-injection=enabled
-    fi
-
-    cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
-    helm install benchmark-${mesh}-${i} --namespace benchmark-${mesh}-${i} . --set wrk2.serviceMesh="${svcmesh}" --set wrk2.app.count="${workload_num}"
-
-    # Wait for the job to finish
-    while true
-    do
-      complete=$(kubectl -n benchmark-${mesh}-${i} get job wrk2-prometheus -o jsonpath='{.status.completionTime}')
-      #
-      if [ -z "${complete}" ]; then
-        log "waiting for job wrk2-prometheus to finish in benchmark-${mesh}-${i} namespace"
-      else
-        break
-      fi
-      sleep 10
-    done
-
+    install_emojivoto $mesh
+    run_benchmark $mesh 3000
+    cleanup_emojivoto
   done
 
   cleanup_mesh $mesh
