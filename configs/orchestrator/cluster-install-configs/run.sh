@@ -98,12 +98,30 @@ cp -r /binaries/service-mesh-benchmark .
 # Number of workload application deployments to do.
 workload_num=10
 
-# Workload application will be deployed once.
-cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/
-for ((i = 0; i < workload_num; i++))
-do
-  helm install --create-namespace "emojivoto-${i}" --namespace "emojivoto-${i}" . || true
-done
+function install_emojivoto() {
+  local mesh="${1}"
+
+  cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/
+  for ((i = 0; i < workload_num; i++))
+  do
+    kubectl create namespace "emojivoto-${i}"
+
+    [ "$mesh" == "istio" ] && \
+        kubectl label namespace "emojivoto-${i}" istio-injection=enabled
+
+    helm install --create-namespace "emojivoto-${i}" \
+      --namespace "emojivoto-${i}" \
+      /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
+  done
+}
+
+function cleanup_emojivoto() {
+  for ((i = 0; i < workload_num; i++))
+  do
+    helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
+    kubectl delete ns "emojivoto-${i}"
+  done
+}
 
 # Deploy pushgateway in monitoring namespace
 cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
