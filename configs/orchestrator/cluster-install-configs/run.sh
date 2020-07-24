@@ -131,58 +131,43 @@ function install_pushgateway() {
 
 function install_mesh() {
   local mesh="${1}"
-  log "installing mesh: ${mesh}"
   cd /clusters/"${CLUSTER_NAME}"
 
   if [ "${mesh}" = "bare-metal" ]; then
     return
 
   elif [ "${mesh}" = "linkerd" ]; then
+    log "installing mesh: ${mesh}"
     lokoctl component apply experimental-linkerd
 
     # Let linkerd get ready
     log "Waiting for linkerd to be ready..."
     sleep 30
 
-    # Now inject the linkerd proxy in all the workload namespaces
-    for ((i = 0; i < workload_num; i++))
-    do
-      kubectl delete pods --all -n "emojivoto-${i}"
-    done
-
   else
+    log "installing mesh: ${mesh}"
     lokoctl component apply experimental-istio-operator
 
     # Let isito get ready
     log "Waiting for istio to be ready..."
     sleep 30
 
-    # Now inject the isito proxy in all the workload namespaces
-    for ((i = 0; i < workload_num; i++))
-    do
-      kubectl label namespace "emojivoto-${i}" istio-injection=enabled
-      kubectl delete pods --all -n "emojivoto-${i}"
-    done
   fi
 }
 
 function cleanup_mesh() {
   local mesh="${1}"
-  log "cleaning mesh: ${mesh}"
 
   if [ "${mesh}" = "bare-metal" ]; then
     return
 
   elif [ "${mesh}" = "linkerd" ]; then
+    log "cleaning mesh: ${mesh}"
     lokoctl component delete experimental-linkerd --delete-namespace --confirm
 
-    # Remove the annotation so that pods are started without any sidecar
-    for ((i = 0; i < workload_num; i++))
-    do
-      kubectl delete pods --all -n "emojivoto-${i}"
-    done
-
   else
+    log "cleaning mesh: ${mesh}"
+
     # Extra cleanup to do after istio because it does not do it automatically.
     kubectl get -n istio-system istiooperators.install.istio.io istiocontrolplane -o json | sed 's/"istio-finalizer.install.istio.io"//' | kubectl apply -f -
     lokoctl component delete experimental-istio-operator --confirm --delete-namespace
@@ -191,14 +176,6 @@ function cleanup_mesh() {
       $(kubectl get crd -o name | grep istio) \
       $(kubectl get validatingwebhookconfigurations -o name | grep istio) \
       $(kubectl get mutatingwebhookconfigurations -o name | grep istio)
-
-
-    # Remove the labels so that pods are started without any sidecar
-    for ((i = 0; i < workload_num; i++))
-    do
-      kubectl label namespace "emojivoto-${i}" istio-injection-
-      kubectl delete pods --all -n "emojivoto-${i}"
-    done
   fi
 }
 
