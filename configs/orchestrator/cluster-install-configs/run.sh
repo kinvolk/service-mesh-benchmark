@@ -159,18 +159,20 @@ function cleanup_mesh() {
     done
 
   else
-    lokoctl component delete experimental-istio-operator --delete-namespace --confirm
+    # Extra cleanup to do after istio because it does not do it automatically.
+    kubectl get -n istio-system istiooperators.install.istio.io istiocontrolplane -o json | sed 's/"istio-finalizer.install.istio.io"//' | kubectl apply -f -
+    lokoctl component delete experimental-istio-operator --confirm --delete-namespace
+    kubectl delete $(kubectl get clusterroles -o name | grep istio) \
+      $(kubectl get clusterrolebindings -o name | grep istio) \
+      $(kubectl get crd -o name | grep istio) \
+      $(kubectl get validatingwebhookconfigurations -o name | grep istio) \
+      $(kubectl get mutatingwebhookconfigurations -o name | grep istio)
+
 
     # Remove the labels so that pods are started without any sidecar
     for ((i = 0; i < workload_num; i++))
     do
       kubectl label namespace "emojivoto-${i}" istio-injection-
-
-      # Extra cleanup to do after istio because it does not do it automatically.
-      kubectl delete validatingwebhookconfiguration istiod-istio-system
-      kubectl get mutatingwebhookconfiguration istio-sidecar-injector
-      kubectl delete $(kubectl get apiservice -o name | grep istio)
-
       kubectl delete pods --all -n "emojivoto-${i}"
     done
   fi
