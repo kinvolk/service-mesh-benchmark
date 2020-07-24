@@ -105,6 +105,10 @@ do
   helm install --create-namespace "emojivoto-${i}" --namespace "emojivoto-${i}" .
 done
 
+# Deploy pushgateway in monitoring namespace
+cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
+helm install pushgateway --namespace monitoring . || true
+
 function install_mesh() {
   local mesh="${1}"
   log "installing mesh: ${mesh}"
