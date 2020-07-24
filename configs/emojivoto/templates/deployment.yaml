@@ -19,6 +19,8 @@ spec:
       labels:
         app: emoji-svc
     spec:
+      nodeSelector:
+        role: workload
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
@@ -62,6 +64,8 @@ spec:
       labels:
         app: voting-svc
     spec:
+      nodeSelector:
+        role: workload
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
@@ -105,6 +109,8 @@ spec:
       labels:
         app: web-svc
     spec:
+      nodeSelector:
+        role: workload
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

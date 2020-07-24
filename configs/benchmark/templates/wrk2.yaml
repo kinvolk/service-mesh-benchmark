@@ -16,11 +16,9 @@ spec:
         app: wrk2-prometheus
         custom-affinity: load-generator-node
     spec:
+      nodeSelector:
+        role: benchmark
       restartPolicy: Never
-      tolerations:
-      - effect: NoSchedule
-        key: load-generator-node
-        operator: Exists
       volumes:
       - name: tempfs
         emptyDir:
