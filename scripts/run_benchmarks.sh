@@ -26,17 +26,16 @@ function grace() {
 }
 # --
 
-function install_emojivoto_single() {
-    local mesh="$1"
-    local num="$2"
+function check_meshed() {
+    local ns_prefix="$1"
+    
+    echo "Checking for unmeshed pods in '$ns_prefix'"
+    kubectl get pods --all-namespaces \
+            | grep "$ns_prefix" | grep -vE '[012]/2'
 
-    kubectl create namespace emojivoto-$num
+    [ $? -ne 0 ] && return 0
 
-    [ "$mesh" == "istio" ] && \
-        kubectl label namespace emojivoto-$num istio-injection=enabled
-
-    helm install emojivoto-$num --namespace emojivoto-$num \
-                             ${script_location}/../configs/emojivoto/
+    return 1
 }
 # --
 
@@ -45,44 +44,36 @@ function install_emojivoto() {
 
     echo "Installing emojivoto."
 
-    for i in $(seq 0 1 59); do
-        install_emojivoto_single "$mesh" "$i" &
+    for num in $(seq 0 1 59); do
+        { 
+            kubectl create namespace emojivoto-$num
+
+            [ "$mesh" == "istio" ] && \
+                kubectl label namespace emojivoto-$num istio-injection=enabled
+
+            helm install emojivoto-$num --namespace emojivoto-$num \
+                             ${script_location}/../configs/emojivoto/
+         } &
     done
 
     wait
 
     grace "kubectl get pods --all-namespaces | grep emojivoto | grep -v Running" 10
+}
+# --
 
-    [ "$mesh" != "bare-metal" ] && {
-        # make sure installation is fully meshed
-        echo "Validating if fully meshed..."
-        local fully_meshed=false
-        while ! $fully_meshed; do
-            fully_meshed=true
-            for i in $(seq 0 1 59); do
-                if kubectl get pods -n emojivoto-$i | tail -n -1 | grep -qvE "[012]/2" ; then
-                    echo "Namespace 'emojivoto-$i' not fully meshed:"
-                    kubectl get pods -n emojivoto-$i
+function restart_emojivoto_pods() {
 
-                    echo "Deleting namespace and re-deploying..."
-                    {   helm uninstall emojivoto-$i --namespace emojivoto-$i
-                        kubectl delete namespace emojivoto-$i --wait
-                        grace "kubectl get namespaces | grep emojivoto-$i" 1
+    for num in $(seq 0 1 59); do
+        local ns="emojivoto-$num"
+        echo "Restarting pods in $ns"
+        {  local pods="$(kubectl get -n "$ns" pods | grep -vE '^NAME' | awk '{print $1}')"
+            kubectl delete -n "$ns" pods $pods --wait; } &
+    done
 
-                        install_emojivoto_single "$mesh" "$i"
-                    } &
-                    # check again
-                    fully_meshed=false
-                else
-                    echo "Namespace 'emojivoto-$i' is fully meshed."
-                fi
-            done
-            $fully_meshed || {
-                wait
-                grace "kubectl get pods --all-namespaces | grep emojivoto | grep -v Running" 10
-            }
-        done
-    }
+    wait
+
+    grace "kubectl get pods --all-namespaces | grep emojivoto | grep -v Running" 10
 }
 # --
 
@@ -147,30 +138,6 @@ function run_bench() {
     install_benchmark "$mesh" "$rps"
     grace "kubectl get pods -n benchmark | grep wrk2-prometheus | grep -v Running" 10
 
-    [ "$mesh" != "bare-metal" ] && {
-        # make sure installation is fully meshed
-        local fully_meshed=false
-        while ! $fully_meshed; do
-            fully_meshed=true
-            if kubectl get pods -n benchmark | tail -n -1 | grep -qvE "[012]/2" ; then
-                echo "Benchmark is not fully meshed:"
-                kubectl get pods -n benchmark
-
-                echo "Uninstalling and re-deploying..."
-                helm uninstall benchmark --namespace benchmark
-                kubectl delete ns benchmark --wait
-                grace "kubectl get namespaces | grep benchmark" 1
-
-                install_benchmark "$mesh" "$rps"
-                grace "kubectl get pods -n benchmark | grep wrk2-prometheus | grep -v Running" 10
-
-                # check again
-                fully_meshed=false
-                sleep 1
-            fi
-        done
-    }
-
     echo "Benchmark started."
 
     while kubectl get jobs -n benchmark \
@@ -212,13 +179,30 @@ function istio_extra_cleanup() {
 
     lokoctl component delete experimental-istio-operator \
                                                 --confirm --delete-namespace
-    kubectl delete $(kubectl get clusterroles -o name | grep istio)
-    kubectl delete $(kubectl get clusterrolebindings -o name | grep istio)
-    kubectl delete $(kubectl get crd -o name | grep istio)
-    kubectl delete \
+    kubectl delete --now --timeout=10s $(kubectl get clusterroles -o name | grep istio)
+    kubectl delete --now --timeout=10s $(kubectl get clusterrolebindings -o name | grep istio)
+    kubectl delete --now --timeout=10s  $(kubectl get crd -o name | grep istio)
+    kubectl delete --now --timeout=10s \
             $(kubectl get validatingwebhookconfigurations -o name | grep istio)
-    kubectl delete \
+    kubectl delete --now --timeout=10s \
             $(kubectl get mutatingwebhookconfigurations -o name | grep istio)
+}
+# --
+
+function delete_istio() {
+    lokoctl component delete experimental-istio-operator --delete-namespace --confirm
+    [ $? -ne 0 ] && {
+        # this sometimes fails with a namespace error, works the 2nd time
+        sleep 5
+        lokoctl component delete experimental-istio-operator --delete-namespace --confirm; }
+
+    grace "kubectl get namespaces | grep istio-operator" 1
+    kubectl delete namespace istio-system  --now --timeout=30s
+    for i in $(seq 20); do
+        istio_extra_cleanup
+        kubectl get namespaces | grep istio-system || break
+        sleep 1
+    done
 }
 # --
 
@@ -256,21 +240,28 @@ function run_benchmarks() {
             echo "Installing istio"
             lokoctl component apply experimental-istio-operator
             grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
-            sleep 60    # extra sleep to let istio initialise. Sidecar injection will
+            sleep 30    # extra sleep to let istio initialise. Sidecar injection will
                         #  fail otherwise.
 
             install_emojivoto istio
+            while true; do
+                check_meshed "emojivoto-" && {
+                    echo "  ++ Emojivoto is fully meshed."
+                    break; }
+                echo " !!! Emojivoto is not fully meshed."
+                echo "     Deleting and re-deploying Istio."
+                delete_istio
+                lokoctl component apply experimental-istio-operator
+                grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
+                sleep 30
+                echo " !!!  Restarting all Emojivoto pods."
+                restart_emojivoto_pods
+            done
             run_bench istio $rps
             delete_emojivoto
 
             echo "Removing istio"
-            lokoctl component delete experimental-istio-operator --delete-namespace --confirm
-            kubectl delete namespace istio-system  --now --timeout=30s
-            for i in $(seq 20); do
-                istio_extra_cleanup
-                kubectl get namespaces | grep istio-system || break
-                sleep 1
-            done
+            delete_istio
         done
     done
 }
@@ -279,4 +270,3 @@ function run_benchmarks() {
 if [ "$(basename $0)" = "run_benchmarks.sh" ] ; then
     run_benchmarks $@
 fi
-
