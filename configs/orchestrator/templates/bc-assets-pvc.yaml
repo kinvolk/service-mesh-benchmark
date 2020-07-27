@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+  name: bc-assets
+  namespace: orchestrator
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi

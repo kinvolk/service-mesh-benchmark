@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wrk2-prometheus
+  namespace: {{.Release.Namespace}}
+  labels:
+    app: wrk2-prometheus
+spec:
+  ports:
+  - name: istio
+    port: 4191
+    targetPort: 4191
+  - name: linkerd
+    port: 15090
+    targetPort: 15090
+  selector:
+    app: wrk2-prometheus
+  type: ClusterIP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    servicemesh: linkerd
+    app: wrk2-prometheus
+    release: prometheus-operator
+  name: linkerd-proxies
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: wrk2-prometheus
+  endpoints:
+  - targetPort: 4191
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    servicemesh: istio
+    app: wrk2-prometheus
+    release: prometheus-operator
+  name: istio-proxies
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    matchLabels:
+      app: wrk2-prometheus
+  endpoints:
+  - targetPort: 15090
+    path: /stats/prometheus
