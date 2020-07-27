@@ -36,16 +36,17 @@ cluster "packet" {
     provider = "route53"
   }
 
-  worker_pool "applications" {
+  worker_pool "workload" {
     count = 6
     node_type = "m2.xlarge.x86"
+    labels    = "role=workload"
   }
 
   # Reserved for the load generator
   worker_pool "loadgenerator" {
     count = 1
     node_type = "m2.xlarge.x86"
-    taints = "load-generator-node=None:NoSchedule"
+    labels    = "role=benchmark"
   }
 }
 
@@ -61,7 +62,20 @@ component "openebs-storage-class" {
 }
 
 component "prometheus-operator" {
-  watch_labeled_service_monitors = "false"
-  watch_labeled_prometheus_rules = "false"
+  prometheus {
+    watch_labeled_service_monitors = "false"
+    watch_labeled_prometheus_rules = "false"
+  }
   namespace = "monitoring"
 }
+
+# uncomment, then `lokoctl component apply <component>` to install
+#
+#component "experimental-istio-operator" {
+#      enable_monitoring = true
+#}
+#
+#component "experimental-linkerd" {
+#      enable_monitoring = true
+#}
+
