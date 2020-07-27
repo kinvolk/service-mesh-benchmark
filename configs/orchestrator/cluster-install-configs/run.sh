@@ -106,43 +106,69 @@ function install_emojivoto() {
   local i
   for ((i = 0; i < workload_num; i++))
   do
-    kubectl create namespace "emojivoto-${i}"
+    {
+      kubectl create namespace "emojivoto-${i}"
 
-    [ "$mesh" == "istio" ] && \
-        kubectl label namespace "emojivoto-${i}" istio-injection=enabled
+      [ "$mesh" == "istio" ] && \
+          kubectl label namespace "emojivoto-${i}" istio-injection=enabled
 
-    helm install --create-namespace "emojivoto-${i}" \
-      --namespace "emojivoto-${i}" \
-      /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
+      helm install --create-namespace "emojivoto-${i}" \
+        --namespace "emojivoto-${i}" \
+        /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
 
-    [ "$mesh" == "bare-metal" ] && continue
+      [ "$mesh" == "bare-metal" ] && return
 
-    # Run until injection of proxy happens
-    while true
-    do
-      log "Checking if the proxy is injected."
-      output=$(kubectl get pods -n "emojivoto-${i}" | grep -i running | awk '{print $2}' | grep 2) || true
-      if [ -z "${output}" ]
-      then
-        kubectl delete pods --all -n "emojivoto-${i}"
-        sleep 2
-      else
-        break
-      fi
-    done
+      # Run until injection of proxy happens
+      while true
+      do
+        log "Checking if the proxy is injected in namespace emojivoto-${i}"
+        output=$(kubectl get pods -n "emojivoto-${i}" | awk '{print $2}' | grep 2) || true
+        if [ -z "${output}" ]
+        then
+          kubectl delete pods --all -n "emojivoto-${i}"
+          sleep 10
+        else
+          break
+        fi
+      done
 
-    log "Pods in the emojivoto-${i} namespace."
-    kubectl get pods -n "emojivoto-${i}"
+      # Run until all pods are in Running state
+      while true
+      do
+        output=$(kubectl get pods -n "emojivoto-${i}" | grep -v STATUS | grep -v Running) || true
+        if [ -z "${output}" ]
+        then
+          break
+        fi
+        log "All pods not in 'Running' state in emojivoto-${i} namespace."
+        sleep 5
+      done
+
+      output=$(kubectl get pods -n "emojivoto-${i}")
+      printf "\nPods in the emojivoto-${i} namespace.\n${output}\n\n"
+    } &
+
+    # If this sleep is not added then threads equal to the number of workload_num are created and
+    # due to this helm gives timeout in installing some releases. This happens either because
+    # apiserver is bombarded with requests or because the mutatingwebhook cannot inject the
+    # container.
+    sleep 3
   done
+
+  wait
 }
 
 function cleanup_emojivoto() {
   local i
   for ((i = 0; i < workload_num; i++))
   do
-    helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
-    kubectl delete ns "emojivoto-${i}"
+    {
+      helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
+      kubectl delete ns "emojivoto-${i}"
+    } &
   done
+
+  wait
 }
 
 # Deploy pushgateway in monitoring namespace
