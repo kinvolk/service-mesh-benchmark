@@ -8,10 +8,10 @@
     "slug": "wrk2-summary",
     "expires": "0001-01-01T00:00:00Z",
     "created": "2020-07-25T15:25:31Z",
-    "updated": "2020-07-27T16:38:24Z",
+    "updated": "2020-07-27T16:57:27Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 10,
+    "version": 11,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -38,7 +38,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 27,
-    "iteration": 1595860912655,
+    "iteration": 1595860912679,
     "links": [],
     "panels": [
       {
@@ -3262,7 +3262,7 @@
             "link": true,
             "linkTargetBlank": true,
             "linkTooltip": "Go to run ${__cell_3}.",
-            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=bare-metal&var-instance=${__cell_2}&var-run=${__cell_3}&time=${__cell_1}&time.window=1500000",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=bare-metal&var-instance=${__cell_2}&var-run=${__cell_3}&from=${__cell_4}&to=${__cell_1}",
             "mappingType": 1,
             "pattern": "source_run",
             "thresholds": [],
@@ -3300,7 +3300,7 @@
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
             "mappingType": 1,
-            "pattern": "(Time|exported_instance|end)",
+            "pattern": "(Time|exported_instance|end|start)",
             "thresholds": [],
             "type": "hidden",
             "unit": "short"
@@ -3308,7 +3308,7 @@
         ],
         "targets": [
           {
-            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"bare-metal\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,end,source_run,value)",
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"bare-metal\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,start,end,source_run,value)",
             "format": "table",
             "hide": false,
             "instant": true,
@@ -4103,7 +4103,7 @@
           "x": 16,
           "y": 27
         },
-        "id": 34,
+        "id": 76,
         "options": {},
         "pageSize": null,
         "showHeader": true,
@@ -4125,7 +4125,7 @@
             "link": true,
             "linkTargetBlank": true,
             "linkTooltip": "Go to run ${__cell_3}.",
-            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-linkerd&var-instance=${__cell_2}&var-run=${__cell_3}&time=${__cell_1}&time.window=1500000",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-linkerd&var-instance=${__cell_2}&var-run=${__cell_3}&from=${__cell_4}&to=${__cell_1}",
             "mappingType": 1,
             "pattern": "source_run",
             "thresholds": [],
@@ -4163,7 +4163,7 @@
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
             "mappingType": 1,
-            "pattern": "(Time|exported_instance|end)",
+            "pattern": "(Time|exported_instance|end|start)",
             "thresholds": [],
             "type": "hidden",
             "unit": "short"
@@ -4171,7 +4171,7 @@
         ],
         "targets": [
           {
-            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-linkerd\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,end,source_run,value)",
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-linkerd\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,start,end,source_run,value)",
             "format": "table",
             "hide": false,
             "instant": true,
@@ -4961,17 +4961,17 @@
         "datasource": "Prometheus",
         "fontSize": "100%",
         "gridPos": {
-          "h": 8,
+          "h": 9,
           "w": 8,
           "x": 16,
           "y": 38
         },
-        "id": 35,
+        "id": 77,
         "options": {},
         "pageSize": null,
         "showHeader": true,
         "sort": {
-          "col": 2,
+          "col": 4,
           "desc": true
         },
         "styles": [
@@ -4988,7 +4988,7 @@
             "link": true,
             "linkTargetBlank": true,
             "linkTooltip": "Go to run ${__cell_3}.",
-            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-istio&var-instance=${__cell_2}&var-run=${__cell_3}&time=${__cell_1}&time.window=1500000",
+            "linkUrl": "http://localhost:3000/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-istio&var-instance=${__cell_2}&var-run=${__cell_3}&from=${__cell_4}&to=${__cell_1}",
             "mappingType": 1,
             "pattern": "source_run",
             "thresholds": [],
@@ -5026,7 +5026,7 @@
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
             "mappingType": 1,
-            "pattern": "(Time|exported_instance|end)",
+            "pattern": "(Time|exported_instance|end|start)",
             "thresholds": [],
             "type": "hidden",
             "unit": "short"
@@ -5034,7 +5034,7 @@
         ],
         "targets": [
           {
-            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-istio\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,end,source_run,value)",
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"svcmesh-istio\",requested_rps=\"$rps\", p=\"1.0\"}) by (exported_instance,start,end,source_run,value)",
             "format": "table",
             "hide": false,
             "instant": true,
@@ -5104,6 +5104,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": null,
-    "version": 10
+    "version": 11
   }
 }

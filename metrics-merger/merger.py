@@ -133,7 +133,9 @@ def create_summary_gauge(p, mesh, r, detailed=False):
         percs_count = percs_count + 1
         for run, lat in latencies.items():
             g.labels(p=perc, source_run=run, requested_rps=info[run]["rps"],
-                     start=info[run]["start"]*1000, end=info[run]["end"]*1000,
+                     start=info[run]["start"]*1000,
+                     # dashboard link fix: set end to 1min after actual end
+                     end = (info[run]["end"] + 60) *1000,
                      duration=info[run]["duration"]).set(lat)
 
     return g, percs_count, len(info)
