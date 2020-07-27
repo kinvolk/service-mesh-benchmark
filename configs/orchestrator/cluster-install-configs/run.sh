@@ -297,7 +297,7 @@ function run_merge_job() {
 
 install_pushgateway
 
-for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000 5500; do
+for rps in 500 1000 1500 2000 2500 3000 3500 4000 4500 5000 5500; do
 
   for ((i=0;i<5;i++))
   do
