@@ -8,10 +8,10 @@
     "slug": "wrk2-summary",
     "expires": "0001-01-01T00:00:00Z",
     "created": "2020-07-25T15:25:31Z",
-    "updated": "2020-07-27T10:57:13Z",
+    "updated": "2020-07-27T16:38:24Z",
     "updatedBy": "admin",
     "createdBy": "Anonymous",
-    "version": 7,
+    "version": 10,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -38,19 +38,2438 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 27,
-    "iteration": 1595746681028,
+    "iteration": 1595860912655,
     "links": [],
     "panels": [
       {
-        "content": "<h3><center>Bare metal latency percentiles</center></h3>",
+        "content": "<h1><center>Benchmark latency summary</center></h1>\n<hr>\n<h3><center>Bare Metal, Linkerd, and Istio compared</center></h3>",
         "datasource": null,
         "gridPos": {
-          "h": 2,
-          "w": 22,
+          "h": 3,
+          "w": 24,
           "x": 0,
           "y": 0
         },
+        "id": 44,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.5 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 0,
+          "y": 3
+        },
         "id": 12,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.75 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 3,
+          "y": 3
+        },
+        "id": 36,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.9 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 6,
+          "y": 3
+        },
+        "id": 37,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.99 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 9,
+          "y": 3
+        },
+        "id": 38,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.999 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 12,
+          "y": 3
+        },
+        "id": 43,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.9999 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 15,
+          "y": 3
+        },
+        "id": 41,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>0.99999 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 18,
+          "y": 3
+        },
+        "id": 40,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "content": "<br />\n<center><b>1.0 percentile</b></center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 3,
+          "x": 21,
+          "y": 3
+        },
+        "id": 39,
+        "mode": "html",
+        "options": {},
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 0,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 2,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 1,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 14,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 2,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 23,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 3,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 3,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 4,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 15,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 5,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 24,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 6,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 5,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 7,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 16,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 8,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 25,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 9,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 4,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 10,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 17,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 11,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 26,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 12,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 7,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 13,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 18,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 14,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 27,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 15,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 6,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 16,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 19,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 17,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 28,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 18,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 9,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 19,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 20,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 20,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 29,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 21,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 8,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 0,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 0.5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 22,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 21,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-linkerd\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "linkerd",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 1,
+          "x": 23,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 30,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "rightSide": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pluginVersion": "6.5.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"svcmesh-istio\"}",
+            "format": "time_series",
+            "instant": false,
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "istio",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "10000",
+            "min": "0",
+            "show": false
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "content": "<hr>\n<h3><center>Bare Metal latency percentiles</center>",
+        "datasource": null,
+        "gridPos": {
+          "h": 2,
+          "w": 24,
+          "x": 0,
+          "y": 14
+        },
+        "id": 63,
         "mode": "html",
         "options": {},
         "timeFrom": null,
@@ -72,10 +2491,10 @@
           "h": 9,
           "w": 2,
           "x": 0,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 2,
+        "id": 45,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -166,10 +2585,10 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 3,
+        "id": 46,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -260,10 +2679,10 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 5,
+        "id": 48,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -354,10 +2773,10 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 4,
+        "id": 47,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -448,10 +2867,10 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 7,
+        "id": 49,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -542,10 +2961,10 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 6,
+        "id": 50,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -636,10 +3055,10 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 9,
+        "id": 51,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -730,10 +3149,10 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 2
+          "y": 16
         },
         "hiddenSeries": false,
-        "id": 8,
+        "id": 52,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -745,7 +3164,7 @@
           "values": true
         },
         "lines": true,
-        "linewidth": 0,
+        "linewidth": 1,
         "links": [],
         "nullPointMode": "null as zero",
         "options": {
@@ -753,7 +3172,7 @@
         },
         "percentage": false,
         "pluginVersion": "6.5.0",
-        "pointradius": 0.5,
+        "pointradius": 2,
         "points": false,
         "renderer": "flot",
         "seriesOverrides": [],
@@ -816,10 +3235,10 @@
         "datasource": "Prometheus",
         "fontSize": "100%",
         "gridPos": {
-          "h": 11,
-          "w": 6,
+          "h": 9,
+          "w": 8,
           "x": 16,
-          "y": 2
+          "y": 16
         },
         "id": 33,
         "options": {},
@@ -905,15 +3324,15 @@
         "type": "table"
       },
       {
-        "content": "<hr>\n<h3><center>Linkerd latency percentiles</center></h3>",
+        "content": "<hr>\n<h3><center>Linkerd latency percentiles</center>",
         "datasource": null,
         "gridPos": {
           "h": 2,
-          "w": 22,
+          "w": 24,
           "x": 0,
-          "y": 13
+          "y": 25
         },
-        "id": 13,
+        "id": 62,
         "mode": "html",
         "options": {},
         "timeFrom": null,
@@ -935,10 +3354,10 @@
           "h": 9,
           "w": 2,
           "x": 0,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 14,
+        "id": 54,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1029,10 +3448,10 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 15,
+        "id": 55,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1123,10 +3542,10 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 16,
+        "id": 56,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1217,10 +3636,10 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 17,
+        "id": 57,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1311,10 +3730,10 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 18,
+        "id": 58,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1405,10 +3824,10 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 19,
+        "id": 59,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1499,10 +3918,10 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 20,
+        "id": 60,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1593,10 +4012,10 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 15
+          "y": 27
         },
         "hiddenSeries": false,
-        "id": 21,
+        "id": 61,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1679,10 +4098,10 @@
         "datasource": "Prometheus",
         "fontSize": "100%",
         "gridPos": {
-          "h": 11,
-          "w": 6,
+          "h": 9,
+          "w": 8,
           "x": 16,
-          "y": 15
+          "y": 27
         },
         "id": 34,
         "options": {},
@@ -1768,15 +4187,15 @@
         "type": "table"
       },
       {
-        "content": "<hr>\n<h3><center>Istio latency percentiles</center></h3>",
+        "content": "<hr>\n<h3><center>Istio latency percentiles</center>",
         "datasource": null,
         "gridPos": {
           "h": 2,
-          "w": 22,
+          "w": 24,
           "x": 0,
-          "y": 26
+          "y": 36
         },
-        "id": 22,
+        "id": 53,
         "mode": "html",
         "options": {},
         "timeFrom": null,
@@ -1798,10 +4217,10 @@
           "h": 9,
           "w": 2,
           "x": 0,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 23,
+        "id": 64,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1892,10 +4311,10 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 24,
+        "id": 65,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1986,10 +4405,10 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 25,
+        "id": 72,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2080,10 +4499,10 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 26,
+        "id": 67,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2174,10 +4593,10 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 27,
+        "id": 71,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2268,10 +4687,10 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 28,
+        "id": 73,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2362,10 +4781,10 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 29,
+        "id": 74,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2456,17 +4875,16 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 28
+          "y": 38
         },
         "hiddenSeries": false,
-        "id": 30,
+        "id": 75,
         "legend": {
           "alignAsTable": true,
           "avg": false,
           "current": true,
           "max": false,
           "min": false,
-          "rightSide": false,
           "show": false,
           "total": false,
           "values": true
@@ -2543,10 +4961,10 @@
         "datasource": "Prometheus",
         "fontSize": "100%",
         "gridPos": {
-          "h": 9,
-          "w": 6,
+          "h": 8,
+          "w": 8,
           "x": 16,
-          "y": 28
+          "y": 38
         },
         "id": 35,
         "options": {},
@@ -2686,6 +5104,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": null,
-    "version": 7
+    "version": 10
   }
 }
