@@ -3,11 +3,13 @@
 The `merger.py` tool and accompanying Docker build recipe implement results
 merging of individual benchmark runs. `merger.py` will query individual run
 results from Prometheus, merge the data to create a summary, then publish the
-summary to a push gateway.
+summary to a push gateway. The merger job should run after every benchmark, to
+keep the [summary dashboard](../dashboards/grafana-wrk2-summary.json)
+up to date.
 
 `merger.py` will merge all data of completed runs (`{status="done"}`) of
 (currently hard-coded) `bare-metal`, `svcmesh-linkerd`, and `svcmesh-istio`
-jobsi, The benchmark starter script `config/run_benchmark.sh` will use these
+jobs, The benchmark starter script `config/run_benchmark.sh` will use these
 job names.
 
 # Usage
