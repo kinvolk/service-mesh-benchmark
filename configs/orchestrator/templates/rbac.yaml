@@ -1,0 +1,81 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: oc-permissions
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - '*'
+- apiGroups:
+  - monitoring.coreos.com
+  resourceNames:
+  - prometheus-operator-prometheus
+  resources:
+  - prometheuses
+  verbs:
+  - patch
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: oc-permissions
+  namespace: orchestrator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: oc-permissions
+subjects:
+- kind: ServiceAccount
+  name: jobrunner
+  namespace: orchestrator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: orchestrate-jobs
+  namespace: orchestrator
+rules:
+- apiGroups:
+  - "batch"
+  resources:
+  - jobs
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: orchestrate-jobs
+  namespace: orchestrator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: orchestrate-jobs
+subjects:
+- kind: ServiceAccount
+  name: orchestrator
+  namespace: orchestrator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: privileged-psp-orchestrator
+  namespace: orchestrator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: privileged-psp
+subjects:
+- kind: ServiceAccount
+  name: orchestrator
+  namespace: orchestrator
+- kind: ServiceAccount
+  name: jobrunner
+  namespace: orchestrator
+- kind: ServiceAccount
+  name: downloader
+  namespace: orchestrator

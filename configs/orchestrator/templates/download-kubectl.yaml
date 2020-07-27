@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-kubectl
+  namespace: orchestrator
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-kubectl
+        image: fedora:32
+        command:
+        - bash
+        args:
+        - -c
+        - 'curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && chmod +x ./kubectl && mv ./kubectl /binaries'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries

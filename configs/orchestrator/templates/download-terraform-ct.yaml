@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-ct
+  namespace: orchestrator
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-ct
+        image: fedora:32
+        env:
+        - name: VERSION
+          value: {{.Values.ct.version}}
+        command:
+        - bash
+        args:
+        - -c
+        - 'curl -LO https://github.com/poseidon/terraform-provider-ct/releases/download/$(VERSION)/terraform-provider-ct-$(VERSION)-linux-amd64.tar.gz && tar xzf terraform-provider-ct-$(VERSION)-linux-amd64.tar.gz && mv terraform-provider-ct-$(VERSION)-linux-amd64/terraform-provider-ct /binaries'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries

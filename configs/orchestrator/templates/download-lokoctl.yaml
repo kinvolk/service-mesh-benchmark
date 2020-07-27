@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-lokoctl
+  namespace: orchestrator
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-lokoctl
+        image: golang
+        env:
+        - name: BRANCH
+          value: {{.Values.lokoctl.branch}}
+        command:
+        - bash
+        args:
+        - -c
+        - 'git clone https://github.com/kinvolk/lokomotive && cd lokomotive && git checkout $BRANCH && make build && mv ./lokoctl /binaries'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries

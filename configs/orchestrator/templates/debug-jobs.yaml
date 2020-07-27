@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: debug-jobs
+  name: debug-jobs
+  namespace: orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debug-jobs
+  template:
+    metadata:
+      labels:
+        app: debug-jobs
+    spec:
+      containers:
+      - image: quay.io/kinvolk/smb-jobrunner
+        name: jobrunner
+        env:
+        - name: CT_VER
+          value: {{.Values.ct.version}}
+        envFrom:
+        - secretRef:
+            name: cloud-secrets
+        command:
+        - bash
+        args:
+        - -c
+        - 'bash /scripts/cleanup-setup.sh'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+        - name: ssh-keys
+          mountPath: /root/.ssh
+          readOnly: true
+        - name: cluster-assets
+          mountPath: /clusters
+        - name: cluster-install-configs
+          mountPath: /scripts
+      serviceAccountName: jobrunner
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries
+      - name: cluster-assets
+        persistentVolumeClaim:
+          claimName: bc-assets
+      - name: ssh-keys
+        secret:
+          defaultMode: 256
+          secretName: ssh-keys
+      - name: cluster-install-configs
+        configMap:
+          name: cluster-install-configs

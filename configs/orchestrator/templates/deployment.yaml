@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orchestrator
+  name: orchestrator
+  namespace: orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchestrator
+  template:
+    metadata:
+      labels:
+        app: orchestrator
+    spec:
+      containers:
+      - image: quay.io/kinvolk/smb-orchestrator
+        name: orchestrator
+        env:
+        - name: REGION_EIPS
+          value: {{.Values.clouds.packet.regionEIPs}}
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+        - name: cluster-install-configs
+          mountPath: /scripts
+      serviceAccountName: orchestrator
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries
+      - name: cluster-install-configs
+        configMap:
+          name: cluster-install-configs
