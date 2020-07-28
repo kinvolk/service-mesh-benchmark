@@ -35,6 +35,20 @@ def get_completed_runs(p, mesh):
     return r
 # --
 
+def run_time_info(p, run):
+    info = {}
+    for kind in ["start", "end", "duration"]:
+        res = get_results(p,
+                'wrk2_benchmark_run_runtime{kind="%s",run="%s"}' % (kind,run))
+        try:
+            info[kind] = int(res[0]["values"][0][1])
+        except IndexError:
+            print(" !!! Run %s lacks '%s' metric." % (run,kind))
+            return None
+
+    return info
+# --
+
 def get_latency_histogram(run,detailed=False):
     # return RPS, histogram of a single run as dict 
     # <RPS>, {<percentile>: <latency in ms>, ...}
@@ -66,34 +80,40 @@ def get_latency_histogram(run,detailed=False):
 
 def get_latency_histograms(p, mesh, detailed=False):
     # get all runs for a given service mesh.
-    # Returns dict of dicts, indexed by RPS, then latency percentile:
-    # { <RPS>: { <percentile>: [ <lat>, <lat>, <lat>, ...], <percentile>:...},
-    #   <RPS>: { ...}, ...}
+    # Returns dict of latency percentiles:
+    # { <percentile>: [ <lat>, <lat>, <lat>, ...], <percentile>:...},
+    #   <percentile>: [...]}
+    # and info (doct) for each run (rps, start end, duration)
 
-    histograms={}
     if False == detailed:
         print("Mesh %s" %(mesh,))
+
+    histograms={}
+    info = {}
+
     for run in get_completed_runs(p, mesh):
         rps, h = get_latency_histogram(run, detailed)
-        if not histograms.get(rps):
-            histograms[rps]={}
+        i = run_time_info(p, run)
+        if not i:
+            continue
+        info[run] = i
+        info[run]["rps"] = rps
         for perc,lat in h.items():
-            if histograms[rps].get(perc, False):
-                histograms[rps][perc][run]=lat
+            if histograms.get(perc, False):
+                histograms[perc][run]=lat
             else:
-                histograms[rps][perc] = OrderedDict({run:lat})
+                histograms[perc] = OrderedDict({run:lat})
 
     # sort runs' latencies for each percentile
-    for rps in histograms.keys():
-        for perc in histograms[rps].keys():
-            histograms[rps][perc] = {k: v for k, v in 
-                sorted(histograms[rps][perc].items(), key=lambda item: item[1])}
+    for perc in histograms.keys():
+        histograms[perc] = {k: v for k, v in 
+            sorted(histograms[perc].items(), key=lambda item: item[1])}
 
-    return histograms
+    return histograms, info
 # --
 
 def create_summary_gauge(p, mesh, r, detailed=False):
-    histograms = get_latency_histograms(p, mesh, detailed)
+    histograms, info = get_latency_histograms(p, mesh, detailed)
 
     if detailed:
         detailed="detailed_"
@@ -101,23 +121,25 @@ def create_summary_gauge(p, mesh, r, detailed=False):
         detailed=""
 
     g = Gauge('wrk2_benchmark_summary_latency_%sms' % (detailed,),
-              '%s latency summary' % (mesh,),
-                labelnames=["p","source_run", "requested_rps"], registry=r)
+            '%s latency summary' % (mesh,),
+            labelnames=[
+                "p","source_run", "requested_rps", "start", "end", "duration"],
+                registry=r)
 
-    percs_count=0; runs_count=0
+    percs_count=0
 
     # create latency entries for all runs, per percentile
-    for rps in histograms.keys():
-        for perc, latencies in histograms[rps].items():
-            percs_count = percs_count + 1
-            runs_count=0
-            for run, lat in latencies.items():
-                runs_count = runs_count + 1
-                g.labels(p=perc, source_run=run, requested_rps=rps).set(lat)
+    for perc, latencies in histograms.items():
+        percs_count = percs_count + 1
+        for run, lat in latencies.items():
+            g.labels(p=perc, source_run=run, requested_rps=info[run]["rps"],
+                     start=info[run]["start"]*1000,
+                     # dashboard link fix: set end to 1min after actual end
+                     end = (info[run]["end"] + 60) *1000,
+                     duration=info[run]["duration"]).set(lat)
 
-    return g, percs_count, runs_count
+    return g, percs_count, len(info)
 # --
-
 #
 # -- main --
 #
@@ -146,5 +168,5 @@ for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
     print("%s: %d runs with %d percentiles (coarse)" % (mesh, runs, percs))
     print("%s: %d runs with %d percentiles (detailed)" % (mesh, druns, dpercs))
 
-    push_to_gateway(pgw_url, job=mesh,
-            grouping_key={"instance":"emojivoto"}, registry=r)
+    push_to_gateway(
+          pgw_url, job=mesh, grouping_key={"instance":"emojivoto"}, registry=r)
