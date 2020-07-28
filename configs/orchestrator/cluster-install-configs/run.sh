@@ -112,8 +112,8 @@ function install_emojivoto() {
       [ "$mesh" == "istio" ] && \
           kubectl label namespace "emojivoto-${i}" istio-injection=enabled
 
-      helm install --create-namespace "emojivoto-${i}" \
-        --namespace "emojivoto-${i}" \
+      helm install --timeout=10m --create-namespace "emojivoto-${i}" \
+        --namespace "emojivoto-${i}" --wait \
         /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
 
       [ "$mesh" == "bare-metal" ] && return
@@ -174,7 +174,7 @@ function cleanup_emojivoto() {
 # Deploy pushgateway in monitoring namespace
 function install_pushgateway() {
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
-  helm install pushgateway --namespace monitoring . || true
+  helm install --timeout=10m pushgateway --namespace monitoring . || true
 }
 
 function install_mesh() {
@@ -270,7 +270,7 @@ function run_benchmark() {
   fi
 
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
-  helm install "${name}" --namespace "${name}" \
+  helm install --timeout=10m "${name}" --namespace "${name}" \
     . --set wrk2.serviceMesh="${svcmesh}" \
       --set wrk2.app.count="${workload_num}" \
       --set wrk2.RPS="${rps}" \
@@ -290,7 +290,7 @@ function run_merge_job() {
   local name="metrics-merger-${mesh}-${rps}-${ind}"
 
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/metrics-merger/
-  helm install "${name}" --create-namespace --namespace "${name}" .
+  helm install --timeout=10m "${name}" --create-namespace --namespace "${name}" .
 
   wait_for_job "${name}" wrk2-metrics-merger
 }
