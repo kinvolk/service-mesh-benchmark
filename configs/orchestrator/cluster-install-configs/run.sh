@@ -116,21 +116,25 @@ function install_emojivoto() {
         --namespace "emojivoto-${i}" --wait \
         /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
 
-      [ "$mesh" == "bare-metal" ] && return
-
-      # Run until injection of proxy happens
-      while true
-      do
-        log "Checking if the proxy is injected in namespace emojivoto-${i}"
-        output=$(kubectl get pods -n "emojivoto-${i}" | awk '{print $2}' | grep 2) || true
-        if [ -z "${output}" ]
-        then
-          kubectl delete pods --all -n "emojivoto-${i}"
-          sleep 10
-        else
-          break
-        fi
-      done
+      # Retry pod injection only if the mesh is involved.
+      if [ "$mesh" != "bare-metal" ]
+      then
+        # Run until injection of proxy happens
+        while true
+        do
+          log "Checking if the proxy is injected in namespace emojivoto-${i}"
+          # If there is any pod with READY column as either 0/2, 1/2 or 2/2 then this means that the
+          # pods were injected with proxy.
+          output=$(kubectl get pods -n "emojivoto-${i}" | awk '{print $2}' | grep 2) || true
+          if [ -z "${output}" ]
+          then
+            kubectl delete pods --all -n "emojivoto-${i}"
+            sleep 10
+          else
+            break
+          fi
+        done
+      fi
 
       # Run until all pods are in Running state
       while true
