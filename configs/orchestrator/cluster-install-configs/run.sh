@@ -135,8 +135,10 @@ function install_emojivoto() {
       # Run until all pods are in Running state
       while true
       do
-        output=$(kubectl get pods -n "emojivoto-${i}" | grep -v STATUS | grep -v Running) || true
-        if [ -z "${output}" ]
+        # To verify that the emojivoto pods are up and running following should grep for three pods
+        # that are in Running state. If three is not the result then try again.
+        output=$(kubectl get pods -n "emojivoto-${i}" | grep Running | wc -l) || true
+        if [ "${output}" = "3" ]
         then
           break
         fi
