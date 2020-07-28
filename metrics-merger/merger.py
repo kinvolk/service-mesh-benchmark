@@ -121,7 +121,7 @@ def create_summary_gauge(p, mesh, r, detailed=False):
         detailed=""
 
     g = Gauge('wrk2_benchmark_summary_latency_%sms' % (detailed,),
-            '%s latency summary' % (mesh,),
+            '%s latency summary' % (detailed,),
             labelnames=[
                 "p","source_run", "requested_rps", "start", "end", "duration"],
                 registry=r)
