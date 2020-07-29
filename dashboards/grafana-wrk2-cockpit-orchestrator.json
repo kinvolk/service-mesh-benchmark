@@ -8,10 +8,10 @@
     "slug": "wrk2-benchmark-cockpit-orchestrator",
     "expires": "0001-01-01T00:00:00Z",
     "created": "2020-07-28T11:41:35Z",
-    "updated": "2020-07-28T11:43:33Z",
+    "updated": "2020-07-29T16:35:33Z",
     "updatedBy": "admin",
     "createdBy": "admin",
-    "version": 2,
+    "version": 8,
     "hasAcl": false,
     "isFolder": false,
     "folderId": 0,
@@ -38,7 +38,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 28,
-    "iteration": 1595936496972,
+    "iteration": 1596040522296,
     "links": [],
     "panels": [
       {
@@ -1030,7 +1030,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": "0",
             "show": true
           },
           {
@@ -1123,7 +1123,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": "0",
             "show": true
           },
           {
@@ -1329,7 +1329,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": "0",
             "show": true
           },
           {
@@ -1386,20 +1386,7 @@
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
-        "seriesOverrides": [
-          {
-            "alias": "Memory",
-            "yaxis": 2
-          },
-          {
-            "alias": "istio-proxy Memory",
-            "yaxis": 2
-          },
-          {
-            "alias": "linkerd-proxy Memory",
-            "yaxis": 2
-          }
-        ],
+        "seriesOverrides": [],
         "spaceLength": 10,
         "stack": false,
         "steppedLine": false,
@@ -1437,7 +1424,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": "0",
             "show": true
           },
           {
@@ -1811,7 +1798,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "instance:node_load1_per_cpu:ratio",
+            "expr": "instance:node_load1_per_cpu:ratio{cluster=\"$cluster\"}",
             "legendFormat": "{{instance}}",
             "refId": "A"
           }
@@ -3091,6 +3078,6 @@
     "timezone": "",
     "title": "wrk2 benchmark cockpit (orchestrator)",
     "uid": null,
-    "version": 2
+    "version": 8
   }
 }

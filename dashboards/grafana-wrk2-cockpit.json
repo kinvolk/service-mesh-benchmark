@@ -1030,7 +1030,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": 0,
             "show": true
           },
           {
@@ -1123,7 +1123,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": 0,
             "show": true
           },
           {
@@ -1329,7 +1329,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": 0,
             "show": true
           },
           {
@@ -1386,20 +1386,7 @@
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
-        "seriesOverrides": [
-          {
-            "alias": "Memory",
-            "yaxis": 2
-          },
-          {
-            "alias": "istio-proxy Memory",
-            "yaxis": 2
-          },
-          {
-            "alias": "linkerd-proxy Memory",
-            "yaxis": 2
-          }
-        ],
+        "seriesOverrides": [],
         "spaceLength": 10,
         "stack": false,
         "steppedLine": false,
@@ -1437,7 +1424,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": 0,
             "show": true
           },
           {
