@@ -1000,7 +1000,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=\"benchmark\", container=~\".*-proxy\"}",
+            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1093,7 +1093,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"})  by (container)",
+            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"})  by (container)",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1186,12 +1186,12 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"linkerd\", container!~\".*-proxy\"})",
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"linkerd\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Linkerd total Memory",
             "refId": "E"
           },
           {
-            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"(istio-.*)\", container!~\".*-proxy\"})",
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"(istio-.*)\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total Memory",
             "refId": "F"
           }
@@ -1297,7 +1297,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"benchmark\", container=~\".*-proxy\"}",
+            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1392,7 +1392,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\"}) by (container)",
+            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"}) by (container)",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1504,12 +1504,12 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"linkerd\", container!~\".*-proxy\"})",
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"linkerd\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Linkerd total CPU seconds",
             "refId": "C"
           },
           {
-            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"istio-.*\", container!~\".*-proxy\"})",
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"istio-.*\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total CPU seconds",
             "refId": "D"
           }
