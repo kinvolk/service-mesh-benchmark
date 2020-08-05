@@ -106,49 +106,81 @@ function install_emojivoto() {
   local i
   for ((i = 0; i < workload_num; i++))
   do
-    kubectl create namespace "emojivoto-${i}"
+    {
+      kubectl create namespace "emojivoto-${i}"
 
-    [ "$mesh" == "istio" ] && \
-        kubectl label namespace "emojivoto-${i}" istio-injection=enabled
+      [ "$mesh" == "istio" ] && \
+          kubectl label namespace "emojivoto-${i}" istio-injection=enabled
 
-    helm install --create-namespace "emojivoto-${i}" \
-      --namespace "emojivoto-${i}" \
-      /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
+      helm install --timeout=10m --create-namespace "emojivoto-${i}" \
+        --namespace "emojivoto-${i}" --wait \
+        /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/emojivoto/ || true
 
-    [ "$mesh" == "bare-metal" ] && continue
-
-    # Run until injection of proxy happens
-    while true
-    do
-      log "Checking if the proxy is injected."
-      output=$(kubectl get pods -n "emojivoto-${i}" | grep -i running | awk '{print $2}' | grep 2) || true
-      if [ -z "${output}" ]
+      # Retry pod injection only if the mesh is involved.
+      if [ "$mesh" != "bare-metal" ]
       then
-        kubectl delete pods --all -n "emojivoto-${i}"
-        sleep 2
-      else
-        break
+        # Run until injection of proxy happens
+        while true
+        do
+          log "Checking if the proxy is injected in namespace emojivoto-${i}"
+          # If there is any pod with READY column as either 0/2, 1/2 or 2/2 then this means that the
+          # pods were injected with proxy.
+          output=$(kubectl get pods -n "emojivoto-${i}" | awk '{print $2}' | grep 2) || true
+          if [ -z "${output}" ]
+          then
+            kubectl delete pods --all -n "emojivoto-${i}"
+            sleep 10
+          else
+            break
+          fi
+        done
       fi
-    done
 
-    log "Pods in the emojivoto-${i} namespace."
-    kubectl get pods -n "emojivoto-${i}"
+      # Run until all pods are in Running state
+      while true
+      do
+        # To verify that the emojivoto pods are up and running following should grep for three pods
+        # that are in Running state. If three is not the result then try again.
+        output=$(kubectl get pods -n "emojivoto-${i}" | grep Running | wc -l) || true
+        if [ "${output}" = "3" ]
+        then
+          break
+        fi
+        log "All pods not in 'Running' state in emojivoto-${i} namespace."
+        sleep 5
+      done
+
+      output=$(kubectl get pods -n "emojivoto-${i}")
+      printf "\nPods in the emojivoto-${i} namespace.\n${output}\n\n"
+    } &
+
+    # If this sleep is not added then threads equal to the number of workload_num are created and
+    # due to this helm gives timeout in installing some releases. This happens either because
+    # apiserver is bombarded with requests or because the mutatingwebhook cannot inject the
+    # container.
+    sleep 3
   done
+
+  wait
 }
 
 function cleanup_emojivoto() {
   local i
   for ((i = 0; i < workload_num; i++))
   do
-    helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
-    kubectl delete ns "emojivoto-${i}"
+    {
+      helm uninstall "emojivoto-${i}" --namespace "emojivoto-${i}" || true
+      kubectl delete ns "emojivoto-${i}"
+    } &
   done
+
+  wait
 }
 
 # Deploy pushgateway in monitoring namespace
 function install_pushgateway() {
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/pushgateway
-  helm install pushgateway --namespace monitoring . || true
+  helm install --timeout=10m pushgateway --namespace monitoring . || true
 }
 
 function install_mesh() {
@@ -244,7 +276,7 @@ function run_benchmark() {
   fi
 
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/benchmark/
-  helm install "${name}" --namespace "${name}" \
+  helm install --timeout=10m "${name}" --namespace "${name}" \
     . --set wrk2.serviceMesh="${svcmesh}" \
       --set wrk2.app.count="${workload_num}" \
       --set wrk2.RPS="${rps}" \
@@ -264,14 +296,14 @@ function run_merge_job() {
   local name="metrics-merger-${mesh}-${rps}-${ind}"
 
   cd /clusters/"${CLUSTER_NAME}"/service-mesh-benchmark/configs/metrics-merger/
-  helm install "${name}" --create-namespace --namespace "${name}" .
+  helm install --timeout=10m "${name}" --create-namespace --namespace "${name}" .
 
   wait_for_job "${name}" wrk2-metrics-merger
 }
 
 install_pushgateway
 
-for rps in 500 1000 1500 2500 3000 3500 4000 4500 5000 5500; do
+for rps in 500 1000 1500 2000 2500 3000 3500 4000 4500 5000 5500; do
 
   for ((i=0;i<5;i++))
   do
