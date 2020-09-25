@@ -56,5 +56,13 @@ roleRef:
   name: benchmark-psp
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: benchmark
+  namespace: {{.Release.Namespace}}
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: benchmark
   namespace: {{.Release.Namespace}}

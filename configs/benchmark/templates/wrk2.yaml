@@ -24,6 +24,7 @@ spec:
         emptyDir:
           medium: Memory
       shareProcessNamespace: true
+      serviceAccountName: benchmark
       containers:
       - name: wrk2-prometheus
         image: {{ .Values.wrk2.appImage }}
