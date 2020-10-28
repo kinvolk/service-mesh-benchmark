@@ -18,9 +18,6 @@ spec:
       containers:
       - image: quay.io/kinvolk/smb-jobrunner
         name: jobrunner
-        env:
-        - name: CT_VER
-          value: {{.Values.ct.version}}
         envFrom:
         - secretRef:
             name: cloud-secrets

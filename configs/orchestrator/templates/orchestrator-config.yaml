@@ -4,4 +4,4 @@ metadata:
   name: orchestrator-config
   namespace: orchestrator
 data:
-  CT_VER: {{.Values.ct.version}}
+  CT_VER: ""
