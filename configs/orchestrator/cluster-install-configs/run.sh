@@ -16,7 +16,7 @@ log "Cluster name: ${CLUSTER_NAME}"
 # Creating file already so that once the cluster is installed the kubeconfig will file will be copied here
 mkdir -p ~/.kube
 
-binaries='terraform helm kubectl terraform-provider-ct lokoctl'
+binaries='terraform helm kubectl lokoctl'
 for b in $binaries
 do
   while ! ls "/binaries/${b}" >/dev/null 2>&1
@@ -27,10 +27,6 @@ do
   log "Copying /binaries/${b} to /usr/local/bin/"
   /bin/cp "/binaries/${b}" /usr/local/bin/
 done
-
-mkdir -p ~/.terraform.d/plugins
-cp /binaries/terraform-provider-ct ~/.terraform.d/plugins/terraform-provider-ct_"${CT_VER}"
-log "Copied terraform-provider-ct plugin to plugins dir."
 
 cd /clusters
 mkdir -p "${CLUSTER_NAME}" && cd "${CLUSTER_NAME}"

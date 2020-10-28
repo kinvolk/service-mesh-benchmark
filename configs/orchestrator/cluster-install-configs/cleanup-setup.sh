@@ -12,7 +12,7 @@ function err() {
   echo -e >&2 "\\033[1;31m${message}\\033[0m"
 }
 
-binaries='terraform helm kubectl terraform-provider-ct lokoctl'
+binaries='terraform helm kubectl lokoctl'
 for b in $binaries
 do
   while ! ls "/binaries/${b}" >/dev/null 2>&1
@@ -23,10 +23,6 @@ do
   log "Copying /binaries/${b} to /usr/local/bin/"
   /bin/cp "/binaries/${b}" /usr/local/bin/
 done
-
-mkdir -p ~/.terraform.d/plugins
-cp /binaries/terraform-provider-ct ~/.terraform.d/plugins/terraform-provider-ct_"${CT_VER}"
-log "Copied terraform-provider-ct plugin to plugins dir."
 
 echo
 log "Now exec into this pod and run"
