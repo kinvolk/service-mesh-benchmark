@@ -17,11 +17,12 @@ cluster "packet" {
     var.ssh_pubkey
   ]
 
-  controller_type   = "t1.small.x86"
-  asset_dir         = "./assets"
-  controller_count  = 1
-  management_cidrs  = ["0.0.0.0/0"]
-  node_private_cidr = "10.0.0.0/8"
+  controller_type      = "t1.small.x86"
+  asset_dir            = "./assets"
+  controller_count     = 1
+  management_cidrs     = ["0.0.0.0/0"]
+  node_private_cidr    = "10.0.0.0/8"
+  ignore_x509_cn_check = true
 
 
   dns {
