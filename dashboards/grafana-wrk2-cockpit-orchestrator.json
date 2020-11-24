@@ -406,7 +406,7 @@
           {
             "expr": "wrk2_benchmark_current_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",cluster=\"$cluster\"}",
             "instant": false,
-            "legendFormat": "{{thread}}",
+            "legendFormat": "{{label}}{{thread}}",
             "refId": "A"
           }
         ],
@@ -653,7 +653,7 @@
           {
             "expr": "wrk2_benchmark_average_rps{exported_instance=\"$instance\",run=\"$run\",exported_job=\"$job\",cluster=\"$cluster\"}",
             "instant": false,
-            "legendFormat": "{{thread}}",
+            "legendFormat": "{{label}}{{thread}}",
             "refId": "A"
           }
         ],
