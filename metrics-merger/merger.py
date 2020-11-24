@@ -4,7 +4,7 @@ import json
 import time
 import pprint
 from sys import argv, exit
-from os import putenv
+from os import environ
 
 from collections import OrderedDict
 
@@ -18,11 +18,11 @@ def get_series(p, series):
     return j.get("data",[])
 # --
 
-def get_results(p, query):
+def get_results(p, query, past_days=7):
     # Returns results of a range query, so we pick up older runs' latencies
     now = time.time()
-    last_week = now - (60 * 60 * 24 * 7)
-    m = p.query_rang(metric=query,start=last_week, end=now, step=3600)
+    start_ts = now - (60 * 60 * 24 * past_days)
+    m = p.query_rang(metric=query,start=start_ts, end=now, step=3600)
     j = json.loads(m)
 
     return j.get("data",{}).get("result")
@@ -35,11 +35,12 @@ def get_completed_runs(p, mesh):
     return r
 # --
 
-def run_time_info(p, run):
+def run_time_info(p, run, past_days=7):
     info = {}
     for kind in ["start", "end", "duration"]:
         res = get_results(p,
-                'wrk2_benchmark_run_runtime{kind="%s",run="%s"}' % (kind,run))
+                'wrk2_benchmark_run_runtime{kind="%s",run="%s"}' % (kind,run),
+                past_days)
         try:
             info[kind] = int(res[0]["values"][0][1])
         except IndexError:
@@ -49,7 +50,7 @@ def run_time_info(p, run):
     return info
 # --
 
-def get_latency_histogram(run,detailed=False):
+def get_latency_histogram(run,detailed=False,past_days=7):
     # return RPS, histogram of a single run as dict 
     # <RPS>, {<percentile>: <latency in ms>, ...}
     # e.g.: 500, {0.5: 399, 0.75: 478, 0.9: 589, ...}
@@ -64,7 +65,8 @@ def get_latency_histogram(run,detailed=False):
     out=[]
     rps=0
     for res in get_results(
-                p, 'wrk2_benchmark_latency_%sms{run="%s"}' %(detailed,run,)):
+                p, 'wrk2_benchmark_latency_%sms{run="%s"}' %(detailed,run,),
+                past_days):
         perc = float(res["metric"]["p"])
         rps = float(res["metric"].get("rps",0))
         lat = float(res["values"][0][1])
@@ -78,7 +80,7 @@ def get_latency_histogram(run,detailed=False):
     return rps, ret
 # --
 
-def get_latency_histograms(p, mesh, detailed=False):
+def get_latency_histograms(p, mesh, detailed=False, past_days=7):
     # get all runs for a given service mesh.
     # Returns dict of latency percentiles:
     # { <percentile>: [ <lat>, <lat>, <lat>, ...], <percentile>:...},
@@ -92,8 +94,8 @@ def get_latency_histograms(p, mesh, detailed=False):
     info = {}
 
     for run in get_completed_runs(p, mesh):
-        rps, h = get_latency_histogram(run, detailed)
-        i = run_time_info(p, run)
+        rps, h = get_latency_histogram(run, detailed, past_days)
+        i = run_time_info(p, run, past_days)
         if not i:
             continue
         info[run] = i
@@ -112,8 +114,8 @@ def get_latency_histograms(p, mesh, detailed=False):
     return histograms, info
 # --
 
-def create_summary_gauge(p, mesh, r, detailed=False):
-    histograms, info = get_latency_histograms(p, mesh, detailed)
+def create_summary_gauge(p, mesh, r, detailed=False, past_days=7):
+    histograms, info = get_latency_histograms(p, mesh, detailed, past_days)
 
     if detailed:
         detailed="detailed_"
@@ -144,26 +146,31 @@ def create_summary_gauge(p, mesh, r, detailed=False):
 # -- main --
 #
 
-if 3 != len(argv):
+if 3 > len(argv):
     print(
        'Command line error: Prometheus URL and push gateway are required.')
     print('Usage:')
-    print('  %s <Prometheus server URL> <Prometheus push gateway host:port>'
+    print('  %s <Prometheus URL> <push gateway host:port> [<past-days>]'
             % (argv[0],))
     exit(1)
 
 prometheus_url = argv[1]
 pgw_url = argv[2]
+past_days=7
 
-putenv('PROMETHEUS_URL', prometheus_url)
+if 4 == len(argv):
+    past_days=int(argv[3])
+
+environ['PROMETHEUS_URL'] = prometheus_url
 p = Prometheus()
 
 for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
 
     r = CollectorRegistry()
     workaround = mesh
-    g, percs, runs = create_summary_gauge(p, mesh, r)
-    dg, dpercs, druns = create_summary_gauge(p, mesh, r, detailed=True)
+    g, percs, runs = create_summary_gauge(p, mesh, r, past_days=past_days)
+    dg, dpercs, druns = create_summary_gauge(p, mesh, r, detailed=True,
+            past_days=past_days)
 
     print("%s: %d runs with %d percentiles (coarse)" % (mesh, runs, percs))
     print("%s: %d runs with %d percentiles (detailed)" % (mesh, druns, dpercs))
