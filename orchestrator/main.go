@@ -191,8 +191,6 @@ spec:
         envFrom:
         - secretRef:
             name: cloud-secrets
-        - configMapRef:
-            name: orchestrator-config
         command:
         - bash
         args:
