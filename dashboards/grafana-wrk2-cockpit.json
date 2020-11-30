@@ -1297,7 +1297,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
+            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
