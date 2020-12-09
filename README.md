@@ -8,7 +8,7 @@ Please refer to the [1.0 release](tree/release-1.0) for automation discussed in 
 
 The suite includes:
 - orchestrator [tooling](orchestrator) and [Helm charts](configs/orchestrator)
-    for deploying benchmark clusters from an orchstrator cluster
+    for deploying benchmark clusters from an orchestrator cluster
     - metrics of all benchmark clusters will be scraped and made available in
       the orchestrator cluster
 - a stand-alone benchmark cluster [configuration](configs/packet-cluster.lokocfg) 
