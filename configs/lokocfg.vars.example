@@ -1,0 +1,8 @@
+metal_project_id = "[ID of the equinix metal project to deploy to]"
+route53_zone = "[cluster's route53 zone]"
+state_s3_bucket = "[PRIVATE AWS S3 bucket to share cluster state in]"
+state_s3_key = "[key in S3 bucket, e.g. cluster name]"
+state_s3_region = "[AWS S3 region to use]"
+lock_dynamodb_table = "[DynamoDB table name to use as state lock, e.g. cluster name]"
+region_private_cidr =  "[Your Equinix Metal region's private CIDR]"
+ssh_pub_keys = [ "[Your SSH pub keys]" ]

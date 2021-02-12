@@ -74,6 +74,8 @@ You'll also need a recent version of [Lokomotive](https://github.com/kinvolk/lok
    state_s3_key = "[key in S3 bucket, e.g. cluster name]"
    state_s3_region = "[AWS S3 region to use]"
    lock_dynamodb_table = "[DynamoDB table name to use as state lock, e.g. cluster name]"
+   region_private_cidr =  "[Your Equinix Metal region's private CIDR]"
+   ssh_pub_keys = [ "[Your SSH pub keys]" ]
    ```
 2. Review the benchmark cluster config in `configs/equinix-metal-cluster.lokocfg`, and
    add your public SSH key(s) to the `ssh_pubkeys = [` array. 
