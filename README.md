@@ -66,7 +66,15 @@ an AWS account and accompanying secret key before you can provision a cluster.
 
 You'll also need a recent version of [Lokomotive](https://github.com/kinvolk/lokomotive/releases/).
 
-1. Create `configs/lokocfg.vars` and fill in:
+1. Make the authentication tokens available to the `lokoctl` command.  You can do this in a couple of ways. For example, exporting your authentication tokens:
+   ```
+   export PACKET_AUTH_TOKEN="Your Equinix Metal Auth Token"
+   export AWS_ACCESS_KEY_ID="your access key for AWS"
+   export AWS_SECRET_ACCESS_KEY="your secret for the above access key"
+   ```
+2. Create the Route53 hosted zone that will be used by the cluster. And an S3 bucket and Dynamo tables for storing Lokomotive's state. Check out Lokomotive's documentation for [Using S3 as backend](https://kinvolk.io/docs/lokomotive/latest/configuration-reference/backend/s3/) for how to do this.
+
+3. Create `configs/lokocfg.vars` by copying the example file `configs/lokocfg.vars.example`, and editing its contents.
    ```
    metal_project_id = "[ID of the equinix metal project to deploy to]"
    route53_zone = "[cluster's route53 zone]"
@@ -77,9 +85,8 @@ You'll also need a recent version of [Lokomotive](https://github.com/kinvolk/lok
    region_private_cidr =  "[Your Equinix Metal region's private CIDR]"
    ssh_pub_keys = [ "[Your SSH pub keys]" ]
    ```
-2. Review the benchmark cluster config in `configs/equinix-metal-cluster.lokocfg`, and
-   add your public SSH key(s) to the `ssh_pubkeys = [` array. 
-3. Provision the cluster by running
+4. Review the benchmark cluster config in `configs/equinix-metal-cluster.lokocfg`
+5. Provision the cluster by running
    ```
    $ cd configs
    configs $ lokoctl cluster apply
