@@ -11,7 +11,7 @@ The suite includes:
     for deploying benchmark clusters from an orchestrator cluster
     - metrics of all benchmark clusters will be scraped and made available in
       the orchestrator cluster
-- a stand-alone benchmark cluster [configuration](configs/packet-cluster.lokocfg) 
+- a stand-alone benchmark cluster [configuration](configs/equinix-metal-cluster.lokocfg)
     for use with [Lokomotive](https://github.com/kinvolk/lokomotive/releases/)
 - helm charts for deploying [Emojivoto](configs/emojivoto)
     to provide application endpoints to run benchmarks against
@@ -59,23 +59,23 @@ instances.
 # Creating prerequisites
 ## Set up a cluster
 
-We use [Packet](https://www.packet.com/) infrastructure to run the benchmark
+We use [Equinix Metal](https:/metal.equinix.com/) infrastructure to run the benchmark
 on, AWS S3 for sharing cluster state, and AWS Route53 for the clusters' public
-DNS entries. You'll need a Packet account and respective API token as well as
+DNS entries. You'll need a Equinix Metal account and respective API token as well as
 an AWS account and accompanying secret key before you can provision a cluster.
 
 You'll also need a recent version of [Lokomotive](https://github.com/kinvolk/lokomotive/releases/).
 
 1. Create `configs/lokocfg.vars` and fill in:
    ```
-   packet_project_id = "[ID of the packet project to deploy to]"
+   metal_project_id = "[ID of the equinix metal project to deploy to]"
    route53_zone = "[cluster's route53 zone]"
    state_s3_bucket = "[PRIVATE AWS S3 bucket to share cluster state in]"
    state_s3_key = "[key in S3 bucket, e.g. cluster name]"
    state_s3_region = "[AWS S3 region to use]"
    lock_dynamodb_table = "[DynamoDB table name to use as state lock, e.g. cluster name]"
    ```
-2. Review the benchmark cluster config in `configs/packet-cluster.lokocfg`, and
+2. Review the benchmark cluster config in `configs/equinix-metal-cluster.lokocfg`, and
    add your public SSH key(s) to the `ssh_pubkeys = [` array. 
 3. Provision the cluster by running
    ```

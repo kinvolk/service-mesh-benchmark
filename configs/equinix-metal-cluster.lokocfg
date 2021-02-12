@@ -1,5 +1,5 @@
 # Variables
-variable "packet_project_id" {}
+variable "metal_project_id" {}
 variable "route53_zone" {}
 variable "state_s3_bucket" {}
 variable "state_s3_key" {}
@@ -15,7 +15,7 @@ backend "s3" {
 }
 
 cluster "packet" {
-  project_id   = var.packet_project_id
+  project_id   = var.metal_project_id
   cluster_name = "test-wrk2"
   facility     = "dfw2"
 
@@ -29,7 +29,7 @@ cluster "packet" {
   ]
 
   management_cidrs  = ["0.0.0.0/0"]
-  node_private_cidr = "[YOUR PACKET REGION'S PRIVATE CIDR]"
+  node_private_cidr = "[YOUR EQUINIX METAL REGION'S PRIVATE CIDR]"
 
   dns {
     zone = var.route53_zone
