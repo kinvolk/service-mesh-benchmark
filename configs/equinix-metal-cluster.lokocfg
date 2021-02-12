@@ -39,14 +39,18 @@ cluster "packet" {
   worker_pool "workload" {
     count = 6
     node_type = "m2.xlarge.x86"
-    labels    = "role=workload"
+    labels    = {
+        "role" = "workload"
+    }
   }
 
   # Reserved for the load generator
   worker_pool "loadgenerator" {
     count = 1
     node_type = "m2.xlarge.x86"
-    labels    = "role=benchmark"
+    labels    = {
+        "role" = "benchmark"
+    }
   }
 }
 
