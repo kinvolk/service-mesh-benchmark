@@ -1,10 +1,12 @@
 # Variables
-variable "packet_project_id" {}
+variable "metal_project_id" {}
 variable "route53_zone" {}
 variable "state_s3_bucket" {}
 variable "state_s3_key" {}
 variable "state_s3_region" {}
 variable "lock_dynamodb_table" {}
+variable "ssh_pub_keys" {}
+variable "region_private_cidr" {}
 
 # Cluster config
 backend "s3" {
@@ -15,7 +17,7 @@ backend "s3" {
 }
 
 cluster "packet" {
-  project_id   = var.packet_project_id
+  project_id   = var.metal_project_id
   cluster_name = "test-wrk2"
   facility     = "dfw2"
 
@@ -24,12 +26,10 @@ cluster "packet" {
   asset_dir        = "./assets"
   controller_count = 1
 
-  ssh_pubkeys = [
-# YOUR PUBKEY GOES HERE
-  ]
+  ssh_pubkeys = var.ssh_pub_keys
 
   management_cidrs  = ["0.0.0.0/0"]
-  node_private_cidr = "[YOUR PACKET REGION'S PRIVATE CIDR]"
+  node_private_cidr = var.region_private_cidr
 
   dns {
     zone = var.route53_zone
@@ -39,14 +39,18 @@ cluster "packet" {
   worker_pool "workload" {
     count = 6
     node_type = "m2.xlarge.x86"
-    labels    = "role=workload"
+    labels    = {
+        "role" = "workload"
+    }
   }
 
   # Reserved for the load generator
   worker_pool "loadgenerator" {
     count = 1
     node_type = "m2.xlarge.x86"
-    labels    = "role=benchmark"
+    labels    = {
+        "role" = "benchmark"
+    }
   }
 }
 

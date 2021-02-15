@@ -30,7 +30,7 @@ done
 
 cd /clusters
 mkdir -p "${CLUSTER_NAME}" && cd "${CLUSTER_NAME}"
-cp /scripts/packet.lokocfg .
+cp /scripts/equinix-metal.lokocfg .
 cp /scripts/lokocfg.vars.envsubst .
 
 public_key=$(cat ~/.ssh/id_rsa.pub)
