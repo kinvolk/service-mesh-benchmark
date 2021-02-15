@@ -1,0 +1,86 @@
+# Variables
+variable "route53_zone" {}
+variable "route53_zone_id" {}
+variable "state_s3_bucket" {}
+variable "state_s3_key" {}
+variable "state_s3_region" {}
+variable "lock_dynamodb_table" {}
+variable "ssh_pub_keys" {}
+
+# Cluster config
+backend "s3" {
+  bucket         = var.state_s3_bucket
+  key            = var.state_s3_key
+  region         = var.state_s3_region
+  dynamodb_table = var.lock_dynamodb_table
+}
+
+cluster "aws" {
+  cluster_name = "test-wrk2"
+  region = "eu-central-1"
+  os_channel = "alpha"
+  os_arch = "arm64"
+
+  controller_type = "m6g.medium"
+  asset_dir        = "./assets"
+  controller_count = 1
+
+  ssh_pubkeys = var.ssh_pub_keys
+
+  dns_zone = var.route53_zone
+  dns_zone_id = var.route53_zone_id
+
+  worker_pool "workload" {
+    count = 6
+    os_channel = "alpha"
+    os_arch = "arm64"
+    instance_type = "m6g.medium"
+    labels    = {
+        "role" = "workload"
+    }
+    ssh_pubkeys = var.ssh_pub_keys
+  }
+
+  # Reserved for the load generator
+  worker_pool "loadgenerator" {
+    count = 1
+    instance_type = "m6g.medium"
+    os_channel = "alpha"
+    labels    = {
+        "role" = "benchmark"
+    }
+    ssh_pubkeys = var.ssh_pub_keys
+    lb_http_port = "8080"
+    lb_https_port = "8443"
+  }
+}
+
+
+# Component config
+component "openebs-operator" {}
+
+component "openebs-storage-class" {
+  storage-class "openebs-test-sc" {
+    replica_count = 1
+    default = true
+  }
+}
+
+component "prometheus-operator" {
+  prometheus {
+    watch_labeled_service_monitors = "false"
+    watch_labeled_prometheus_rules = "false"
+  }
+  namespace = "monitoring"
+}
+
+# uncomment, then `lokoctl component apply <component>` to install
+#
+#component "experimental-istio-operator" {
+#      enable_monitoring = true
+#}
+#
+#component "experimental-linkerd" {
+#      enable_monitoring = true
+#}
+
