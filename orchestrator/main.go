@@ -191,6 +191,8 @@ spec:
         envFrom:
         - secretRef:
             name: cloud-secrets
+        - configMapRef:
+            name: general-config
         command:
         - bash
         args:

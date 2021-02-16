@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: general-config
+  namespace: orchestrator
+data:
+  # Add more non-secret env vars here.
+  CLOUD: {{ .Values.benchmarkingClusterCloud }}
