@@ -17,6 +17,9 @@ sshKey:
 # Possible values: [equinix-metal, aws].
 benchmarkingClusterCloud:
 
+# This is to be set using the helm flag `--set-file`.
+runScript:
+
 clouds:
   aws:
     accessKeyID:
