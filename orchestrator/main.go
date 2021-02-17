@@ -183,6 +183,9 @@ metadata:
   name: "placeholdername"
 spec:
   template:
+    metadata:
+      labels:
+        pvc: binaries
     spec:
       restartPolicy: Never
       containers:
@@ -209,6 +212,16 @@ spec:
         - name: cluster-install-configs
           mountPath: /scripts
       serviceAccountName: jobrunner
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pvc
+                operator: In
+                values:
+                - binaries
+            topologyKey: kubernetes.io/hostname
       volumes:
       - name: binaries
         persistentVolumeClaim:

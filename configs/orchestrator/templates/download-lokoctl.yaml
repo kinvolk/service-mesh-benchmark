@@ -5,6 +5,9 @@ metadata:
   namespace: orchestrator
 spec:
   template:
+    metadata:
+      labels:
+        pvc: binaries
     spec:
       restartPolicy: OnFailure
       containers:
@@ -23,6 +26,16 @@ spec:
           mountPath: /binaries
       serviceAccountName: downloader
       automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pvc
+                operator: In
+                values:
+                - binaries
+            topologyKey: kubernetes.io/hostname
       volumes:
       - name: binaries
         persistentVolumeClaim:

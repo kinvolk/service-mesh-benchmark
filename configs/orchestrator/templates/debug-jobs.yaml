@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: debug-jobs
+        pvc: binaries
     spec:
       containers:
       - image: quay.io/kinvolk/smb-jobrunner
@@ -37,6 +38,16 @@ spec:
         - name: cluster-install-configs
           mountPath: /scripts
       serviceAccountName: jobrunner
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pvc
+                operator: In
+                values:
+                - binaries
+            topologyKey: kubernetes.io/hostname
       volumes:
       - name: binaries
         persistentVolumeClaim:
