@@ -30,8 +30,12 @@ verify_binaries_download
 
 log "Cluster name: ${CLUSTER_NAME}"
 
+# Always store the cluster configuration in the /clusters directory so that even if this pods fails
+# it can be cleaned up later using the debug jobs pod.
 cd /clusters
 mkdir -p "${CLUSTER_NAME}" && cd "${CLUSTER_NAME}"
+
+# Configs are mounted in /scripts dir so copy from there.
 cp /scripts/"${CLOUD}".lokocfg .
 cp /scripts/"${CLOUD}".vars.envsubst .
 
@@ -50,7 +54,7 @@ cp ./assets/cluster-assets/auth/kubeconfig ~/.kube/config
 n=0
 until [ "$n" -ge 10 ]
 do
-  # Edit this.
+  # Edit this to install the components you want.
   lokoctl component apply <component names> && break
   n=$((n+1))
   sleep 5
@@ -58,5 +62,6 @@ do
   log "retrying 'lokoctl component apply' again..."
 done
 
+# Current repo `service-mesh-benchmark` is also downloaded in the `/binaries` repository.
 # Add code to run benchmarks after this.
 # ...

@@ -1,7 +1,11 @@
 lokoctl:
+  # Use a different branch if you are using experimental version of Lokomotive.
   branch: master
 
 charts:
+  # Use a different branch if you are using experimental version of this repository. This is under
+  # charts because the charts under configs repo are downloaded to be deployed on the benchmarking
+  # clusters.
   branch: master
 
 terraform:
@@ -11,25 +15,39 @@ helm:
   version: 3.5.1
 
 sshKey:
-  public:
-  private:
+  # Copy your SSH Key content here.
+  public: ssh-rsa AAAA.YOUR_PUBLIC_KEY
+  private: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    YOUR_PRIVATE_KEY
+    -----END OPENSSH PRIVATE KEY-----
 
 # Possible values: [equinix-metal, aws].
 benchmarkingClusterCloud:
 
-# This is to be set using the helm flag `--set-file`.
+# This is to be set using the helm flag `--set-file`. This script will run on all the benchmarking
+# clusters.
 runScript:
 
+# Cloud related information.
 clouds:
   aws:
     accessKeyID:
     secretAccessKey:
+    # Don't confuse this with the subsequent regions field. This is only used to export as
+    # `AWS_DEFAULT_REGION`.
     defaultRegion: eu-central-1
     route53Zone:
     route53ZoneID:
+    # List of comma separated regions you want to deploy the benchmarking clusters to. e.g.:
+    # us-east-1,us-west-1
     regions:
 
   packet:
     token:
     projectID:
+    # List of comma separated region=EIP. This EIP is used to expose the Prometheus on the
+    # benchmarking clusters. Later the orchestrating cluster will scrape the Prometheus on the
+    # benchmarking clusters. e.g.:
+    # sjc1=1.2.3.4,ewr1=5.6.7.8,ams1=9.0.1.2
     regionEIPs:
