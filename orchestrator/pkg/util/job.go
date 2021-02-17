@@ -200,7 +200,7 @@ func getJob(j Job) *batchv1.Job {
 
 	ret.Name = j.Name
 	ret.Spec.Template.Spec.Containers[0].Env = []corev1.EnvVar{
-		{Name: "EQUINIX_METAL_REGION", Value: j.Region},
+		{Name: "REGION", Value: j.Region},
 		{Name: "PUBLIC_EIP", Value: j.EIP},
 		{Name: "CLUSTER_NAME", Value: j.Name},
 	}

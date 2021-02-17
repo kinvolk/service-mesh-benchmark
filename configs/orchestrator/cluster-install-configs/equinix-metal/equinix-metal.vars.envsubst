@@ -2,7 +2,7 @@
 cluster_name = "$CLUSTER_NAME"
 
 # Change per facility
-facility   = "$EQUINIX_METAL_REGION"
+facility   = "$REGION"
 public_eip = "$PUBLIC_EIP"
 
 # Fixed across deployments
