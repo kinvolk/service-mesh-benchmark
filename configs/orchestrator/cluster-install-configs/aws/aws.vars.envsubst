@@ -1,0 +1,8 @@
+cluster_name = "$CLUSTER_NAME"
+region       = "$REGION"
+
+ssh_pubkey            = "$SSH_PUB_KEY"
+route53_zone          = "$AWS_ROUTE53_ZONE"
+route53_zone_id       = "$AWS_ROUTE53_ZONE_ID"
+aws_access_key_id     = "$AWS_ACCESS_KEY_ID"
+aws_secret_access_key = "$AWS_SECRET_ACCESS_KEY"

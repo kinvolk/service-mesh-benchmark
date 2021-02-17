@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/kinvolk/service-mesh-benchmark/orchestrator/pkg/aws"
 	"github.com/kinvolk/service-mesh-benchmark/orchestrator/pkg/equinixmetal"
 )
 
@@ -16,6 +17,8 @@ func main() {
 	switch bcCloud {
 	case "equinix-metal":
 		equinixmetal.Deploy()
+	case "aws":
+		aws.Deploy()
 	default:
 		log.Fatalf("Given cloud provider not supported: %q.", bcCloud)
 	}

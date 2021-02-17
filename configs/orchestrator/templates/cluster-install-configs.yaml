@@ -7,6 +7,9 @@ data:
 {{ if eq .Values.benchmarkingClusterCloud "equinix-metal" }}
 {{ (.Files.Glob "cluster-install-configs/equinix-metal/equinix-metal.lokocfg").AsConfig | indent 2 }}
 {{ (.Files.Glob "cluster-install-configs/equinix-metal/equinix-metal.vars.envsubst").AsConfig | indent 2 }}
+{{ else if eq .Values.benchmarkingClusterCloud "aws" }}
+{{ (.Files.Glob "cluster-install-configs/aws/aws.lokocfg").AsConfig | indent 2 }}
+{{ (.Files.Glob "cluster-install-configs/aws/aws.vars.envsubst").AsConfig | indent 2 }}
 {{ end }}
 {{ (.Files.Glob "cluster-install-configs/cleanup.sh").AsConfig | indent 2 }}
 {{ (.Files.Glob "cluster-install-configs/cleanup-setup.sh").AsConfig | indent 2 }}

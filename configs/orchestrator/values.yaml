@@ -27,6 +27,7 @@ clouds:
     defaultRegion: eu-central-1
     route53Zone:
     route53ZoneID:
+    regions:
 
   packet:
     token:
