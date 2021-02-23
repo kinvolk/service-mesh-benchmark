@@ -17,15 +17,13 @@ spec:
       restartPolicy: Never
       securityContext:
         runAsUser: 10001
-      nodeSelector:
-        role: benchmark
       containers:
       - name: metrics-merger
         image: quay.io/kinvolk/svcmesh-bench-results-merger
         imagePullPolicy: Always
         env:
         - name: PROMETHEUS_URL
-          value: "http://prometheus-operator-prometheus.monitoring:9090"
+          value: "http://prometheus-operated.monitoring:9090"
         args:
-        - "http://prometheus-operator-prometheus.monitoring:9090"
-        - "pushgateway.monitoring:9091"
+        - "http://prometheus-operated.monitoring:9090"
+        - "http://pushgateway.monitoring:9091"
