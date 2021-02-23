@@ -50,7 +50,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -136,7 +136,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": 1,
         "format": "s",
         "gauge": {
@@ -215,7 +215,7 @@
         "valueName": "avg"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 4,
           "w": 4,
@@ -269,7 +269,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -366,7 +366,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -461,7 +461,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -540,7 +540,7 @@
       },
       {
         "cacheTimeout": null,
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 3,
           "w": 4,
@@ -612,7 +612,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": 1,
         "fill": 1,
         "fillGradient": 0,
@@ -708,7 +708,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -793,7 +793,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -878,7 +878,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -959,7 +959,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1000,7 +1000,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=~\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
+            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=~\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1052,7 +1052,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1145,7 +1145,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1243,7 +1243,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1297,7 +1297,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
+            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1351,7 +1351,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1446,7 +1446,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1562,7 +1562,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "description": "",
         "fill": 1,
         "fillGradient": 1,
@@ -1669,7 +1669,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
@@ -1759,7 +1759,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
@@ -1847,7 +1847,7 @@
       },
       {
         "content": "<hr>\n<center><h5> Benchmark results (updated after a benchmark run has concluded.)</h5></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 24,
@@ -1872,7 +1872,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "dateTimeAsIso",
         "gauge": {
@@ -1959,7 +1959,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "dateTimeAsIso",
         "gauge": {
@@ -2046,7 +2046,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "s",
         "gauge": {
@@ -2133,7 +2133,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2218,7 +2218,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2303,7 +2303,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2381,7 +2381,7 @@
         "valueName": "current"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 11,
           "w": 13,
@@ -2447,7 +2447,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2532,7 +2532,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "decbytes",
         "gauge": {
           "maxValue": 100,
@@ -2617,7 +2617,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2695,7 +2695,7 @@
       },
       {
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 7,
@@ -2750,7 +2750,7 @@
       },
       {
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 7,
@@ -2829,7 +2829,7 @@
       {
         "cacheTimeout": null,
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "description": "",
         "fontSize": "100%",
         "gridPos": {
@@ -2890,7 +2890,7 @@
         "type": "table"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 48,
           "w": 24,
@@ -2962,7 +2962,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
@@ -2989,7 +2989,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress{exported_job=\"$job\"}",
           "hide": 0,
           "includeAll": false,
@@ -3016,7 +3016,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress{exported_job=\"$job\",exported_instance=\"$instance\"}",
           "hide": 0,
           "includeAll": false,

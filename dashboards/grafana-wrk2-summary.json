@@ -43,7 +43,7 @@
     "panels": [
       {
         "content": "<h1><center>Benchmark latency summary</center></h1>\n<hr>\n<h3><center>Bare Metal, Linkerd, and Istio compared</center></h3>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 3,
           "w": 24,
@@ -61,7 +61,7 @@
       },
       {
         "content": "<br />\n<center><b>0.5 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -79,7 +79,7 @@
       },
       {
         "content": "<br />\n<center><b>0.75 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -97,7 +97,7 @@
       },
       {
         "content": "<br />\n<center><b>0.9 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -115,7 +115,7 @@
       },
       {
         "content": "<br />\n<center><b>0.99 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -133,7 +133,7 @@
       },
       {
         "content": "<br />\n<center><b>0.999 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -151,7 +151,7 @@
       },
       {
         "content": "<br />\n<center><b>0.9999 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -169,7 +169,7 @@
       },
       {
         "content": "<br />\n<center><b>0.99999 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -187,7 +187,7 @@
       },
       {
         "content": "<br />\n<center><b>1.0 percentile</b></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 3,
@@ -209,7 +209,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -303,7 +303,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -397,7 +397,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -491,7 +491,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -585,7 +585,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -679,7 +679,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -773,7 +773,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -867,7 +867,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -961,7 +961,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1055,7 +1055,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1149,7 +1149,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1243,7 +1243,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1337,7 +1337,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1431,7 +1431,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1525,7 +1525,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1619,7 +1619,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1713,7 +1713,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1807,7 +1807,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1901,7 +1901,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -1995,7 +1995,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2089,7 +2089,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2183,7 +2183,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2277,7 +2277,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2371,7 +2371,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2462,7 +2462,7 @@
       },
       {
         "content": "<hr>\n<h3><center>Bare Metal latency percentiles</center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 24,
@@ -2484,7 +2484,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2578,7 +2578,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2672,7 +2672,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2766,7 +2766,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2860,7 +2860,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -2954,7 +2954,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3048,7 +3048,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3142,7 +3142,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3232,7 +3232,7 @@
       },
       {
         "columns": [],
-        "datasource": "Prometheus",
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 9,
@@ -3325,7 +3325,7 @@
       },
       {
         "content": "<hr>\n<h3><center>Linkerd latency percentiles</center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 24,
@@ -3347,7 +3347,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3441,7 +3441,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3535,7 +3535,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3629,7 +3629,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3723,7 +3723,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3817,7 +3817,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -3911,7 +3911,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4005,7 +4005,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4095,7 +4095,7 @@
       },
       {
         "columns": [],
-        "datasource": "Prometheus",
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 9,
@@ -4188,7 +4188,7 @@
       },
       {
         "content": "<hr>\n<h3><center>Istio latency percentiles</center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 24,
@@ -4210,7 +4210,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4304,7 +4304,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4398,7 +4398,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4492,7 +4492,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4586,7 +4586,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4680,7 +4680,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4774,7 +4774,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4868,7 +4868,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 3,
         "fillGradient": 0,
         "gridPos": {
@@ -4958,7 +4958,7 @@
       },
       {
         "columns": [],
-        "datasource": "Prometheus",
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 9,
@@ -5062,7 +5062,7 @@
             "text": "70000",
             "value": "70000"
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_summary_latency_ms",
           "hide": 0,
           "includeAll": false,
@@ -5115,7 +5115,7 @@
             "text": "2020-07-27_07:30:31",
             "value": "2020-07-27_07:30:31"
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\"}",
           "hide": 0,
           "includeAll": false,
