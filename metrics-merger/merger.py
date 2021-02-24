@@ -51,7 +51,7 @@ def run_time_info(p, run, past_days=7):
 # --
 
 def get_latency_histogram(run,detailed=False,past_days=7):
-    # return RPS, histogram of a single run as dict 
+    # return RPS, histogram of a single run as dict
     # <RPS>, {<percentile>: <latency in ms>, ...}
     # e.g.: 500, {0.5: 399, 0.75: 478, 0.9: 589, ...}
 
@@ -74,7 +74,7 @@ def get_latency_histogram(run,detailed=False,past_days=7):
         out.append("%s: %s" % (perc,lat))
 
     if detailed == "":
-        print("  Run %s @%sRPS (%s): %s" % 
+        print("  Run %s @%sRPS (%s): %s" %
                         (run, rps, "coarse" if detailed == "" else "detailed",
                                                              "\t".join(out)))
     return rps, ret
@@ -108,7 +108,7 @@ def get_latency_histograms(p, mesh, detailed=False, past_days=7):
 
     # sort runs' latencies for each percentile
     for perc in histograms.keys():
-        histograms[perc] = {k: v for k, v in 
+        histograms[perc] = {k: v for k, v in
             sorted(histograms[perc].items(), key=lambda item: item[1])}
 
     return histograms, info
@@ -164,7 +164,7 @@ if 4 == len(argv):
 environ['PROMETHEUS_URL'] = prometheus_url
 p = Prometheus()
 
-for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
+for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio", "svcmesh-consul"]:
 
     r = CollectorRegistry()
     workaround = mesh

@@ -19,7 +19,7 @@ spec:
         runAsUser: 10001
       containers:
       - name: metrics-merger
-        image: quay.io/kinvolk/svcmesh-bench-results-merger
+        image: sagar23192/svcmesh-bench-result-merger-consul:latest
         imagePullPolicy: Always
         env:
         - name: PROMETHEUS_URL

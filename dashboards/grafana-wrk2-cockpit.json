@@ -978,7 +978,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1000,7 +1000,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=~\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
+            "expr": "container_memory_working_set_bytes{container!~\"POD\", namespace=~\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1071,7 +1071,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1093,7 +1093,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"})  by (container)",
+            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"((linkerd|istio).*-proxy|.*-sidecar)\",container!=\"\"})  by (container)",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1164,7 +1164,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1194,6 +1194,12 @@
             "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"(istio-.*)\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total Memory",
             "refId": "F"
+          },
+          {
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"consul\", container!~\".*-sidecar\",container!=\"\"})",
+            "interval": "",
+            "legendFormat": "Consul total Memory",
+            "refId": "A"
           }
         ],
         "thresholds": [],
@@ -1262,7 +1268,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1297,7 +1303,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"benchmark\", container=~\".*-proxy\",container!=\"\"}",
+            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"benchmark-.*\", container=~\".*-proxy\",container!=\"\"}",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1370,7 +1376,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1392,7 +1398,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"}) by (container)",
+            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"((linkerd|istio).*-proxy|.*-sidecar)\",container!=\"\"}) by (container)",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1465,7 +1471,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1512,6 +1518,12 @@
             "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"istio-.*\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total CPU seconds",
             "refId": "D"
+          },
+          {
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"consul\", container!~\".*-sidecar\",container!=\"\"})",
+            "interval": "",
+            "legendFormat": "Consul total CPU seconds",
+            "refId": "A"
           }
         ],
         "thresholds": [],
@@ -1580,7 +1592,7 @@
           "current": true,
           "max": false,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1707,7 +1719,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container!=\"POD\"}",
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container!=\"POD\"}) by (namespace)",
             "legendFormat": "{{container}}-{{namespace}}",
             "refId": "A"
           }
@@ -1777,7 +1789,7 @@
           "hideEmpty": true,
           "max": false,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
