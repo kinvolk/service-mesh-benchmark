@@ -14,19 +14,36 @@ spec:
     metadata:
       labels:
         app: orchestrator
+        pvc: binaries
     spec:
       containers:
       - image: quay.io/kinvolk/smb-orchestrator
         name: orchestrator
         env:
+        {{ if .Values.clouds.packet.regionEIPs -}}
         - name: REGION_EIPS
           value: {{.Values.clouds.packet.regionEIPs}}
+        {{ end -}}
+        - name: AWS_REGIONS
+          value: {{.Values.clouds.aws.regions}}
+        - name: BENCHMARKING_CLUSTER_CLOUD
+          value: {{.Values.benchmarkingClusterCloud}}
         volumeMounts:
         - name: binaries
           mountPath: /binaries
         - name: cluster-install-configs
           mountPath: /scripts
       serviceAccountName: orchestrator
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pvc
+                operator: In
+                values:
+                - binaries
+            topologyKey: kubernetes.io/hostname
       volumes:
       - name: binaries
         persistentVolumeClaim:

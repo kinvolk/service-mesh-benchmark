@@ -1,0 +1,92 @@
+variable "cluster_name" {}
+variable "ssh_pubkey" {}
+variable "route53_zone" {}
+variable "route53_zone_id" {}
+variable "aws_access_key_id" {}
+variable "aws_secret_access_key" {}
+variable "region" {}
+
+cluster "aws" {
+  asset_dir        = "./assets"
+  cluster_name     = var.cluster_name
+  controller_count = 1
+  dns_zone         = var.route53_zone
+  dns_zone_id      = var.route53_zone_id
+  region           = var.region
+  enable_csi       = true
+  ssh_pubkeys      = [var.ssh_pubkey]
+
+  # ignore_x509_cn_check = true
+
+  worker_pool "amd" {
+    # TODO: Figure out the count and instance type.
+    count         = 2
+    # instance_type = var.workers_type
+
+    ssh_pubkeys = [var.ssh_pubkey]
+  }
+
+  worker_pool "arm" {
+    # TODO: Figure out the count.
+    count         = 1
+    instance_type = "m6g.medium"
+    os_arch       = "arm64"
+    os_channel    = "alpha"
+    ssh_pubkeys   = [var.ssh_pubkey]
+    taints        = {
+      "beta.kubernetes.io/arch" = "arm:NoSchedule"
+    }
+
+    # TODO: remove this once https://github.com/kinvolk/lokomotive/issues/839 is fixed.
+    lb_http_port  = 8080
+    lb_https_port = 8443
+  }
+}
+
+component "aws-ebs-csi-driver" {
+  enable_default_storage_class = true
+  enable_volume_scheduling     = true
+  enable_volume_resizing       = true
+  enable_volume_snapshot       = true
+
+  node_affinity {
+    key      = "beta.kubernetes.io/arch"
+    operator = "In"
+    values   = ["amd64"]
+  }
+}
+
+component "prometheus-operator" {
+  prometheus {
+    watch_labeled_service_monitors = "false"
+    watch_labeled_prometheus_rules = "false"
+    storage_size                   = "100Gi"
+
+    ingress {
+      # OC prometheus should be enabled to scrape this URL.
+      host = "prometheus.${var.cluster_name}.${var.route53_zone}"
+    }
+
+    external_labels = {
+      "cluster" = var.cluster_name
+    }
+
+    node_selector = {
+      "beta.kubernetes.io/arch" = "amd64"
+    }
+  }
+
+  alertmanager_node_selector = {
+    "beta.kubernetes.io/arch" = "amd64"
+  }
+}
+
+component "contour" {
+  enable_monitoring = true
+
+  node_affinity {
+    key      = "beta.kubernetes.io/arch"
+    operator = "In"
+    values   = ["amd64"]
+  }
+}

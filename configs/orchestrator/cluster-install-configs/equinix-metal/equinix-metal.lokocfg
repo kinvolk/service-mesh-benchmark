@@ -9,7 +9,7 @@ variable "aws_access_key_id" {}
 variable "aws_secret_access_key" {}
 
 
-cluster "metal" {
+cluster "packet" {
   project_id   = var.metal_project_id
   cluster_name = var.cluster_name
   facility     = var.facility
