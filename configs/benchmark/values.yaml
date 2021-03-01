@@ -5,6 +5,6 @@ wrk2:
   initDelay: 0
   serviceMesh: "linkerd"
   app:
-    name: emojivoto
+    name: emojivoto-linkerd
     count: "3"
   appImage: quay.io/kinvolk/wrk2-prometheus
