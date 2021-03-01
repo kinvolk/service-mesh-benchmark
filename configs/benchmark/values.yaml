@@ -1,10 +1,10 @@
 wrk2:
-  duration: 1800
+  duration: 100
   connections: 96
   RPS: 500
   initDelay: 0
   serviceMesh: "linkerd"
   app:
     name: emojivoto-linkerd
-    count: "3"
+    count: "1"
   appImage: quay.io/kinvolk/wrk2-prometheus

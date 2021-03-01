@@ -4,9 +4,13 @@ metadata:
   labels:
     app.kubernetes.io/name: emoji
     app.kubernetes.io/part-of: emojivoto
+    {{ if eq .Values.servicemesh "consul" }}
+    app.kubernetes.io/version: v11
+    {{ else }}
     app.kubernetes.io/version: v10
+    {{ end }}
   name: emoji
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
 spec:
   replicas: 1
   selector:
@@ -16,6 +20,12 @@ spec:
     metadata:
       labels:
         app: emoji-svc
+      {{ if eq .Values.servicemesh "consul" }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
+        "consul.hashicorp.com/connect-inject": "true"
+      {{ end }}
     spec:
       nodeSelector:
         role: workload
@@ -26,13 +36,25 @@ spec:
       containers:
       - env:
         - name: GRPC_PORT
+          {{ if eq .Values.servicemesh "consul" }}
+          value: "8081"
+          {{ else }}
           value: "8080"
+          {{ end }}
         - name: PROM_PORT
           value: "8801"
+        {{ if eq .Values.servicemesh "consul" }}
+        image: docker.l5d.io/buoyantio/emojivoto-emoji-svc:v11
+        {{ else }}
         image: buoyantio/emojivoto-emoji-svc:v10
+        {{ end }}
         name: emoji-svc
         ports:
+        {{ if eq .Values.servicemesh "consul" }}
+        - containerPort: 8081
+        {{ else }}
         - containerPort: 8080
+        {{ end }}
           name: grpc
         - containerPort: 8801
           name: prom
@@ -47,9 +69,13 @@ metadata:
   labels:
     app.kubernetes.io/name: voting
     app.kubernetes.io/part-of: emojivoto
+    {{ if eq .Values.servicemesh "consul" }}
+    app.kubernetes.io/version: v11
+    {{ else }}
     app.kubernetes.io/version: v10
+    {{ end }}
   name: voting
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
 spec:
   replicas: 1
   selector:
@@ -59,6 +85,12 @@ spec:
     metadata:
       labels:
         app: voting-svc
+      {{ if eq .Values.servicemesh "consul" }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
+        "consul.hashicorp.com/connect-inject": "true"
+      {{ end }}
     spec:
       nodeSelector:
         role: workload
@@ -69,13 +101,25 @@ spec:
       containers:
       - env:
         - name: GRPC_PORT
+          {{ if eq .Values.servicemesh "consul" }}
+          value: "8082"
+          {{ else }}
           value: "8080"
+          {{ end }}
         - name: PROM_PORT
           value: "8801"
-        image: buoyantio/emojivoto-voting-svc:v10
+        {{ if eq .Values.servicemesh "consul" }}
+        image: docker.l5d.io/buoyantio/emojivoto-emoji-svc:v11
+        {{ else }}
+        image: buoyantio/emojivoto-emoji-svc:v10
+        {{ end }}
         name: voting-svc
         ports:
+        {{ if eq .Values.servicemesh "consul" }}
+        - containerPort: 8082
+        {{ else }}
         - containerPort: 8080
+        {{ end }}
           name: grpc
         - containerPort: 8801
           name: prom
@@ -90,9 +134,13 @@ metadata:
   labels:
     app.kubernetes.io/name: web
     app.kubernetes.io/part-of: emojivoto
+    {{ if eq .Values.servicemesh "consul" }}
+    app.kubernetes.io/version: v11
+    {{ else }}
     app.kubernetes.io/version: v10
+    {{ end }}
   name: web
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
 spec:
   replicas: 1
   selector:
@@ -102,6 +150,13 @@ spec:
     metadata:
       labels:
         app: web-svc
+      {{ if eq .Values.servicemesh "consul" }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9102"
+        "consul.hashicorp.com/connect-inject": "true"
+        "consul.hashicorp.com/connect-service-upstreams": "emoji-svc:8081,voting-svc:8082"
+      {{ end }}
     spec:
       nodeSelector:
         role: workload
@@ -114,12 +169,24 @@ spec:
         - name: WEB_PORT
           value: "8080"
         - name: EMOJISVC_HOST
-          value: emoji-svc.{{.Release.Namespace}}:8080
+          {{ if eq .Values.servicemesh "consul" }}
+          value: localhost:8081
+          {{ else }}
+          value: emoji-svc.{{.Release.Name}}:8080
+          {{ end }}
         - name: VOTINGSVC_HOST
-          value: voting-svc.{{.Release.Namespace}}:8080
+          {{ if eq .Values.servicemesh "consul" }}
+          value: localhost:8082
+          {{ else }}
+          value: voting-svc.{{.Release.Name}}:8080
+          {{ end }}
         - name: INDEX_BUNDLE
           value: dist/index_bundle.js
+        {{ if eq .Values.servicemesh "consul" }}
+        image: docker.l5d.io/buoyantio/emojivoto-web:v11
+        {{ else }}
         image: buoyantio/emojivoto-web:v10
+        {{ end }}
         name: web-svc
         ports:
         - containerPort: 8080
