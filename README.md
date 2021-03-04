@@ -110,7 +110,7 @@ For push gateway installation we need **Service Monitor** resource which is not 
 ```shell
 git clone git@github.com:prometheus-operator/kube-prometheus.git
 kubectl create -f manifests/setup
-kubectl apply -f manifests. 
+kubectl apply -f manifests.
 ```
 
 A push gateway is currently not bundled with Lokomotive's prometheus
@@ -132,7 +132,7 @@ recommend deploying 30 "bookinfo" instances, and 40 "emojivoto" instances:
 ```shell
 $ cd configs
 $ for i in $(seq 10) ; do \
-      helm install emojivoto-$i \
+      helm install emojivoto-$i --set servicemesh=(mesh_name)\
                 configs/emojivoto \
   done
 ```
@@ -154,4 +154,3 @@ $ for i in $(seq 10) ; do \
    $ cd dashboard
    dashboard $ ./upload_dashboard.sh "[API KEY]" grafana-wrk2-cockpit.json localhost:3000
    ```
-
