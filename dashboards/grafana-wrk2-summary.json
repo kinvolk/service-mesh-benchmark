@@ -37,8 +37,8 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 31,
-    "iteration": 1614184300808,
+    "id": 27,
+    "iteration": 1614767833168,
     "links": [],
     "panels": [
       {
@@ -57,7 +57,7 @@
         },
         "id": 44,
         "options": {
-          "content": "<h1><center>Benchmark latency summary</center></h1>\n<hr>\n<h3><center>Consul, Linkerd, and Istio compared</center></h3>",
+          "content": "<h1><center>Benchmark latency summary</center></h1>\n<hr>\n<h3><center>Bare Metal, Consul, Linkerd, and Istio compared</center></h3>",
           "mode": "html"
         },
         "pluginVersion": "7.3.7",
@@ -77,7 +77,7 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 7,
+          "w": 8,
           "x": 0,
           "y": 3
         },
@@ -103,7 +103,7 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 5,
+          "w": 8,
           "x": 9,
           "y": 3
         },
@@ -129,8 +129,8 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 6,
-          "x": 15,
+          "w": 7,
+          "x": 17,
           "y": 3
         },
         "id": 40,
@@ -169,6 +169,108 @@
         },
         "hiddenSeries": false,
         "id": 2,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 2,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 88,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -265,7 +367,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 2,
+          "x": 4,
           "y": 5
         },
         "hiddenSeries": false,
@@ -366,7 +468,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 4,
+          "x": 6,
           "y": 5
         },
         "hiddenSeries": false,
@@ -500,6 +602,108 @@
         "steppedLine": false,
         "targets": [
           {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 10,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 91,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
             "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"svcmesh-consul\",source_run!~\"$exclude_runs\"}",
             "format": "time_series",
             "instant": false,
@@ -568,7 +772,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 10,
+          "x": 12,
           "y": 5
         },
         "hiddenSeries": false,
@@ -669,7 +873,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 12,
+          "x": 14,
           "y": 5
         },
         "hiddenSeries": false,
@@ -770,11 +974,113 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 15,
+          "x": 16,
           "y": 5
         },
         "hiddenSeries": false,
         "id": 9,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 18,
+          "y": 5
+        },
+        "hiddenSeries": false,
+        "id": 94,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -871,7 +1177,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 17,
+          "x": 20,
           "y": 5
         },
         "hiddenSeries": false,
@@ -972,7 +1278,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 19,
+          "x": 22,
           "y": 5
         },
         "hiddenSeries": false,
@@ -1064,7 +1370,7 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 7,
+          "w": 8,
           "x": 0,
           "y": 14
         },
@@ -1090,7 +1396,7 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 7,
+          "w": 8,
           "x": 8,
           "y": 14
         },
@@ -1116,8 +1422,8 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 6,
-          "x": 15,
+          "w": 7,
+          "x": 17,
           "y": 14
         },
         "id": 39,
@@ -1156,6 +1462,108 @@
         },
         "hiddenSeries": false,
         "id": 3,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 2,
+          "y": 16
+        },
+        "hiddenSeries": false,
+        "id": 89,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -1252,7 +1660,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 2,
+          "x": 4,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1353,7 +1761,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 4,
+          "x": 6,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1487,6 +1895,108 @@
         "steppedLine": false,
         "targets": [
           {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 10,
+          "y": 16
+        },
+        "hiddenSeries": false,
+        "id": 92,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
             "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"svcmesh-consul\",source_run!~\"$exclude_runs\"}",
             "format": "time_series",
             "instant": false,
@@ -1555,7 +2065,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 10,
+          "x": 12,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1656,7 +2166,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 12,
+          "x": 14,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1757,7 +2267,109 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 15,
+          "x": 16,
+          "y": 16
+        },
+        "hiddenSeries": false,
+        "id": 95,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 0,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 0.5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 18,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1858,7 +2470,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 17,
+          "x": 20,
           "y": 16
         },
         "hiddenSeries": false,
@@ -1959,7 +2571,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 19,
+          "x": 22,
           "y": 16
         },
         "hiddenSeries": false,
@@ -2052,8 +2664,8 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 5,
-          "x": 1,
+          "w": 8,
+          "x": 0,
           "y": 25
         },
         "id": 37,
@@ -2078,7 +2690,7 @@
         },
         "gridPos": {
           "h": 2,
-          "w": 7,
+          "w": 8,
           "x": 8,
           "y": 25
         },
@@ -2118,6 +2730,108 @@
         },
         "hiddenSeries": false,
         "id": 5,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 2,
+          "y": 27
+        },
+        "hiddenSeries": false,
+        "id": 90,
         "legend": {
           "alignAsTable": true,
           "avg": false,
@@ -2214,7 +2928,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 2,
+          "x": 4,
           "y": 27
         },
         "hiddenSeries": false,
@@ -2315,7 +3029,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 4,
+          "x": 6,
           "y": 27
         },
         "hiddenSeries": false,
@@ -2449,6 +3163,108 @@
         "steppedLine": false,
         "targets": [
           {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "bare",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 10,
+          "y": 27
+        },
+        "hiddenSeries": false,
+        "id": 93,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
             "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"svcmesh-consul\",source_run!~\"$exclude_runs\"}",
             "format": "time_series",
             "instant": false,
@@ -2517,7 +3333,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 10,
+          "x": 12,
           "y": 27
         },
         "hiddenSeries": false,
@@ -2618,7 +3434,7 @@
         "gridPos": {
           "h": 9,
           "w": 2,
-          "x": 12,
+          "x": 14,
           "y": 27
         },
         "hiddenSeries": false,
@@ -2716,7 +3532,7 @@
         },
         "id": 63,
         "options": {
-          "content": "<hr>\n<h3><center>Consul latency percentiles</center>",
+          "content": "<hr>\n<h3><center>BareMetal latency percentiles</center>",
           "mode": "html"
         },
         "pluginVersion": "7.3.7",
@@ -2747,6 +3563,950 @@
           "w": 2,
           "x": 0,
           "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 79,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.5\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.5 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 2,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 80,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.75\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.75 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 4,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 81,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.9 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 6,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 82,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.99 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 8,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 83,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.999\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.999 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 10,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 84,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.9999\",exported_job=\"esh-consul\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.9999 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 12,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 85,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"0.99999\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "0.99999 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 14,
+          "y": 38
+        },
+        "hiddenSeries": false,
+        "id": 86,
+        "legend": {
+          "alignAsTable": true,
+          "avg": false,
+          "current": true,
+          "max": false,
+          "min": false,
+          "show": false,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null as zero",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.3.7",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\",p=\"1.0\",exported_job=\"bare-metal\",source_run!~\"$exclude_runs\"}",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Run {{source_run}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "1.0 percentile",
+        "tooltip": {
+          "shared": true,
+          "sort": 1,
+          "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": false,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": null,
+            "logBase": 2,
+            "max": "30000",
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": false
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "columns": [],
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 16,
+          "y": 38
+        },
+        "id": 87,
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": null,
+          "desc": false
+        },
+        "styles": [
+          {
+            "alias": "benchmark run (click to open in cockpit)",
+            "align": "auto",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD_HH:mm:ss",
+            "decimals": 2,
+            "link": true,
+            "linkTargetBlank": true,
+            "linkTooltip": "Go to run ${__cell_3}.",
+            "linkUrl": "/dashboard/db/wrk2-benchmark-cockpit?var-job=svcmesh-consul&var-instance=${__cell_2}&var-run=${__cell_3}&from=${__cell_4}&to=${__cell_1}",
+            "mappingType": 1,
+            "pattern": "source_run",
+            "thresholds": [],
+            "type": "number",
+            "unit": "dateTimeAsIso",
+            "valueMaps": []
+          },
+          {
+            "alias": "",
+            "align": "auto",
+            "colorMode": "value",
+            "colors": [
+              "rgba(50, 172, 45, 0.97)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(245, 54, 54, 0.9)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Value",
+            "thresholds": [
+              "500",
+              "5000"
+            ],
+            "type": "number",
+            "unit": "ms"
+          },
+          {
+            "alias": "",
+            "align": "auto",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "(Time|exported_instance|end|start)",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "expr": "max(wrk2_benchmark_summary_latency_ms{exported_job=\"bare-metal\",requested_rps=\"$rps\", p=\"1.0\",source_run!~\"$exclude_runs\"}) by (exported_instance,start,end,source_run,value)",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Peak latencies (1.0 percentile)",
+        "transform": "table",
+        "transparent": true,
+        "type": "table-old"
+      },
+      {
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 2,
+          "w": 24,
+          "x": 0,
+          "y": 47
+        },
+        "id": 78,
+        "options": {
+          "content": "<hr>\n<h3><center>Consul latency percentiles</center>",
+          "mode": "html"
+        },
+        "pluginVersion": "7.3.7",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "cacheTimeout": null,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "prometheus",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {},
+            "links": []
+          },
+          "overrides": []
+        },
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 2,
+          "x": 0,
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 45,
@@ -2847,7 +4607,7 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 46,
@@ -2948,7 +4708,7 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 48,
@@ -3049,7 +4809,7 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 47,
@@ -3150,7 +4910,7 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 49,
@@ -3251,7 +5011,7 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 50,
@@ -3352,7 +5112,7 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 51,
@@ -3453,7 +5213,7 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 38
+          "y": 49
         },
         "hiddenSeries": false,
         "id": 52,
@@ -3548,7 +5308,7 @@
           "h": 9,
           "w": 8,
           "x": 16,
-          "y": 38
+          "y": 49
         },
         "id": 33,
         "pageSize": null,
@@ -3647,7 +5407,7 @@
           "h": 2,
           "w": 24,
           "x": 0,
-          "y": 47
+          "y": 58
         },
         "id": 62,
         "options": {
@@ -3681,7 +5441,7 @@
           "h": 9,
           "w": 2,
           "x": 0,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 54,
@@ -3782,7 +5542,7 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 55,
@@ -3883,7 +5643,7 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 56,
@@ -3984,7 +5744,7 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 57,
@@ -4085,7 +5845,7 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 58,
@@ -4186,7 +5946,7 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 59,
@@ -4287,7 +6047,7 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 60,
@@ -4388,7 +6148,7 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 49
+          "y": 60
         },
         "hiddenSeries": false,
         "id": 61,
@@ -4483,7 +6243,7 @@
           "h": 9,
           "w": 8,
           "x": 16,
-          "y": 49
+          "y": 60
         },
         "id": 76,
         "pageSize": null,
@@ -4582,7 +6342,7 @@
           "h": 2,
           "w": 24,
           "x": 0,
-          "y": 58
+          "y": 69
         },
         "id": 53,
         "options": {
@@ -4616,7 +6376,7 @@
           "h": 9,
           "w": 2,
           "x": 0,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 64,
@@ -4717,7 +6477,7 @@
           "h": 9,
           "w": 2,
           "x": 2,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 65,
@@ -4818,7 +6578,7 @@
           "h": 9,
           "w": 2,
           "x": 4,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 72,
@@ -4919,7 +6679,7 @@
           "h": 9,
           "w": 2,
           "x": 6,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 67,
@@ -5020,7 +6780,7 @@
           "h": 9,
           "w": 2,
           "x": 8,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 71,
@@ -5121,7 +6881,7 @@
           "h": 9,
           "w": 2,
           "x": 10,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 73,
@@ -5222,7 +6982,7 @@
           "h": 9,
           "w": 2,
           "x": 12,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 74,
@@ -5323,7 +7083,7 @@
           "h": 9,
           "w": 2,
           "x": 14,
-          "y": 60
+          "y": 71
         },
         "hiddenSeries": false,
         "id": 75,
@@ -5418,7 +7178,7 @@
           "h": 9,
           "w": 8,
           "x": 16,
-          "y": 60
+          "y": 71
         },
         "id": 77,
         "pageSize": null,
@@ -5506,7 +7266,7 @@
         "type": "table-old"
       }
     ],
-    "refresh": false,
+    "refresh": "",
     "schemaVersion": 26,
     "style": "dark",
     "tags": [],
@@ -5571,8 +7331,9 @@
         {
           "allValue": null,
           "current": {
-            "text": "2020-07-27_07:30:31",
-            "value": "2020-07-27_07:30:31"
+            "selected": false,
+            "text": "2021-03-03_14:31:05",
+            "value": "2021-03-03_14:31:05"
           },
           "datasource": "prometheus",
           "definition": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\"}",
@@ -5584,10 +7345,34 @@
           "name": "exclude_runs",
           "options": [
             {
-              "isNone": true,
               "selected": true,
-              "text": "None",
-              "value": ""
+              "text": "2021-03-03_14:31:05",
+              "value": "2021-03-03_14:31:05"
+            },
+            {
+              "selected": false,
+              "text": "2021-03-03_14:31:26",
+              "value": "2021-03-03_14:31:26"
+            },
+            {
+              "selected": false,
+              "text": "2021-03-03_14:32:29",
+              "value": "2021-03-03_14:32:29"
+            },
+            {
+              "selected": false,
+              "text": "2021-03-03_16:03:20",
+              "value": "2021-03-03_16:03:20"
+            },
+            {
+              "selected": false,
+              "text": "2021-03-03_16:03:59",
+              "value": "2021-03-03_16:03:59"
+            },
+            {
+              "selected": false,
+              "text": "2021-03-03_16:04:22",
+              "value": "2021-03-03_16:04:22"
             }
           ],
           "query": "wrk2_benchmark_summary_latency_ms{requested_rps=\"$rps\"}",
@@ -5624,6 +7409,6 @@
     "timezone": "",
     "title": "wrk2 Summary",
     "uid": "0M9WEcsMk",
-    "version": 6
+    "version": 1
   }
 }
