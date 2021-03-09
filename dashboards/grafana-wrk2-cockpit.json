@@ -50,7 +50,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -136,7 +136,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": 1,
         "format": "s",
         "gauge": {
@@ -215,7 +215,7 @@
         "valueName": "avg"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 4,
           "w": 4,
@@ -269,7 +269,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -366,7 +366,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -461,7 +461,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -540,7 +540,7 @@
       },
       {
         "cacheTimeout": null,
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 3,
           "w": 4,
@@ -612,7 +612,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": 1,
         "fill": 1,
         "fillGradient": 0,
@@ -708,7 +708,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -793,7 +793,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -878,7 +878,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -959,7 +959,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -978,7 +978,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1052,7 +1052,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1071,7 +1071,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1093,7 +1093,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"})  by (container)",
+            "expr": "max(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"$instance.*\", container=~\"((linkerd|istio).*-proxy|.*-sidecar)\",container!=\"\"})  by (container)",
             "legendFormat": "{{container}} Memory",
             "refId": "B"
           }
@@ -1145,7 +1145,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1164,7 +1164,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1194,6 +1194,12 @@
             "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"(istio-.*)\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total Memory",
             "refId": "F"
+          },
+          {
+            "expr": "sum(container_memory_working_set_bytes{container!~\"POD\", namespace=~\"consul\", container!~\".*-sidecar\",container!=\"\"})",
+            "interval": "",
+            "legendFormat": "Consul total Memory",
+            "refId": "A"
           }
         ],
         "thresholds": [],
@@ -1243,7 +1249,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1262,7 +1268,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1351,7 +1357,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1370,7 +1376,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1392,7 +1398,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"(linkerd|istio)-proxy\",container!=\"\"}) by (container)",
+            "expr": "max(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container=~\"((linkerd|istio).*-proxy|.*-sidecar)\",container!=\"\"}) by (container)",
             "format": "time_series",
             "instant": false,
             "legendFormat": "{{container}} CPU seconds",
@@ -1446,7 +1452,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 0,
         "gridPos": {
@@ -1465,7 +1471,7 @@
           "hideZero": false,
           "max": true,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1512,6 +1518,12 @@
             "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"istio-.*\", container!~\".*-proxy\",container!=\"\"})",
             "legendFormat": "Istio total CPU seconds",
             "refId": "D"
+          },
+          {
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=\"consul\", container!~\".*-sidecar\",container!=\"\"})",
+            "interval": "",
+            "legendFormat": "Consul total CPU seconds",
+            "refId": "A"
           }
         ],
         "thresholds": [],
@@ -1562,7 +1574,7 @@
         "cacheTimeout": null,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "description": "",
         "fill": 1,
         "fillGradient": 1,
@@ -1580,7 +1592,7 @@
           "current": true,
           "max": false,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1669,7 +1681,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
@@ -1707,7 +1719,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container!=\"POD\"}",
+            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{namespace=~\"$instance.*\", container!=\"POD\"}) by (namespace)",
             "legendFormat": "{{container}}-{{namespace}}",
             "refId": "A"
           }
@@ -1759,7 +1771,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": null,
+        "datasource": "prometheus",
         "fill": 1,
         "fillGradient": 1,
         "gridPos": {
@@ -1777,7 +1789,7 @@
           "hideEmpty": true,
           "max": false,
           "min": false,
-          "rightSide": true,
+          "rightSide": false,
           "show": true,
           "total": false,
           "values": true
@@ -1847,7 +1859,7 @@
       },
       {
         "content": "<hr>\n<center><h5> Benchmark results (updated after a benchmark run has concluded.)</h5></center>",
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 2,
           "w": 24,
@@ -1872,7 +1884,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "dateTimeAsIso",
         "gauge": {
@@ -1959,7 +1971,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "dateTimeAsIso",
         "gauge": {
@@ -2046,7 +2058,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "decimals": null,
         "format": "s",
         "gauge": {
@@ -2133,7 +2145,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2218,7 +2230,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2303,7 +2315,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2381,7 +2393,7 @@
         "valueName": "current"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 11,
           "w": 13,
@@ -2447,7 +2459,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2532,7 +2544,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "decbytes",
         "gauge": {
           "maxValue": 100,
@@ -2617,7 +2629,7 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": null,
+        "datasource": "prometheus",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -2695,7 +2707,7 @@
       },
       {
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 7,
@@ -2750,7 +2762,7 @@
       },
       {
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "fontSize": "100%",
         "gridPos": {
           "h": 7,
@@ -2829,7 +2841,7 @@
       {
         "cacheTimeout": null,
         "columns": [],
-        "datasource": null,
+        "datasource": "prometheus",
         "description": "",
         "fontSize": "100%",
         "gridPos": {
@@ -2890,7 +2902,7 @@
         "type": "table"
       },
       {
-        "datasource": null,
+        "datasource": "prometheus",
         "gridPos": {
           "h": 48,
           "w": 24,
@@ -2962,7 +2974,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress",
           "hide": 0,
           "includeAll": false,
@@ -2989,7 +3001,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress{exported_job=\"$job\"}",
           "hide": 0,
           "includeAll": false,
@@ -3016,7 +3028,7 @@
             "text": "None",
             "value": ""
           },
-          "datasource": "Prometheus",
+          "datasource": "prometheus",
           "definition": "wrk2_benchmark_progress{exported_job=\"$job\",exported_instance=\"$instance\"}",
           "hide": 0,
           "includeAll": false,

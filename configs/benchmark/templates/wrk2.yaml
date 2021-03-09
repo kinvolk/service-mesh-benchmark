@@ -40,6 +40,8 @@ spec:
         - "http://pushgateway.monitoring:9091/metrics/job/svcmesh-linkerd/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
         {{- else if eq .Values.wrk2.serviceMesh "istio" }}
         - "http://pushgateway.monitoring:9091/metrics/job/svcmesh-istio/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
+        {{- else if eq .Values.wrk2.serviceMesh "consul" }}
+        - "http://pushgateway.monitoring:9091/metrics/job/svcmesh-consul/instance/{{.Values.wrk2.app.name}}/run/{{ now | date "2006-01-02_15:04:05" }}"
         {{- else }}
         {{ fail "Please provide a valid 'wrk2.serviceMesh' name, supported names are: 'linkerd', 'istio'. For no service mesh skip the variable." }}
         {{- end }}
@@ -51,8 +53,12 @@ spec:
         - "{{.Values.wrk2.RPS}}"
         - -i
         - "{{.Values.wrk2.initDelay}}"
-{{- if eq .Values.wrk2.app.name "emojivoto" }}
+{{- if eq .Values.wrk2.app.name "emojivoto-linkerd" }}
 {{- template "emojivotoURLs" . }}
+{{- else if eq .Values.wrk2.app.name "emojivoto-istio" }}
+{{- template "emojivotoistioURLs" . }}
+{{- else if eq .Values.wrk2.app.name "emojivoto-consul" }}
+{{- template "emojivotoconsulURLs" . }}
 {{- else if eq .Values.wrk2.app.name "bookinfo" }}
 {{- template "bookinfoURLs" . }}
 {{- end }}

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: emoji-svc
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
   labels:
     app: emojivoto
 spec:
@@ -20,7 +20,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: voting-svc
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
   labels:
     app: emojivoto
 spec:
@@ -38,7 +38,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web-svc
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
   labels:
     app: emojivoto
 spec:

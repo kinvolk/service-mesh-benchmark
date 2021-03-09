@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{.Release.Name}}
+  {{- if .Values.servicemesh }}
+  {{ if eq .Values.servicemesh "linkerd" }}
+  annotations:
+    linkerd.io/inject: enabled
+  {{ else if eq .Values.servicemesh "istio" }}
+  labels:
+    istio-injection: enabled
+  {{ end }}
+  {{- end }}

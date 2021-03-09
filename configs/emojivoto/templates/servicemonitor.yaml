@@ -6,7 +6,7 @@ metadata:
     app: emojivoto
     release: prometheus-operator
   name: linkerd-proxies
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
 spec:
   selector:
     matchLabels:
@@ -22,7 +22,7 @@ metadata:
     app: emojivoto
     release: prometheus-operator
   name: istio-proxies
-  namespace: {{.Release.Namespace}}
+  namespace: {{.Release.Name}}
 spec:
   selector:
     matchLabels:
