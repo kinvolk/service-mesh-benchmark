@@ -1,0 +1,2 @@
+prometheusServiceUrl: "http://prometheus-operator-kube-p-prometheus.monitoring:9090"
+pushgatewayURL: "pushgateway.monitoring:9091"

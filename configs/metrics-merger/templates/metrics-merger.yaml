@@ -25,7 +25,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: PROMETHEUS_URL
-          value: "http://prometheus-operator-prometheus.monitoring:9090"
+          value: {{ .Values.prometheusServiceUrl }}
         args:
-        - "http://prometheus-operator-prometheus.monitoring:9090"
-        - "pushgateway.monitoring:9091"
+        - {{ .Values.prometheusServiceUrl }}
+        - {{ .Values.pushgatewayURL }}
