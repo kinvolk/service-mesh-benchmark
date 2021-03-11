@@ -1,0 +1,42 @@
+# name your datacenter
+global:
+  name: consul
+  datacenter: cc
+server:
+  replicas: 1
+  bootstrapExpect: 1
+  disruptionBudget:
+    enabled: true
+    maxUnavailable: 0
+  extraConfig: |
+    {
+      "telemetry": {
+        "prometheus_retention_time": "10s"
+      },
+      "ui_config": {
+        "enabled": true,
+        "metrics_provider": "prometheus",
+        "metrics_proxy": {
+          "base_url": "http://prometheus-operated.monitoring:9090"
+        }
+      },
+      "enable_central_service_config": true
+    }
+client:
+  enabled: true
+  grpc: true
+  extraConfig: |
+    {"enable_central_service_config": true}
+ui:
+  enabled: true
+connectInject:
+  enabled: true
+  default: false
+  controller:
+    enabled: true
+    proxyDefaults: |
+      {
+        "envoy_prometheus_bind_addr": "0.0.0.0:9102"
+      }
+controller:
+  enabled: true

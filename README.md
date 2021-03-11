@@ -56,6 +56,8 @@ Use the supplied `scripts/run_benchmarks.sh` to run a full benchmark suite:
 for "bare metal", linkerd, and istio service meshes, against 60 emojivoto
 instances.
 
+**Note:** For Consul installation via benchmark suite script the variable **base_url** mentioned in `scripts/consul-setup/consul-values.yaml` is set to the prometheus service running in the monitoring namespace.
+
 # Creating prerequisites
 ## Set up a cluster
 
@@ -102,8 +104,18 @@ to get `kubectl` access to the cluster.
 
 The benchmark load generator will push intermediate run-time metrics as well
 as final latency metrics to a prometheus push gateway.
+
+For push gateway installation we need **Service Monitor** resource which is not available by default. It is a custom resource that is part of the kube-prometheus. A detailed explanation of kube-prometheus is available [here](https://github.com/prometheus-operator/kube-prometheus). PFB the commands required for the setup:
+
+```shell
+git clone git@github.com:prometheus-operator/kube-prometheus.git
+kubectl create -f manifests/setup
+kubectl apply -f manifests.
+```
+
 A push gateway is currently not bundled with Lokomotive's prometheus
 component. Deploy by issuing
+
 ```
 $ helm install pushgateway --namespace monitoring configs/pushgateway
 ```
@@ -120,7 +132,7 @@ recommend deploying 30 "bookinfo" instances, and 40 "emojivoto" instances:
 ```shell
 $ cd configs
 $ for i in $(seq 10) ; do \
-      helm install --create-namespace emojivoto-$i \ --namespace emojivoto-$i \
+      helm install emojivoto-$i --set servicemesh=(mesh_name)\
                 configs/emojivoto \
   done
 ```
@@ -142,4 +154,3 @@ $ for i in $(seq 10) ; do \
    $ cd dashboard
    dashboard $ ./upload_dashboard.sh "[API KEY]" grafana-wrk2-cockpit.json localhost:3000
    ```
-

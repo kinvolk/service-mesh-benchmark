@@ -20,7 +20,7 @@ function grace() {
             grace=$(($grace-1))
             continue
         fi
-        
+
         break
     done
 }
@@ -28,7 +28,7 @@ function grace() {
 
 function check_meshed() {
     local ns_prefix="$1"
-    
+
     echo "Checking for unmeshed pods in '$ns_prefix'"
     kubectl get pods --all-namespaces \
             | grep "$ns_prefix" | grep -vE '[012]/2'
@@ -45,13 +45,9 @@ function install_emojivoto() {
     echo "Installing emojivoto."
 
     for num in $(seq 0 1 59); do
-        { 
-            kubectl create namespace emojivoto-$num
-
-            [ "$mesh" == "istio" ] && \
-                kubectl label namespace emojivoto-$num istio-injection=enabled
-
-            helm install emojivoto-$num --namespace emojivoto-$num \
+        {
+            #Namespace creation handled by helm
+            helm install --set servicemesh=$mesh emojivoto-$num \
                              ${script_location}/../configs/emojivoto/
          } &
     done
@@ -81,7 +77,7 @@ function delete_emojivoto() {
     echo "Deleting emojivoto."
 
     for i in $(seq 0 1 59); do
-        { helm uninstall emojivoto-$i --namespace emojivoto-$i;
+        { helm uninstall emojivoto-$i;#--namespace not needed as all the helm releases are created in deafult namespace
           kubectl delete namespace emojivoto-$i --wait; } &
     done
 
@@ -216,6 +212,23 @@ function run_benchmarks() {
             install_emojivoto bare-metal
             run_bench bare-metal $rps
             delete_emojivoto
+
+            echo " +++ consul benchmark"
+            echo "Installing consul"
+            helm repo add hashicorp https://helm.releases.hashicorp.com
+            kubectl create ns consul && helm install -n consul -f consul-setup/consul-values.yaml consul hashicorp/consul  --version "0.27.0"
+
+            grace "kubectl get pods --all-namespaces  | grep consul | grep -i Running"
+
+            install_emojivoto consul
+            run_bench consul $rps
+            delete_emojivoto
+
+            echo "Removing consul"
+            helm uninstall consul --namespace consul
+            kubectl delete namespace consul --now --timeout=30s
+            grace "kubectl get namespaces | grep consul"
+
 
             echo " +++ linkerd benchmark"
             echo "Installing linkerd"
