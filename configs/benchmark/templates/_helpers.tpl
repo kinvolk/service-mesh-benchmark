@@ -24,58 +24,6 @@
 {{- end -}}
 {{ end }}
 
-{{- define "emojivotoistioURLs" }}
-{{- $count := .Values.wrk2.app.count | int }}
-{{- range $i, $e := until $count }}
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-istio-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-istio-{{$i}}/api/vote?choice=:see_no_evil:"
-{{- end -}}
-{{ end }}
-
-{{- define "emojivotoconsulURLs" }}
-{{- $count := .Values.wrk2.app.count | int }}
-{{- range $i, $e := until $count }}
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:see_no_evil:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:nerd_face:"
-        - "http://web-svc.emojivoto-consul-{{$i}}/leaderboard"
-        - "http://web-svc.emojivoto-consul-{{$i}}/api/vote?choice=:see_no_evil:"
-{{- end -}}
-{{ end }}
-
 {{- define "bookinfoURLs" }}
 {{- $count := .Values.wrk2.app.count | int }}
 {{- range $i, $e := until $count }}

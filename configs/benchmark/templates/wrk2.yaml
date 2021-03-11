@@ -53,12 +53,8 @@ spec:
         - "{{.Values.wrk2.RPS}}"
         - -i
         - "{{.Values.wrk2.initDelay}}"
-{{- if eq .Values.wrk2.app.name "emojivoto-linkerd" }}
+{{- if eq .Values.wrk2.app.name "emojivoto" }}
 {{- template "emojivotoURLs" . }}
-{{- else if eq .Values.wrk2.app.name "emojivoto-istio" }}
-{{- template "emojivotoistioURLs" . }}
-{{- else if eq .Values.wrk2.app.name "emojivoto-consul" }}
-{{- template "emojivotoconsulURLs" . }}
 {{- else if eq .Values.wrk2.app.name "bookinfo" }}
 {{- template "bookinfoURLs" . }}
 {{- end }}
