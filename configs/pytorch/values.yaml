@@ -1,0 +1,12 @@
+# nodeSelector:
+#   beta.kubernetes.io/arch: arm64
+
+# tolerations:
+# - key: arch
+#   operator: Equal
+#   value: arm64
+#   effect: NoSchedule
+
+# cpu:
+#   requests: 2
+#   limits: 4

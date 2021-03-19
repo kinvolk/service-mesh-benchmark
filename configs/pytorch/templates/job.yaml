@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pytorch-ml-workload
+  namespace: {{.Release.Namespace}}
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: pytorch-ml-workload
+        image: linaro/pytorch-arm-neoverse-n1:1.6-openblas
+        command:
+        - sh
+        args:
+        - -c
+        - cd examples && git reset adc5bb40f1fa5ebae690787b474af4619df170b8 --hard && git remote remove origin && git remote add origin https://github.com/surajssd/pytorch-examples && git pull --ff origin master && ./run_python_examples_embedded.sh
+        {{- if or .Values.cpu.requests .Values.cpu.limits }}
+        resources:
+          {{- if .Values.cpu.requests }}
+          requests:
+            cpu: {{ .Values.cpu.requests }}
+          {{- end }}
+          {{- if .Values.cpu.limits }}
+          limits:
+            cpu: {{ .Values.cpu.limits }}
+          {{- end }}
+        {{- end }}
+      serviceAccountName: pytorch
+      automountServiceAccountToken: false
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{- range $key, $value := .Values.nodeSelector }}
+        {{ $key }}: {{ $value }}
+        {{- end }}
+      {{ end -}}
+      {{- if .Values.tolerations }}
+      tolerations:
+        {{- with .Values.tolerations }}
+{{ toYaml . | indent 6 }}
+        {{- end }}
+      {{ end }}
