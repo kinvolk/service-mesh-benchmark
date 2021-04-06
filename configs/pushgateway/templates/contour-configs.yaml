@@ -1,0 +1,176 @@
+{{ if .Values.ingress.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: htpasswd
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: privileged-psp-monitoring
+  namespace: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: privileged-psp
+subjects:
+- kind: ServiceAccount
+  name: htpasswd
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: contour:authserver:htpasswd
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: contour:authserver:htpasswd
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: contour:authserver:htpasswd
+subjects:
+- kind: ServiceAccount
+  name: htpasswd
+  namespace: monitoring
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: htpasswd
+  name: htpasswd
+  namespace: monitoring
+spec:
+  ports:
+  - name: auth
+    port: 9443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app.kubernetes.io/name: htpasswd
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: htpasswd
+  name: htpasswd
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: htpasswd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: htpasswd
+    spec:
+      containers:
+      - args:
+        - htpasswd
+        - --address=:9443
+        - --tls-ca-path=/tls/ca.crt
+        - --tls-cert-path=/tls/tls.crt
+        - --tls-key-path=/tls/tls.key
+        command:
+        - /contour-authserver
+        image: docker.io/projectcontour/contour-authserver:v2
+        imagePullPolicy: IfNotPresent
+        name: htpasswd
+        ports:
+        - containerPort: 9443
+          name: auth
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 90Mi
+        volumeMounts:
+        - mountPath: /tls
+          name: tls
+          readOnly: true
+      serviceAccountName: htpasswd
+      volumes:
+      - name: tls
+        secret:
+          secretName: htpasswd
+---
+apiVersion: cert-manager.io/v1alpha3
+kind: Certificate
+metadata:
+  name: htpasswd
+  namespace: monitoring
+spec:
+  dnsNames:
+  - htpasswd
+  issuerRef:
+    name: selfsigned
+    kind: ClusterIssuer
+  secretName: htpasswd
+---
+apiVersion: cert-manager.io/v1alpha3
+kind: ClusterIssuer
+metadata:
+  name: selfsigned
+  namespace: monitoring
+spec:
+  selfSigned: {}
+---
+apiVersion: projectcontour.io/v1alpha1
+kind: ExtensionService
+metadata:
+  name: htpasswd
+  namespace: monitoring
+spec:
+  protocol: h2
+  services:
+  - name: htpasswd
+    port: 9443
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pushgateway-ingress
+  namespace: monitoring
+spec:
+  dnsNames:
+  - {{ .Values.ingress.host }}
+  secretName: pushgateway-ingress
+  issuerRef:
+    name: {{ .Values.ingress.clusterIssuer }}
+    kind: ClusterIssuer
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: pushgateway
+  namespace: monitoring
+spec:
+  virtualhost:
+    fqdn: {{ .Values.ingress.host }}
+    tls:
+      secretName: pushgateway-ingress
+    authorization:
+      extensionRef:
+        name: htpasswd
+        namespace: monitoring
+  routes:
+  - services:
+    - name: pushgateway
+      port: 9091
+{{ end }}

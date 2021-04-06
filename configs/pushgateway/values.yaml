@@ -1,2 +1,9 @@
 # Possible values are [debug, info, warn, error]
 logLevel: error
+
+ingress:
+  enabled: false
+  host: pushgateway.foobar.com
+  # This cert-manager cluster issuer is already installed in Lokomotive. Find the config here:
+  # https://github.com/kinvolk/lokomotive/blob/715b85028b3814756c79b48ba147ca8c4886ce8f/assets/charts/components/cert-manager/templates/letsencrypt-clusterissuer-prod.yaml
+  clusterIssuer: letsencrypt-production
