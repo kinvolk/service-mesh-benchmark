@@ -9,5 +9,5 @@ helm install pushgateway --namespace monitoring .
 ## Uninstall
 
 ```
-helm install pushgateway --namespace monitoring
+helm uninstall pushgateway --namespace monitoring
 ```
