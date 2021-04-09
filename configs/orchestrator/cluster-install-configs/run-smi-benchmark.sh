@@ -59,7 +59,7 @@ done
 
 # Make an entry in the OC about this BC
 # This uses service account credentials to talk to apiserver
-kubectl -n monitoring patch prometheus prometheus-operator-prometheus --type merge --patch '{"spec":{"additionalScrapeConfigs":{"name":"scrape-config","key":"scrape.yaml"}}}'
+kubectl -n monitoring patch prometheus prometheus-operator-kube-p-prometheus --type merge --patch '{"spec":{"additionalScrapeConfigs":{"name":"scrape-config","key":"scrape.yaml"}}}'
 
 if ! kubectl -n monitoring get secret scrape-config; then
   err "could not find secret 'scrape-config' in 'monitoring' namespace on orchestrating cluster"

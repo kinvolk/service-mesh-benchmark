@@ -43,7 +43,7 @@ clouds:
     # us-east-1,us-west-1
     regions:
 
-  packet:
+  em:
     token:
     projectID:
     # List of comma separated region=EIP. This EIP is used to expose the Prometheus on the

@@ -20,9 +20,9 @@ spec:
       - image: quay.io/kinvolk/smb-orchestrator
         name: orchestrator
         env:
-        {{ if .Values.clouds.packet.regionEIPs -}}
+        {{ if .Values.clouds.em.regionEIPs -}}
         - name: REGION_EIPS
-          value: {{.Values.clouds.packet.regionEIPs}}
+          value: {{.Values.clouds.em.regionEIPs}}
         {{ end -}}
         - name: AWS_REGIONS
           value: {{.Values.clouds.aws.regions}}
