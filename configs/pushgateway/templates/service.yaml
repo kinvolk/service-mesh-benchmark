@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: pushgateway
+    visualize: "true"
+    app: pushgateway
+  name: pushgateway
+  namespace: monitoring
+spec:
+  selector:
+    app: pushgateway
+  ports:
+  - name: scrape
+    protocol: TCP
+    port: 9091

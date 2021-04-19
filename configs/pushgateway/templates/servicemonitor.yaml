@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pushgateway
+    release: prometheus-operator
+  name: pushgateway
+  namespace: monitoring
+spec:
+  endpoints:
+  - port: scrape
+    interval: "1s"
+  namespaceSelector:
+    matchNames:
+    - monitoring
+  selector:
+    matchLabels:
+      app: pushgateway
