@@ -5,6 +5,10 @@ variable "route53_zone_id" {}
 variable "aws_access_key_id" {}
 variable "aws_secret_access_key" {}
 variable "region" {}
+variable "benchmark_worker_count" {}
+variable "benchmark_instance_type" {}
+variable "benchmark_os_arch" {}
+variable "benchmark_os_channel" {}
 
 cluster "aws" {
   asset_dir        = "./assets"
@@ -18,23 +22,27 @@ cluster "aws" {
 
   # ignore_x509_cn_check = true
 
-  worker_pool "amd" {
+  worker_pool "general" {
     # TODO: Figure out the count and instance type.
-    count         = 2
+    count = 2
     # instance_type = var.workers_type
 
     ssh_pubkeys = [var.ssh_pubkey]
   }
 
-  worker_pool "arm" {
-    # TODO: Figure out the count.
-    count         = 1
-    instance_type = "m6g.medium"
-    os_arch       = "arm64"
-    os_channel    = "alpha"
+  worker_pool "benchmark" {
+    count         = var.benchmark_worker_count
+    instance_type = var.benchmark_instance_type
+    os_arch       = var.benchmark_os_arch
+    os_channel    = var.benchmark_os_channel
     ssh_pubkeys   = [var.ssh_pubkey]
-    taints        = {
-      "beta.kubernetes.io/arch" = "arm:NoSchedule"
+
+    taints = {
+      "role" = "benchmark:NoSchedule"
+    }
+
+    labels = {
+      "role" = "benchmark"
     }
 
     # TODO: remove this once https://github.com/kinvolk/lokomotive/issues/839 is fixed.

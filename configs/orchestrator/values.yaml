@@ -47,7 +47,11 @@ clouds:
     route53ZoneID:
     # List of comma separated regions you want to deploy the benchmarking clusters to. e.g.:
     # us-east-1,us-west-1
-    regions:
+    regions: us-west-1
+    benchmarkWorkerCount: 1
+    benchmarkInstanceType: t3.medium
+    benchmarkOSArch: amd64
+    benchmarkOSChannel: stable
 
   em:
     token:
