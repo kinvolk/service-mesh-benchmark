@@ -8,6 +8,12 @@ charts:
   # clusters.
   branch: master
 
+benchMarkContainers:
+  # Use a different branch if you are using experimental version of this repository. This is under
+  # charts because the charts under configs repo are downloaded to be deployed on the benchmarking
+  # clusters.
+  branch: master
+
 terraform:
   version: 0.13.6
 
