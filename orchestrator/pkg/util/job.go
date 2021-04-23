@@ -93,8 +93,9 @@ type Job struct {
 // The string is trimmed down to 18 characters. That is the maximum allowed length by lokomotive.
 func GenerateName(region string) string {
 	t := time.Now()
-	ret := fmt.Sprintf("bc-%s-%d-%d%d%d%d%d%d",
-		region, rand.Int(), t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
+	rand.Seed(time.Now().UnixNano())
+	ret := fmt.Sprintf("bc-%s-%d-%d%d%d",
+		region, rand.Int(), t.Hour(), t.Minute(), t.Second())
 
 	return ret[:18]
 }
