@@ -8,6 +8,12 @@ charts:
   # clusters.
   branch: master
 
+benchMarkContainers:
+  # Use a different branch if you are using experimental version of this repository. This is under
+  # charts because the charts under configs repo are downloaded to be deployed on the benchmarking
+  # clusters.
+  branch: master
+
 terraform:
   version: 0.13.6
 
@@ -41,7 +47,11 @@ clouds:
     route53ZoneID:
     # List of comma separated regions you want to deploy the benchmarking clusters to. e.g.:
     # us-east-1,us-west-1
-    regions:
+    regions: us-west-1
+    benchmarkWorkerCount: 1
+    benchmarkInstanceType: t3.medium
+    benchmarkOSArch: amd64
+    benchmarkOSChannel: stable
 
   em:
     token:

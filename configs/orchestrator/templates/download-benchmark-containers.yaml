@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-benchmark-containers-repository
+  namespace: orchestrator
+spec:
+  template:
+    metadata:
+      labels:
+        pvc: binaries
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: download-benchmark-containers-repository
+        image: golang
+        env:
+        - name: BRANCH
+          value: {{.Values.benchMarkContainers.branch}}
+        command:
+        - bash
+        args:
+        - -c
+        - 'cd /binaries && git clone https://github.com/kinvolk/benchmark-containers && cd benchmark-containers && git checkout $BRANCH'
+        volumeMounts:
+        - name: binaries
+          mountPath: /binaries
+      serviceAccountName: downloader
+      automountServiceAccountToken: false
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pvc
+                operator: In
+                values:
+                - binaries
+            topologyKey: kubernetes.io/hostname
+      volumes:
+      - name: binaries
+        persistentVolumeClaim:
+          claimName: binaries
