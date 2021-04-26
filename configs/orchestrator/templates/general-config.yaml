@@ -4,5 +4,56 @@ metadata:
   name: general-config
   namespace: orchestrator
 data:
-  # Add more non-secret env vars here.
   CLOUD: {{ .Values.benchmarkingClusterCloud }}
+
+  # AWS specific values.
+  {{if .Values.clouds.aws.defaultRegion}}
+  AWS_DEFAULT_REGION: {{ .Values.clouds.aws.defaultRegion }}
+  {{end}}
+  {{if .Values.clouds.aws.benchmarkWorkerCount }}
+  BENCHMARK_WORKER_COUNT: {{ .Values.clouds.aws.benchmarkWorkerCount | quote }}
+  {{end}}
+  {{if .Values.clouds.aws.benchmarkInstanceType }}
+  BENCHMARK_INSTANCE_TYPE: {{ .Values.clouds.aws.benchmarkInstanceType }}
+  {{end}}
+  {{if .Values.clouds.aws.benchmarkOSArch }}
+  BENCHMARK_OS_ARCH: {{ .Values.clouds.aws.benchmarkOSArch }}
+  {{end}}
+  {{if .Values.clouds.aws.benchmarkOSChannel }}
+  BENCHMARK_OS_CHANNEL: {{ .Values.clouds.aws.benchmarkOSChannel }}
+  {{end}}
+
+  # OCI specific values.
+  {{if .Values.clouds.oci.OCIPrivateKey}}
+  PRIVATE_KEY_PATH: {{ "~/.ssh/oci_private.pem" }}
+  {{end}}
+  {{if .Values.clouds.oci.benchmarkWorkerCount }}
+  BENCHMARK_WORKER_COUNT: {{ .Values.clouds.oci.benchmarkWorkerCount | quote }}
+  {{end}}
+  {{if .Values.clouds.oci.benchmarkInstanceImageID }}
+  BENCHMARK_INSTANCE_IMAGE_ID: {{ .Values.clouds.oci.benchmarkInstanceImageID }}
+  {{end}}
+  {{if .Values.clouds.oci.benchmarkInstanceType }}
+  BENCHMARK_INSTANCE_TYPE: {{ .Values.clouds.oci.benchmarkInstanceType }}
+  {{end}}
+  {{if .Values.clouds.oci.benchmarkWorkerCPUs }}
+  BENCHMARK_WORKER_CPUS: {{ .Values.clouds.oci.benchmarkWorkerCPUs | quote }}
+  {{end}}
+  {{if .Values.clouds.oci.benchmarkWorkerMemory }}
+  BENCHMARK_WORKER_MEMORY: {{ .Values.clouds.oci.benchmarkWorkerMemory | quote }}
+  {{end}}
+  {{if .Values.clouds.oci.adNumber }}
+  AD_NUMBER: {{ .Values.clouds.oci.adNumber | quote }}
+  {{end}}
+  {{if .Values.clouds.oci.baseImageID }}
+  BASE_IMAGE_ID: {{ .Values.clouds.oci.baseImageID }}
+  {{end}}
+  {{if .Values.clouds.oci.baseMachineType }}
+  BASE_MACHINE_TYPE: {{ .Values.clouds.oci.baseMachineType }}
+  {{end}}
+  {{if .Values.clouds.oci.baseMachineCPUs }}
+  BASE_MACHINE_CPUS: {{ .Values.clouds.oci.baseMachineCPUs | quote }}
+  {{end}}
+  {{if .Values.clouds.oci.baseMachineMemory }}
+  BASE_MACHINE_MEMORY: {{ .Values.clouds.oci.baseMachineMemory | quote }}
+  {{end}}

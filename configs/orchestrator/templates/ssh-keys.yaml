@@ -6,3 +6,6 @@ metadata:
 data:
   id_rsa: {{ .Values.sshKey.private | b64enc }}
   id_rsa.pub: {{ .Values.sshKey.public | b64enc }}
+  {{if .Values.clouds.oci.OCIPrivateKey}}
+  oci_private.pem: {{ .Values.clouds.oci.OCIPrivateKey | b64enc }}
+  {{end}}

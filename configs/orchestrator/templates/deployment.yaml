@@ -26,6 +26,10 @@ spec:
         {{ end -}}
         - name: AWS_REGIONS
           value: {{.Values.clouds.aws.regions}}
+        {{ if .Values.clouds.oci.region -}}
+        - name: OCI_REGION
+          value: {{.Values.clouds.oci.region}}
+        {{ end -}}
         - name: BENCHMARKING_CLUSTER_CLOUD
           value: {{.Values.benchmarkingClusterCloud}}
         volumeMounts:

@@ -20,5 +20,7 @@ do
   log "Wait for the BC Prometheus related entries to be cleaned up..."
   sleep 90
   lokoctl component delete external-dns --confirm
+  lokoctl component delete --confirm
+  sleep 60
   lokoctl cluster destroy --confirm -v
 done

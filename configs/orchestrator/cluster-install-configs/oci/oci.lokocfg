@@ -1,0 +1,169 @@
+variable "cluster_name" {}
+variable "route53_zone" {}
+variable "route53_zone_id" {}
+variable "aws_access_key_id" {}
+variable "aws_secret_access_key" {}
+variable "region" {}
+variable "ssh_pubkey" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "tenancy_id" {}
+variable "compartment_id" {}
+variable "ad_number" {}
+variable "benchmark_worker_count" {}
+variable "benchmark_instance_image_id" {}
+variable "benchmark_instance_type" {}
+variable "benchmark_worker_cpus" {}
+variable "benchmark_worker_memory" {}
+variable "base_image_id" {}
+variable "base_machine_type" {}
+variable "base_machine_cpus" {}
+variable "base_machine_memory" {}
+
+cluster "oci" {
+  asset_dir        = "./assets"
+  cluster_name     = var.cluster_name
+  dns_zone         = var.route53_zone
+  dns_zone_id      = var.route53_zone_id
+  region           = var.region
+  ssh_pubkeys      = [var.ssh_pubkey]
+  user             = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = pathexpand(var.private_key_path)
+
+  tenancy_id     = var.tenancy_id
+  compartment_id = var.compartment_id
+
+  controller_count     = 1
+  controller_image_id  = var.base_image_id
+  controller_type      = var.base_machine_type
+  controller_cpus      = var.base_machine_cpus
+  controller_memory    = var.base_machine_memory
+  controller_ad_number = var.ad_number
+
+  os_arch     = "amd64"
+  network_mtu = 9001
+
+  worker_pool "general" {
+    count            = 2
+    image_id         = var.base_image_id
+    instance_type    = var.base_machine_type
+    worker_cpus      = var.base_machine_cpus
+    worker_memory    = var.base_machine_memory
+    worker_ad_number = var.ad_number
+    ssh_pubkeys      = [var.ssh_pubkey]
+
+    clc_snippets = [
+      <<EOF
+---
+storage:
+  files:
+    - path: /etc/docker/daemon.json
+      filesystem: root
+      mode: 0644
+      contents:
+        inline: |
+          {
+            "mtu": 9000
+          }
+EOF
+    ]
+  }
+
+  worker_pool "benchmark" {
+    count            = var.benchmark_worker_count
+    image_id         = var.benchmark_instance_image_id
+    instance_type    = var.benchmark_instance_type
+    worker_cpus      = var.benchmark_worker_cpus
+    worker_memory    = var.benchmark_worker_memory
+    worker_ad_number = var.ad_number
+    ssh_pubkeys      = [var.ssh_pubkey]
+    extra_volume_size = 150
+
+    taints = {
+      "role" = "benchmark:NoSchedule"
+    }
+
+    labels = {
+      "role" = "benchmark"
+    }
+
+    clc_snippets = [
+      <<EOF
+---
+storage:
+  files:
+    - path: /etc/docker/daemon.json
+      filesystem: root
+      mode: 0644
+      contents:
+        inline: |
+          {
+            "mtu": 9000
+          }
+EOF
+    ]
+  }
+}
+
+component "openebs-operator" {
+  ndm_selector_label = "beta.kubernetes.io/arch"
+  ndm_selector_value = "amd64"
+}
+
+component "openebs-storage-class" {
+  storage-class "openebs-test-sc" {
+    replica_count = 1
+    default       = true
+  }
+}
+
+component "prometheus-operator" {
+  prometheus {
+    watch_labeled_service_monitors = "false"
+    watch_labeled_prometheus_rules = "false"
+    storage_size                   = "100Gi"
+
+    ingress {
+      # OC prometheus should be enabled to scrape this URL.
+      host = "prometheus.${var.cluster_name}.${var.route53_zone}"
+    }
+
+    external_labels = {
+      "cluster" = var.cluster_name
+    }
+
+    node_selector = {
+      "beta.kubernetes.io/arch" = "amd64"
+    }
+  }
+
+  alertmanager_node_selector = {
+    "beta.kubernetes.io/arch" = "amd64"
+  }
+}
+
+component "contour" {
+  enable_monitoring = true
+
+  node_affinity {
+    key      = "beta.kubernetes.io/arch"
+    operator = "In"
+    values   = ["amd64"]
+  }
+}
+
+component "external-dns"{
+  policy   = "sync"
+  owner_id = var.cluster_name
+  aws {
+    zone_id = var.route53_zone_id
+    aws_access_key_id = var.aws_access_key_id
+    aws_secret_access_key = var.aws_secret_access_key
+  }
+
+  sources = ["ingress", "contour-httpproxy"]
+
+  service_monitor = true
+}

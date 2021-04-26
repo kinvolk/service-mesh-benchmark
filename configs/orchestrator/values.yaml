@@ -28,7 +28,7 @@ sshKey:
     YOUR_PRIVATE_KEY
     -----END OPENSSH PRIVATE KEY-----
 
-# Possible values: [equinix-metal, aws].
+# Possible values: [equinix-metal, aws, oci].
 benchmarkingClusterCloud:
 
 # This is to be set using the helm flag `--set-file`. This script will run on all the benchmarking
@@ -61,3 +61,38 @@ clouds:
     # benchmarking clusters. e.g.:
     # sjc1=1.2.3.4,ewr1=5.6.7.8,ams1=9.0.1.2
     regionEIPs:
+
+  oci:
+    # AWS Route 53.
+    accessKeyID:
+    secretAccessKey:
+    route53Zone:
+    route53ZoneID:
+
+    # OCI specific config.
+    userOCID:
+    fingerprint:
+    OCIPrivateKey:
+    # OCIPrivateKey: |
+    #   -----BEGIN PRIVATE KEY-----
+    #   YOUR_OCI_PRIVATE_KEY
+    #   -----END PRIVATE KEY-----
+    tenancyID:
+    compartmentID:
+
+    # Things that change per region
+    region: us-ashburn-1
+    adNumber:
+
+    # Base
+    baseImageID:
+    baseMachineType:
+    baseMachineCPUs:
+    baseMachineMemory:
+
+    # Benchmark worker pool specific config.
+    benchmarkWorkerCount:
+    benchmarkInstanceImageID:
+    benchmarkInstanceType:
+    benchmarkWorkerCPUs:
+    benchmarkWorkerMemory:
