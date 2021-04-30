@@ -19,8 +19,8 @@ do
   lokoctl component delete prometheus-operator --confirm
   log "Wait for the BC Prometheus related entries to be cleaned up..."
   sleep 90
-  lokoctl component delete external-dns --confirm
   lokoctl component delete --confirm
+  log "Wait for the CCM created assets to be cleaned up..."
   sleep 60
   lokoctl cluster destroy --confirm -v
 done
