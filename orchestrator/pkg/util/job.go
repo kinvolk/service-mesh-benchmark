@@ -30,7 +30,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-      - image: surajd/jobrunner
+      - image: quay.io/kinvolk/smb-jobrunner
         name: jobrunner
         envFrom:
         - secretRef:
