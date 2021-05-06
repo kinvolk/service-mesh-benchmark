@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cluster-install-configs
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 data:
 {{ if eq .Values.benchmarkingClusterCloud "equinix-metal" }}
 {{ (.Files.Glob "cluster-install-configs/equinix-metal/equinix-metal.lokocfg").AsConfig | indent 2 }}

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: general-config
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 data:
   CLOUD: {{ .Values.benchmarkingClusterCloud }}
 

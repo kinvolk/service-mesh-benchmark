@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: download-helm
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 spec:
   template:
     metadata:

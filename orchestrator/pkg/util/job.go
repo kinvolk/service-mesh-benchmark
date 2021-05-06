@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	batchv1 "k8s.io/api/batch/v1"
@@ -78,7 +79,6 @@ spec:
         configMap:
           name: cluster-install-configs
 `
-	namespace = "orchestrator"
 )
 
 type Job struct {
@@ -100,9 +100,20 @@ func GenerateName(region string) string {
 	return ret[:18]
 }
 
+func getNamespace() string {
+	ns := os.Getenv("OC_NAMESPACE")
+	if ns == "" {
+		log.Fatal("OC_NAMESPACE not set. Please provide the namespace of orchestrator.")
+	}
+
+	return ns
+}
+
 // executeJobs generates a job per region and executes them. If a job fails then it is replaced by a
 // new one. Makes sure all jobs exit to completion. Once all the jobs are done running it sleeps.
 func ExecuteJobs(jobs []Job) {
+	namespace := getNamespace()
+
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		log.Fatalf("could not load in cluster kubeconfig: %v", err)

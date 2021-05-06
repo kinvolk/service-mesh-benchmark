@@ -4,7 +4,7 @@ metadata:
   labels:
     app: orchestrator
   name: orchestrator
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 spec:
   replicas: 1
   selector:
@@ -32,6 +32,8 @@ spec:
         {{ end -}}
         - name: BENCHMARKING_CLUSTER_CLOUD
           value: {{.Values.benchmarkingClusterCloud}}
+        - name: OC_NAMESPACE
+          value: {{.Release.Namespace}}
         volumeMounts:
         - name: binaries
           mountPath: /binaries
