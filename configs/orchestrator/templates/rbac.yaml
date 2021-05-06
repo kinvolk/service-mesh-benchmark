@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: oc-permissions
+  name: oc-permissions-{{.Release.Namespace}}
 rules:
 - apiGroups:
   - ""
@@ -22,22 +22,22 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: oc-permissions
-  namespace: orchestrator
+  name: oc-permissions-{{.Release.Namespace}}
+  namespace: {{.Release.Namespace}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: oc-permissions
+  name: oc-permissions-{{.Release.Namespace}}
 subjects:
 - kind: ServiceAccount
   name: jobrunner
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: orchestrate-jobs
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 rules:
 - apiGroups:
   - "batch"
@@ -50,7 +50,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: orchestrate-jobs
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -58,13 +58,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: orchestrator
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: privileged-psp-orchestrator
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -72,10 +72,10 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: orchestrator
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 - kind: ServiceAccount
   name: jobrunner
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 - kind: ServiceAccount
   name: downloader
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}

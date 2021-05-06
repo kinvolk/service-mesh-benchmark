@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
   name: binaries
-  namespace: orchestrator
+  namespace: {{.Release.Namespace}}
 spec:
   accessModes:
   - ReadWriteOnce

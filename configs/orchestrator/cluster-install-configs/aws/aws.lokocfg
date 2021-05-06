@@ -20,6 +20,7 @@ cluster "aws" {
   region           = var.region
   enable_csi       = true
   ssh_pubkeys      = [var.ssh_pubkey]
+  expose_nodeports = true
 
   # ignore_x509_cn_check = true
 
@@ -90,6 +91,7 @@ component "prometheus-operator" {
 
 component "contour" {
   enable_monitoring = true
+  service_type      = "NodePort"
 
   node_affinity {
     key      = "beta.kubernetes.io/arch"

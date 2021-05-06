@@ -6,6 +6,7 @@ import (
 
 	"github.com/kinvolk/service-mesh-benchmark/orchestrator/pkg/aws"
 	"github.com/kinvolk/service-mesh-benchmark/orchestrator/pkg/equinixmetal"
+	"github.com/kinvolk/service-mesh-benchmark/orchestrator/pkg/oci"
 )
 
 // TODO: Create a configmap which is a way to know that the creation was complete and if this pod
@@ -19,6 +20,8 @@ func main() {
 		equinixmetal.Deploy()
 	case "aws":
 		aws.Deploy()
+	case "oci":
+		oci.Deploy()
 	default:
 		log.Fatalf("Given cloud provider not supported: %q.", bcCloud)
 	}
