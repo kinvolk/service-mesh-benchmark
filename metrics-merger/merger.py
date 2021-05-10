@@ -148,9 +148,9 @@ def create_summary_gauge(p, mesh, r, detailed=False, past_days=7):
 
 if 3 > len(argv):
     print(
-       'Command line error: Prometheus URL and push gateway are required.')
+       'Command line error: Prometheus URL and push gateway, and list of exported_jobs are required.')
     print('Usage:')
-    print('  %s <Prometheus URL> <push gateway host:port> [<past-days>]'
+    print('  %s <Prometheus URL> <push gateway host:port> <exported_job>[,<exported_job>[,...]] [<past-days>]'
             % (argv[0],))
     exit(1)
 
@@ -158,13 +158,15 @@ prometheus_url = argv[1]
 pgw_url = argv[2]
 past_days=7
 
-if 4 == len(argv):
+exported_jobs = argv[3].split(",")
+
+if 5 == len(argv):
     past_days=int(argv[3])
 
 environ['PROMETHEUS_URL'] = prometheus_url
 p = Prometheus()
 
-for mesh in ["bare-metal", "svcmesh-linkerd", "svcmesh-istio"]:
+for mesh in exported_jobs:
 
     r = CollectorRegistry()
     workaround = mesh
