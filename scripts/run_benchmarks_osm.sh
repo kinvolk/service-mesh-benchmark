@@ -2,6 +2,7 @@
 
 N_SVC=49
 DURATION=900
+INIT_DELAY=200
 
 script_location="$(dirname "${BASH_SOURCE[0]}")"
 
@@ -49,14 +50,18 @@ function install_emojivoto() {
 
     for num in $(seq 0 1 $N_SVC); do
         {
-            kubectl create namespace emojivoto-$num
+            ns=emojivoto-$num
+            kubectl create namespace $ns
+	        osm namespace add $ns
+            osm metrics enable --namespace $ns
 
             [ "$mesh" == "istio" ] && \
-                kubectl label namespace emojivoto-$num istio-injection=enabled
+                kubectl label namespace $ns istio-injection=enabled
 
-            helm install emojivoto-$num --namespace emojivoto-$num \
+	        helm install $ns --namespace $ns \
                              ${script_location}/../configs/emojivoto/
          } &
+        sleep 0.5
     done
 
     wait
@@ -105,15 +110,17 @@ function install_benchmark() {
     local rps="$2"
 
     local duration=$DURATION
-    local init_delay=10
+    local init_delay=$INIT_DELAY
 
     local app_count=$(kubectl get namespaces | grep emojivoto | wc -l)
 
     echo "Running $mesh benchmark"
     kubectl create ns benchmark
-    # osm namespace add benchmark
+    osm namespace add benchmark --disable-sidecar-injection
+    kubectl annotate namespace benchmark openservicemesh.io/sidecar-injection-
     [ "$mesh" == "istio" ] && \
         kubectl label namespace benchmark istio-injection=enabled
+
     if [ "$mesh" != "bare-metal" ] ; then
         helm install benchmark --namespace benchmark \
             --set wrk2.serviceMesh="$mesh" \
@@ -132,6 +139,40 @@ function install_benchmark() {
             --set wrk2.connections=128 \
             ${script_location}/../configs/benchmark/
     fi
+
+    # echo "manually remove osm validation webhook. Wait for key input"
+    # read
+
+    for num in $(seq 0 1 $N_SVC); do
+        {
+            ns=emojivoto-$num
+            echo "creating IB for $ns"
+
+            kubectl apply -f - <<EOF
+kind: IngressBackend
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: $ns
+  namespace: $ns
+spec:
+  backends:
+  - name: web-svc
+    port:
+      number: 8080
+      protocol: http
+  - name: web-svc
+    port:
+      number: 80
+      protocol: http
+  sources:
+  - kind: Service
+    namespace: benchmark
+    name: wrk2-prometheus
+EOF
+         }
+        sleep 0.5
+
+    done
 }
 # --
 
@@ -215,66 +256,28 @@ function delete_istio() {
 # --
 
 function run_benchmarks() {
-    for rps in 4000; do
+    for rps in 1000 ; do
         for repeat in 1; do
+            echo "########## Run #$repeat w/ $rps RPS w/ $N_SVC services"
 
-            echo "########## Run #$repeat w/ $rps RPS"
-
-            # echo " +++ bare metal benchmark"
-            # install_emojivoto bare-metal
-            # run_bench bare-metal $rps
-            # delete_emojivoto
-
-            # echo " +++ linkerd benchmark"
-            # echo "Installing linkerd"
-            # lokoctl component apply experimental-linkerd
-            # [ $? -ne 0 ] && {
-            #     # this sometimes fails with a namespace error, works the 2nd time
-            #     sleep 5
-            #     lokoctl component apply experimental-linkerd; }
-
-            # grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
-
-            # install_emojivoto linkerd
-            # run_bench linkerd $rps
-            # delete_emojivoto
-
-            # echo "Removing linkerd"
-            # lokoctl component delete experimental-linkerd --delete-namespace --confirm
-            # kubectl delete namespace linkerd --now --timeout=30s
-            # grace "kubectl get namespaces | grep linkerd"
-
-            echo " +++ istio benchmark"
-            echo "Installing istio"
-            lokoctl component apply experimental-istio-operator
-            grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
-            sleep 30    # extra sleep to let istio initialise. Sidecar injection will
-                        #  fail otherwise.
-
-            install_emojivoto istio
-            while true; do
-                check_meshed "emojivoto-" && {
-                    echo "  ++ Emojivoto is fully meshed."
-                    break; }
-                echo " !!! Emojivoto is not fully meshed."
-                echo "     Deleting and re-deploying Istio."
-                delete_istio
-                lokoctl component apply experimental-istio-operator
-                grace "kubectl get pods --all-namespaces | grep istio-operator | grep -v Running"
-                sleep 30
-                echo " !!!  Restarting all Emojivoto pods."
-                restart_emojivoto_pods
-            done
-            run_bench istio $rps
+            echo " +++ bare metal benchmark"
+            osm install --set=OpenServiceMesh.injector.autoScale.enable=true \
+                --set=OpenServiceMesh.osmController.autoScale.enable=true
+            install_emojivoto bare-metal
+            run_bench bare-metal $rps
             delete_emojivoto
+            osm uninstall -f
 
-            echo "Removing istio"
-            delete_istio
+            echo "wait for 30s to cool down"
+            sleep 30
         done
     done
 }
 # --
 
-if [ "$(basename $0)" = "run_benchmarks.sh" ] ; then
+if [ "$(basename $0)" = "run_benchmarks_osm.sh" ] ; then
+    osm namespace add monitoring --disable-sidecar-injection
+    kubectl annotate namespace monitoring openservicemesh.io/sidecar-injection-
+
     run_benchmarks $@
 fi

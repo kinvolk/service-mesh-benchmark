@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pushgateway
+    release: prom-graf
+  name: pushgateway
+  namespace: monitoring
+spec:
+  endpoints:
+    - path: /metrics
+      port: scrape
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app: pushgateway

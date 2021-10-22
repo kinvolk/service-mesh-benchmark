@@ -21,10 +21,10 @@ spec:
     spec:
       nodeSelector:
         role: workload
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 65534
+      #   runAsGroup: 65534
       containers:
       - env:
         - name: GRPC_PORT
@@ -66,10 +66,10 @@ spec:
     spec:
       nodeSelector:
         role: workload
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 65534
+      #   runAsGroup: 65534
       containers:
       - env:
         - name: GRPC_PORT
@@ -111,10 +111,10 @@ spec:
     spec:
       nodeSelector:
         role: workload
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 65534
+      #   runAsGroup: 65534
       containers:
       - env:
         - name: WEB_PORT

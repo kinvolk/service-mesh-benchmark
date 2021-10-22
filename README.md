@@ -143,3 +143,12 @@ $ for i in $(seq 10) ; do \
    dashboard $ ./upload_dashboard.sh "[API KEY]" grafana-wrk2-cockpit.json localhost:3000
    ```
 
+### Benchmark Open Service Mesh
+
+To benchmark OSM with AKS, follow these steps:
+
+1. first create an AKS cluster and set it to current context of local Kubernetes.
+2. Update variables in `scripts/osm-setup.sh` as needed, and run the script to setup Kinvolk.
+3. Upload Kinvolk dashboard to Grafana, folloing the similar steps in Upload Grafana dashboard section, but upload wrk2-dash-osm.json file instead.
+4. Update variables in `scritps/run_benchmarks_osm.sh` as needed, and run the script to start benchmark.
+5. Collect result on the uploaded dashboard in Grafana.

@@ -40,10 +40,10 @@ metadata:
   name: emojivoto-psp
   namespace: {{.Release.Namespace}}
 rules:
-- apiGroups: ['policy','extensions']
-  resources: ['podsecuritypolicies']
-  verbs: ['use']
-  resourceNames: ['emojivoto-data-plane-{{.Release.Name}}']
+# - apiGroups: ['policy','extensions']
+#   resources: ['podsecuritypolicies']
+#   verbs: ['use']
+#   resourceNames: ['emojivoto-data-plane-{{.Release.Name}}']
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
