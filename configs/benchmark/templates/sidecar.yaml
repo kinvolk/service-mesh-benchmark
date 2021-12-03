@@ -1,0 +1,11 @@
+{{- if eq .Values.wrk2.serviceMesh "istio" }}
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: wrk2
+  namespace: {{.Release.Namespace}}
+spec:
+  egress:
+  - hosts:
+    - "*/*" # Ensure benchmark can see all servers
+{{- end }}

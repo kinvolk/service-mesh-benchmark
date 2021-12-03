@@ -224,7 +224,17 @@ function run_benchmarks() {
                 # this sometimes fails with a namespace error, works the 2nd time
                 sleep 5
                 lokoctl component apply experimental-linkerd; }
-
+            cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1alpha3
+kind: Sidecar
+metadata:
+  name: restrict-visibility
+  namespace: istio-system
+spec:
+  egress:
+  - hosts:
+    - ./* # Limit visiblity of emojivoto pods
+EOF
             grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
 
             install_emojivoto linkerd
